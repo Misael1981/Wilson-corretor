@@ -1,9 +1,9 @@
-import HeaderHome from "./HeaderHome";
+import HeaderHomeMobile from "./HeaderHomeMobile";
 
 const Home = () => {
   return (
     <>
-      <HeaderHome />
+      <HeaderHomeMobile />
     </>
   );
 };
