@@ -11,6 +11,7 @@ const HeaderMobileStylStylized = styled.header`
   bottom: 0;
   padding: 0.5rem;
   box-sizing: border-box;
+  z-index: 10;
 `;
 
 const ListStylized = styled.ul`
@@ -21,9 +22,8 @@ const ListStylized = styled.ul`
 
 const LinkStylized = styled.a`
   color: #ccc;
-  font-size: 2rem;
+  font-size: 1.7rem;
   text-decoration: none;
-  font-family: var(--font-title);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -31,8 +31,8 @@ const LinkStylized = styled.a`
   gap: 0.5rem;
 
   span {
+    font-family: var(--font-title);
     font-size: 1rem;
-    font-weight: 600;
   }
 `;
 

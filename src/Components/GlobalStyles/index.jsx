@@ -9,6 +9,7 @@ const GlobalStyles = createGlobalStyle`
   --font-special: "Playfair Display", serif;
 
   --color-blue: #0f1b29;
+  --color-blue-ligth: #426792;
   --color-golden: #d6b689;
 }
 html {
