@@ -6,7 +6,7 @@ import styled from "styled-components";
 
 const HeaderMobileStylStylized = styled.header`
   width: 100%;
-  background-color: #0f1b29;
+  background-color: var(--color-blue);
   position: fixed;
   bottom: 0;
   padding: 0.5rem;
@@ -20,9 +20,10 @@ const ListStylized = styled.ul`
 `;
 
 const LinkStylized = styled.a`
-  text-decoration: none;
-  color: #d6b689;
+  color: #ccc;
   font-size: 2rem;
+  text-decoration: none;
+  font-family: var(--font-title);
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -30,7 +31,8 @@ const LinkStylized = styled.a`
   gap: 0.5rem;
 
   span {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
+    font-weight: 600;
   }
 `;
 

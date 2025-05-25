@@ -1,6 +1,16 @@
 import { createGlobalStyle } from "styled-components";
 
 const GlobalStyles = createGlobalStyle`
+
+:root {
+  
+  --font-title: "Montserrat", sans-serif;
+  --font-primary: "Poppins", sans-serif;
+  --font-special: "Playfair Display", serif;
+
+  --color-blue: #0f1b29;
+  --color-golden: #d6b689;
+}
 html {
   line-height: 1.15; 
   -webkit-text-size-adjust: 100%; 
@@ -8,9 +18,11 @@ html {
 body {
   margin: 0;
   min-height: 100vh;
+  font-family: var(--font-primary);
 }
 main {
   display: block;
+  width: 100%;
 }
 h1 {
     margin: 0;
