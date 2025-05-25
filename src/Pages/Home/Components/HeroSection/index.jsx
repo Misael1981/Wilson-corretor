@@ -9,7 +9,7 @@ const HeroImage = styled.div`
   position: relative;
   width: 100%;
   /* background: linear-gradient(to top, #0f1b29, #0f1b2933); */
-  padding: 3rem 0;
+  padding: 1rem 0;
   background: linear-gradient(
     170deg,
     rgba(15, 27, 41, 1) 0%,
@@ -24,7 +24,7 @@ const HeroImage = styled.div`
   img {
     display: block;
     margin: 0 auto;
-    width: 50vw;
+    width: 70vw;
     height: auto;
   }
 `;

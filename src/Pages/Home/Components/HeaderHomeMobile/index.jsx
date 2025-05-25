@@ -31,7 +31,7 @@ const LinkStylized = styled.a`
   gap: 0.5rem;
 
   span {
-    font-size: 1.2rem;
+    font-size: 1rem;
     font-weight: 600;
   }
 `;
