@@ -1,11 +1,25 @@
+import { useEffect, useState } from "react";
 import Categories from "./Components/Categories";
 import HeaderHomeMobile from "./Components/HeaderHomeMobile";
 import HeroSection from "./Components/HeroSection";
+import HeaderHome from "./Components/HeaderHome";
 
 const Home = () => {
+  const [isMobile, setIsMobile] = useState();
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 1020);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
   return (
     <>
-      <HeaderHomeMobile />
+      {isMobile ? <HeaderHomeMobile /> : <HeaderHome />}
       <main>
         <HeroSection />
         <Categories />

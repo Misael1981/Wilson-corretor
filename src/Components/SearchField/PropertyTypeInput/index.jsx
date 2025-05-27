@@ -1,5 +1,9 @@
 import styled from "styled-components";
 
+const ContainerInput = styled.div`
+  flex: 3;
+`;
+
 const LabelStylezed = styled.label`
   display: block;
   text-align: start;
@@ -12,7 +16,7 @@ const LabelStylezed = styled.label`
 const InputStylezed = styled.input`
   width: 100%;
   box-sizing: border-box;
-  padding: 0.5rem;
+  padding: 0.8rem;
   font-size: 1.3rem;
   color: var(--color-blue);
   border-radius: 0.5rem;
@@ -21,13 +25,13 @@ const InputStylezed = styled.input`
 
 const PropertyTypeInput = () => {
   return (
-    <>
+    <ContainerInput>
       <LabelStylezed>Onde deseja morar?</LabelStylezed>
       <InputStylezed
         type="text"
         placeholder="Digite o nome da rua, bairro ou cidade"
       />
-    </>
+    </ContainerInput>
   );
 };
 

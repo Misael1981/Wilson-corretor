@@ -4,6 +4,12 @@ import SearchField from "../../../../Components/SearchField";
 
 const HeroSectionStylized = styled.section`
   width: 100%;
+
+  @media screen and (width > 1020px) {
+    background-color: var(--color-golden);
+    display: flex;
+    height: 45vh;
+  }
 `;
 
 const HeroImage = styled.div`
@@ -16,7 +22,8 @@ const HeroImage = styled.div`
     rgba(44, 72, 102, 1) 48%,
     #041120 100%
   );
-  box-shadow: rgba(0, 0, 0, 1) 0px 25px 20px -20px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
   border-radius: 0 0 5rem 5rem;
   box-sizing: border-box;
   z-index: 10;
@@ -26,6 +33,18 @@ const HeroImage = styled.div`
     margin: 0 auto;
     width: 70vw;
     height: auto;
+    max-height: 40vh;
+  }
+  @media screen and (width > 1020px) {
+    max-width: 30%;
+    border-radius: 0 5rem 5rem 0;
+    box-shadow: rgba(0, 0, 0, 1) 0px 20px 30px -10px;
+    margin-top: 2rem;
+    height: 45vh;
+
+    img {
+      width: auto;
+    }
   }
 `;
 
@@ -51,6 +70,9 @@ const HeroTitleStylized = styled.h1`
   font-weight: 700;
   font-size: 2rem;
   padding: 2rem;
+
+  @media screen and (width > 1020px) {
+  }
 `;
 
 const HeroSection = () => {

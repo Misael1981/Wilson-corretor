@@ -1,7 +1,8 @@
 import styled from "styled-components";
 
 const ContainerPropertysStylezed = styled.div`
-  padding: 1rem 0;
+  flex: 2;
+  padding: 0;
 `;
 
 const LabelStylezed = styled.label`
@@ -16,7 +17,7 @@ const LabelStylezed = styled.label`
 const SelectStylezed = styled.select`
   width: 100%;
   box-sizing: border-box;
-  padding: 0.5rem;
+  padding: 0.6rem;
   font-size: 1.2rem;
   color: var(--color-blue);
   border-radius: 0.5rem;

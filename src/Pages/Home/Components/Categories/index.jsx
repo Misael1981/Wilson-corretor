@@ -9,7 +9,7 @@ const Categories = () => {
   return (
     <CategoriesStylized>
       <section>
-        <h2>Categorias</h2>
+        <h2></h2>
       </section>
     </CategoriesStylized>
   );

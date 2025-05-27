@@ -2,8 +2,10 @@ import styled from "styled-components";
 
 const ContainerBtns = styled.div`
   display: flex;
+  flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
   margin-bottom: 1rem;
 `;
 
