@@ -31,62 +31,25 @@ const PropertyTypeSelect = () => {
       <SelectStylezed>
         <option>Todos os imóveis</option>
         <optgroup label="Residencial">
-          <option value="apartamento">
-            <input type="checkbox" />
-            Apartamento
-          </option>
-          <option value="casa">
-            <input type="checkbox" />
-            Casa
-          </option>
-          <option value="cobertura">
-            <input type="checkbox" />
-            Cobertura
-          </option>
-          <option value="flat">
-            <input type="checkbox" />
-            Flat
-          </option>
-          <option value="sobrado">
-            <input type="checkbox" />
-            Sobrado
-          </option>
+          <option value="apartamento">Apartamento</option>
+          <option value="casa">Casa</option>
+          <option value="cobertura">Cobertura</option>
+          <option value="flat">Flat</option>
+          <option value="sobrado">Sobrado</option>
         </optgroup>
         <optgroup label="Comercial">
-          <option value="consultório">
-            <input type="checkbox" />
-            Consultório
-          </option>
+          <option value="consultório">Consultório</option>
           <option value="galpao/deposito/armazem">
-            <input type="checkbox" />
             Galpão/Depósito/Armazém
           </option>
-          <option value="imovel-comercial">
-            <input type="checkbox" />
-            Imóvel Comercial
-          </option>
-          <option value="box">
-            <input type="checkbox" />
-            Ponto Comercial/Loja/Box
-          </option>
+          <option value="imovel-comercial">Imóvel Comercial</option>
+          <option value="box">Ponto Comercial/Loja/Box</option>
         </optgroup>
         <optgroup label="Outros Tipos">
-          <option value="lote">
-            <input type="checkbox" />
-            Lote/Terreno
-          </option>
-          <option value="fazenda">
-            <input type="checkbox" />
-            Fazenda
-          </option>
-          <option value="sitio">
-            <input type="checkbox" />
-            Sítios
-          </option>
-          <option value="Chácara">
-            <input type="checkbox" />
-            Chácaras
-          </option>
+          <option value="lote">Lote/Terreno</option>
+          <option value="fazenda">Fazenda</option>
+          <option value="sitio">Sítios</option>
+          <option value="Chácara">Chácaras</option>
         </optgroup>
       </SelectStylezed>
     </ContainerPropertysStylezed>

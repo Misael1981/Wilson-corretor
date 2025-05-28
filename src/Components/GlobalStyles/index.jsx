@@ -11,6 +11,12 @@ const GlobalStyles = createGlobalStyle`
   --color-blue: #0f1b29;
   --color-blue-ligth: #426792;
   --color-golden: #d6b689;
+  --degrade-blue: linear-gradient(
+    170deg,
+    rgba(15, 27, 41, 1) 0%,
+    rgba(44, 72, 102, 1) 48%,
+    #041120 100%
+  );
 }
 html {
   line-height: 1.15; 
@@ -20,6 +26,7 @@ body {
   margin: 0;
   min-height: 100vh;
   font-family: var(--font-primary);
+  background-color: #f5f5f5;
 }
 main {
   display: block;
