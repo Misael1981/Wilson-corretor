@@ -3,6 +3,7 @@ import Categories from "./Components/Categories";
 import HeaderHomeMobile from "./Components/HeaderHomeMobile";
 import HeroSection from "./Components/HeroSection";
 import HeaderHome from "./Components/HeaderHome";
+import FinancialBanner from "../../Components/FinancialBanner";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -23,6 +24,7 @@ const Home = () => {
       <main>
         <HeroSection />
         <Categories />
+        <FinancialBanner />
       </main>
     </>
   );

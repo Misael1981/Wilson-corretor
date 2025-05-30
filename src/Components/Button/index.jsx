@@ -3,22 +3,27 @@ import styled from "styled-components";
 const ButtonStylized = styled.button`
   flex: 1;
 
-  background: linear-gradient(
-    170deg,
-    rgba(15, 27, 41, 1) 0%,
-    rgba(44, 72, 102, 1) 48%,
-    #041120 100%
-  );
-  color: var(--color-golden);
+  background: ${(props) =>
+    props.isGolden ? "var(--degrade-golden)" : "var(--degrade-blue)"};
+  color: ${(props) =>
+    props.isGolden ? "var(--color-blue)" : "var(--color-golden)"};
   font-size: 1.3rem;
-  font-weight: 600;
+  font-weight: 700;
   padding: 0.8rem;
   border: none;
   border-radius: 0.6rem;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
 `;
 
-const Button = ({ children }) => {
-  return <ButtonStylized>{children}</ButtonStylized>;
+const Button = ({ children, isGolden, ...props }) => {
+  return (
+    <ButtonStylized isGolden={isGolden} {...props}>
+      {children}
+    </ButtonStylized>
+  );
 };
 
 export default Button;

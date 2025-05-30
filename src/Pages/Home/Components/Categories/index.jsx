@@ -5,7 +5,7 @@ import CardsCategories from "./CardsCategories";
 const CategoriesStylized = styled.section`
   width: 90vw;
   min-height: 50vh;
-  margin: 3rem auto;
+  margin: 3rem auto 0;
 `;
 
 const CardsCategoriesContainer = styled.div`

@@ -17,6 +17,11 @@ const GlobalStyles = createGlobalStyle`
     rgba(44, 72, 102, 1) 48%,
     #041120 100%
   );
+  --degrade-golden: linear-gradient(
+    175deg,
+    rgba(235, 152, 38, 1) 0%, 
+    rgba(214, 182, 137, 1) 48%, 
+    rgba(242, 158, 41, 0.95) 100%);
 }
 html {
   line-height: 1.15; 
