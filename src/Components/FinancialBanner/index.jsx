@@ -11,7 +11,6 @@ const FinancialBannerStylized = styled.section`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  margin-bottom: 20rem;
 
   @media screen and (width > 1020px) {
     flex-direction: row;
