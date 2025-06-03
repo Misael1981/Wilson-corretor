@@ -8,7 +8,7 @@ const AboutStylized = styled.section`
   width: 95vw;
   background: var(--degrade-golden);
   min-height: 50vh;
-  margin: 2rem auto 20rem;
+  margin: 2rem auto;
   box-sizing: border-box;
   border-radius: 1rem;
   padding: 2rem 0 0;

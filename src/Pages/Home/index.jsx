@@ -5,6 +5,7 @@ import HeroSection from "./Components/HeroSection";
 import HeaderHome from "./Components/HeaderHome";
 import FinancialBanner from "../../Components/FinancialBanner";
 import About from "./Components/About";
+import PropertiesFeatured from "../../Components/PropertiesFeatured";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -27,6 +28,7 @@ const Home = () => {
         <Categories />
         <FinancialBanner />
         <About />
+        <PropertiesFeatured />
       </main>
     </>
   );
