@@ -16,7 +16,6 @@ const PropertiesFeaturedStylized = styled.section`
   width: 95vw;
   min-height: 50vh;
   margin: 2rem auto 20rem;
-  border: 1px solid var(--color-golden);
 `;
 
 const ContainerCards = styled.div``;
