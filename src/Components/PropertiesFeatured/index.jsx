@@ -27,7 +27,7 @@ const PropertiesFeatured = () => {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch("http://localhost:5173/propertiesRealEstate.json")
+    fetch("/propertiesRealEstate.json")
       .then((response) => {
         if (!response.ok) {
           // Verifica se a resposta foi bem-sucedida (status 200-299)
