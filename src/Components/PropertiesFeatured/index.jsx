@@ -11,6 +11,7 @@ import "swiper/css/autoplay";
 
 // Import required modules
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import { useEffect, useState } from "react";
 
 const PropertiesFeaturedStylized = styled.section`
   width: 95vw;
@@ -21,59 +22,78 @@ const PropertiesFeaturedStylized = styled.section`
 const ContainerCards = styled.div``;
 
 const PropertiesFeatured = () => {
+  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
+
+  useEffect(() => {
+    fetch("http://localhost:5173/propertiesRealEstate.json")
+      .then((response) => {
+        if (!response.ok) {
+          // Verifica se a resposta foi bem-sucedida (status 200-299)
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(setData)
+      .catch((err) => {
+        console.error("Erro ao buscar dados:", err);
+        setError(err); // Armazena o erro no estado
+      })
+      .finally(() => {
+        setIsLoading(false); // Finaliza o loading, independente de sucesso ou erro
+      });
+  }, []);
+
+  if (isLoading) return <p>Carregando imóveis...</p>; // Mensagem de loading
+  if (error) return <p>Erro ao carregar imóveis: {error.message}</p>; // Mensagem de erro
+  if (!data.length) return <p>Nenhum imóvel encontrado.</p>;
+
   return (
     <PropertiesFeaturedStylized>
       <Title>Imóveis em Destaque</Title>
       <ContainerCards>
         <Swiper
           modules={[Pagination, Navigation, Autoplay]}
-          spaceBetween={50}
+          spaceBetween={20}
           slidesPerView={1}
+          slidesPerGroup={1}
           pagination={{ clickable: true }}
           navigation={true}
-          // >>> Configuração do Autoplay <<<
           autoplay={{
-            delay: 2000, // Tempo em milissegundos (2000ms = 2 segundos)
-            disableOnInteraction: false, // Opcional: Para que o autoplay não pare ao interagir com o carrossel
+            delay: 2500,
+            disableOnInteraction: false,
           }}
+          loop={true}
           // >>> Configuração de Breakpoints para Responsividade <<<
           breakpoints={{
-            // Quando a largura da tela for >= 768px (tablets)
             768: {
-              slidesPerView: 2, // Talvez um espaçamento maior em telas maiores
+              slidesPerView: 2,
+              slidesPerGroup: 1,
             },
-            // Quando a largura da tela for >= 1024px (desktops menores)
+
             1024: {
               slidesPerView: 3,
+              slidesPerGroup: 1,
             },
-            // Quando a largura da tela for >= 1440px (desktops grandes)
-            1440: {
+            1224: {
               slidesPerView: 4,
+              slidesPerGroup: 1,
             },
-            // Você pode adicionar mais breakpoints se precisar
-            // Exemplo: 1920: { slidesPerView: 5, spaceBetween: 60, },
+
+            1440: {
+              slidesPerView: 5,
+              slidesPerGroup: 1,
+            },
           }}
           onSlideChange={() => console.log("slide change")}
           onSwiper={(swiper) => console.log(swiper)}
         >
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
-          <SwiperSlide>
-            <CardProperty />
-          </SwiperSlide>
+          {data.map((property) => (
+            <SwiperSlide key={property.id}>
+              <CardProperty propertyData={property} />
+            </SwiperSlide>
+          ))}
         </Swiper>
       </ContainerCards>
     </PropertiesFeaturedStylized>

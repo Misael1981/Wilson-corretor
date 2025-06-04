@@ -1,0 +1,145 @@
+[
+  {
+    "id": "1",
+    "title": "Casa Teste",
+    "location": "Bairro Fictício",
+    "image": "/assets/casa-01.jpg",
+    "area": "250",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "price": "128.455"
+  },
+  {
+    "id": "2",
+    "title": "Casa Teste",
+    "location": "Bairro Fictício",
+    "image": "/assets/casa-02.jpg",
+    "area": "220",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "price": "95.000"
+  },
+  {
+    "id": "3",
+    "title": "Casa Teste",
+    "location": "Bairro Fictício",
+    "image": "/assets/casa-03.jpg",
+    "area": "280",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "price": "70.000"
+  },
+  {
+    "id": "4",
+    "title": "Casarão",
+    "location": "Bairro Fictício",
+    "image": "/assets/casarao-01.jpg",
+    "area": "480",
+    "bedrooms": "4",
+    "bathrooms": "3",
+    "parkingSpaces": "2",
+    "price": "170.000"
+  },
+  {
+    "id": "5",
+    "title": "Apartamento",
+    "location": "Bairro Fictício",
+    "image": "/assets/apartamento-01.jpg",
+    "area": "180",
+    "bedrooms": "3",
+    "bathrooms": "2",
+    "parkingSpaces": "2",
+    "price": "150.000"
+  },
+  {
+    "id": "6",
+    "title": "Ponto Comercial",
+    "location": "Bairro Fictício",
+    "image": "/assets/ponto-comercial-01.jpg",
+    "area": "180",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "",
+    "price": "180.000"
+  },
+  {
+    "id": "7",
+    "title": "Ponto Comercial",
+    "location": "Bairro Fictício",
+    "image": "/assets/ponto-comercial-02.jpg",
+    "area": "180",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "2",
+    "price": "220.000"
+  },
+  {
+    "id": "8",
+    "title": "Ponto Comercial",
+    "location": "Bairro Fictício",
+    "image": "/assets/ponto-comercial-03.jpg",
+    "area": "380",
+    "bedrooms": "",
+    "bathrooms": "2",
+    "parkingSpaces": "4",
+    "price": "450.000"
+  },
+  {
+    "id": "9",
+    "title": "Ponto Comercial",
+    "location": "Bairro Fictício",
+    "image": "/assets/ponto-comercial-04.jpg",
+    "area": "250",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "3",
+    "price": "280.000"
+  },
+  {
+    "id": "10",
+    "title": "Sítio",
+    "location": "Bairro Fictício",
+    "image": "/assets/sitio-01.jpg",
+    "area": "450",
+    "bedrooms": "2",
+    "bathrooms": "3",
+    "parkingSpaces": "3",
+    "price": "580.000"
+  },
+  {
+    "id": "11",
+    "title": "Sítio",
+    "location": "Bairro Fictício",
+    "image": "/assets/sitio-02.jpg",
+    "area": "350",
+    "bedrooms": "4",
+    "bathrooms": "3",
+    "parkingSpaces": "3",
+    "price": "680.000"
+  },
+  {
+    "id": "12",
+    "title": "Sítio",
+    "location": "Bairro Fictício",
+    "image": "/assets/sitio-03.jpg",
+    "area": "650",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "3",
+    "price": "480.000"
+  },
+  {
+    "id": "13",
+    "title": "Sítio",
+    "location": "Bairro Fictício",
+    "image": "/assets/sitio-04.jpg",
+    "area": "750",
+    "bedrooms": "4",
+    "bathrooms": "5",
+    "parkingSpaces": "3",
+    "price": "780.000"
+  }
+]

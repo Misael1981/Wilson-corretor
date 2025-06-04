@@ -1,5 +1,4 @@
 import styled from "styled-components";
-import CasaUm from "../assets/casa-01.jpg";
 import { FaChartArea, FaShower } from "react-icons/fa";
 import { LuBedDouble } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
@@ -8,10 +7,8 @@ import Button from "../../../Button";
 
 const CardPropertyStylized = styled.div`
   box-sizing: border-box;
-  width: 20rem;
-  max-width: 90vw;
+  width: 100%;
   height: auto;
-  min-height: 5rem;
   background: var(--degrade-blue);
   border-radius: 1rem;
   border: 5px solid var(--color-golden);
@@ -20,9 +17,12 @@ const CardPropertyStylized = styled.div`
 
 const CardPropertyImage = styled.div`
   width: 100%;
+  height: 15rem;
+  overflow: hidden;
 
   img {
     width: 100%;
+    height: 100%;
     border-radius: 1rem 1rem 0 0;
   }
 `;
@@ -79,37 +79,47 @@ const CardPropertyFooter = styled.footer`
   gap: 1rem;
 `;
 
-const CardProperty = () => {
+const CardProperty = ({ propertyData }) => {
+  const {
+    title,
+    location,
+    image,
+    area,
+    bedrooms,
+    bathrooms,
+    parkingSpaces,
+    price,
+  } = propertyData;
   return (
     <CardPropertyStylized>
       <CardPropertyImage>
-        <img src={CasaUm} alt="Imagem placeholder de uma casa" />
+        <img src={image} alt="Imagem placeholder de uma casa" />
       </CardPropertyImage>
       <CardPropertyContent>
         <CardPropertyHeader>
-          <h4>Casa semi-nova</h4>
-          <p>Bairro Nome do Bairro</p>
+          <h4>{title}</h4>
+          <p>{location}</p>
         </CardPropertyHeader>
         <CardPropertyDescriptionList>
           <li>
             <FaChartArea />
-            <span>250 m&sup2;</span>
+            <span>{area}&sup2;</span>
           </li>
           <li>
             <LuBedDouble />
-            <span>2</span>
+            <span>{bedrooms}</span>
           </li>
           <li>
             <FaShower />
-            <span>1</span>
+            <span>{bathrooms}</span>
           </li>
           <li>
             <FaCarRear />
-            <span>1</span>
+            <span>{parkingSpaces}</span>
           </li>
         </CardPropertyDescriptionList>
         <CardPropertyPriceAndFavorite>
-          <strong class="preco">R$ 128.455</strong>
+          <strong class="preco">{price}</strong>
           <button>
             <GoHeart />
           </button>
