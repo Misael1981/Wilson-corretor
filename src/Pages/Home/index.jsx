@@ -6,6 +6,7 @@ import HeaderHome from "./Components/HeaderHome";
 import FinancialBanner from "../../Components/FinancialBanner";
 import About from "./Components/About";
 import PropertiesFeatured from "../../Components/PropertiesFeatured";
+import WorkWithUs from "../../Components/WorkWithUsBanner";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -29,6 +30,7 @@ const Home = () => {
         <FinancialBanner />
         <About />
         <PropertiesFeatured />
+        <WorkWithUs />
       </main>
     </>
   );

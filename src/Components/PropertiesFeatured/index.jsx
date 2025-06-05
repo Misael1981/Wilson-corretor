@@ -16,7 +16,7 @@ import { useEffect, useState } from "react";
 const PropertiesFeaturedStylized = styled.section`
   width: 95vw;
   min-height: 50vh;
-  margin: 2rem auto 20rem;
+  margin: 2rem auto;
 `;
 
 const ContainerCards = styled.div``;
