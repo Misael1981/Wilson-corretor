@@ -7,6 +7,7 @@ import FinancialBanner from "../../Components/FinancialBanner";
 import About from "./Components/About";
 import PropertiesFeatured from "../../Components/PropertiesFeatured";
 import WorkWithUs from "../../Components/WorkWithUsBanner";
+import MiniBlog from "./Components/MiniBlog";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -31,6 +32,7 @@ const Home = () => {
         <About />
         <PropertiesFeatured />
         <WorkWithUs />
+        <MiniBlog />
       </main>
     </>
   );

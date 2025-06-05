@@ -6,7 +6,7 @@ import Button from "../Button";
 const WorkWithUsStylized = styled.section`
   width: 95vw;
   min-height: 30vh;
-  margin: 2rem auto 20rem;
+  margin: 2rem auto;
   background: var(--degrade-golden);
   border-radius: 1rem;
   display: flex;
