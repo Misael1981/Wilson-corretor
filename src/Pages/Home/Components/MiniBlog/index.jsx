@@ -8,7 +8,7 @@ import vendas from "./assets/vendas.jpg";
 const MiniBlogStylized = styled.section`
   width: 95vw;
   height: auto;
-  margin: 2rem auto 20rem;
+  margin: 2rem auto;
 `;
 
 const ContainerBlogs = styled.div`

@@ -8,6 +8,7 @@ import About from "./Components/About";
 import PropertiesFeatured from "../../Components/PropertiesFeatured";
 import WorkWithUs from "../../Components/WorkWithUsBanner";
 import MiniBlog from "./Components/MiniBlog";
+import Footer from "../../Components/Footer";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -33,6 +34,7 @@ const Home = () => {
         <PropertiesFeatured />
         <WorkWithUs />
         <MiniBlog />
+        <Footer />
       </main>
     </>
   );
