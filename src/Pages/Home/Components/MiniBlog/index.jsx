@@ -18,14 +18,38 @@ const ContainerBlogs = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+`;
+
+const ContainerFinancial = styled.div`
+  flex: 2;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: stretch;
+  gap: 1rem;
+`;
+
+const OpportunitiesStylized = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   gap: 1rem;
+`;
+
+const ContainerMaintenance = styled.div`
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
 `;
 
 const Blog = styled.div`
   width: 20rem;
   max-width: 90vw;
-  height: 15rem;
+  min-height: 15rem;
   padding: 1rem;
   border: 1px solid var(--color-blue);
   border-radius: 1rem;
@@ -58,33 +82,34 @@ const Blog = styled.div`
 `;
 
 const MiniBlog = () => {
-  const blogCardsData = [
-    {
-      id: "1", // Sempre bom ter um ID único
-      image: financialImage,
-      title: "Financiamento",
-      description:
-        "Artigo com dicas e informações sobre financiamento de imóveis.",
-    },
-    {
-      id: "2",
-      image: empreendimentos,
-      title: "Empreendimentos",
-      description: "Descubra novas oportunidades de investimento em imóveis.",
-    },
-    {
-      id: "3",
-      image: manutencao,
-      title: "Manutenção",
-      description: "Dicas essenciais para cuidar e valorizar seu patrimônio.",
-    },
-    {
-      id: "4",
-      image: vendas,
-      title: "Vendas",
-      description: "O guia completo para vender seu imóvel de forma eficiente.",
-    },
-  ];
+  const financialData = {
+    id: "1",
+    image: financialImage,
+    title: "Financiamento",
+    description:
+      "Artigo com dicas e informações sobre financiamento de imóveis.",
+  };
+
+  const venturesData = {
+    id: "2",
+    image: empreendimentos,
+    title: "Empreendimentos",
+    description: "Descubra novas oportunidades de investimento em imóveis.",
+  };
+
+  const maintenanceData = {
+    id: "3",
+    image: manutencao,
+    title: "Manutenção",
+    description: "Dicas essenciais para cuidar e valorizar seu patrimônio.",
+  };
+
+  const salesData = {
+    id: "4",
+    image: vendas,
+    title: "Vendas",
+    description: "O guia completo para vender seu imóvel de forma eficiente.",
+  };
   return (
     <MiniBlogStylized>
       <div>
@@ -97,12 +122,31 @@ const MiniBlog = () => {
         </Title>
       </div>
       <ContainerBlogs>
-        {blogCardsData.map((blog) => (
-          <Blog key={blog.id} backgroundImageUrl={blog.image}>
-            <h3>{blog.title}</h3>
-            <h4>{blog.description}</h4>
+        <ContainerFinancial>
+          <Blog key={financialData.id} backgroundImageUrl={financialData.image}>
+            <h3>{financialData.title}</h3>
+            <h4>{financialData.description}</h4>
           </Blog>
-        ))}
+          <OpportunitiesStylized>
+            <Blog key={venturesData.id} backgroundImageUrl={venturesData.image}>
+              <h3>{venturesData.title}</h3>
+              <h4>{venturesData.description}</h4>
+            </Blog>
+            <Blog key={salesData.id} backgroundImageUrl={salesData.image}>
+              <h3>{salesData.title}</h3>
+              <h4>{salesData.description}</h4>
+            </Blog>
+          </OpportunitiesStylized>
+        </ContainerFinancial>
+        <ContainerMaintenance>
+          <Blog
+            key={maintenanceData.id}
+            backgroundImageUrl={maintenanceData.image}
+          >
+            <h3>{maintenanceData.title}</h3>
+            <h4>{maintenanceData.description}</h4>
+          </Blog>
+        </ContainerMaintenance>
       </ContainerBlogs>
     </MiniBlogStylized>
   );
