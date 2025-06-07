@@ -14,7 +14,7 @@ const MapWrapper = styled.div`
 const MapLocation = () => {
   const { isLoaded } = useJsApiLoader({
     id: "google-map-script",
-    googleMapsApiKey: "AIzaSyCBiSp5gso8WwGIZQxQt3KadgDhLfzPHnc",
+    googleMapsApiKey: import.meta.env.VITE_Maps_API_KEY,
   });
 
   const position = {
