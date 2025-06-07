@@ -9,6 +9,7 @@ import PropertiesFeatured from "../../Components/PropertiesFeatured";
 import WorkWithUs from "../../Components/WorkWithUsBanner";
 import MiniBlog from "./Components/MiniBlog";
 import Footer from "../../Components/Footer";
+import Contact from "../../Components/Contact";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState();
@@ -34,6 +35,7 @@ const Home = () => {
         <PropertiesFeatured />
         <WorkWithUs />
         <MiniBlog />
+        <Contact />
         <Footer />
       </main>
     </>
