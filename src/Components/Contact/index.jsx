@@ -138,7 +138,7 @@ const ContactLocation = styled.div`
 
 const Contact = () => {
   return (
-    <ContactStylized>
+    <ContactStylized id="contact">
       <Title>Contato</Title>
       <ContactContainer>
         <ContactContent>

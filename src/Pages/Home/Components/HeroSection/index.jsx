@@ -77,7 +77,7 @@ const HeroTitleStylized = styled.h1`
 
 const HeroSection = () => {
   return (
-    <HeroSectionStylized>
+    <HeroSectionStylized id="hero-section">
       <HeroImage>
         <img src={LogoVertical} alt="" />
       </HeroImage>

@@ -50,7 +50,7 @@ const PropertiesFeatured = () => {
   if (!data.length) return <p>Nenhum imóvel encontrado.</p>;
 
   return (
-    <PropertiesFeaturedStylized>
+    <PropertiesFeaturedStylized id="properties-featured">
       <Title>Imóveis em Destaque</Title>
       <ContainerCards>
         <Swiper

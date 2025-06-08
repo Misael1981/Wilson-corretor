@@ -28,6 +28,7 @@ const PropertyTypeInput = () => {
     <ContainerInput>
       <LabelStylezed>Onde deseja morar?</LabelStylezed>
       <InputStylezed
+        id="property-type-input"
         type="text"
         placeholder="Digite o nome da rua, bairro ou cidade"
       />
