@@ -25,7 +25,7 @@ const categoriesData = [
 
 const Categories = () => {
   return (
-    <CategoriesStylized>
+    <CategoriesStylized id="categories">
       <Title>Encontre o imóvel ideal para você</Title>
       <CardsCategoriesContainer>
         {categoriesData.map((category) => (

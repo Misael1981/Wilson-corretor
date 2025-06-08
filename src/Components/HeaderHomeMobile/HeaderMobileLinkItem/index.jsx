@@ -5,7 +5,7 @@ const StyledItemHome = styled.li`
 `;
 
 const StyledLinkItem = styled.a`
-  color: #ccc; /* Cor padrão */
+  color: #ccc;
   font-size: 1.7rem;
   text-decoration: none;
   display: flex;
@@ -13,15 +13,14 @@ const StyledLinkItem = styled.a`
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  transition: color 0.3s ease; /* Adicionar transição para suavidade */
+  transition: color 0.3s ease;
 
-  // ESTILOS PARA RESETAR O BOTÃO
-  background: none; /* Remove o background padrão do botão */
-  border: none; /* Remove a borda padrão do botão */
-  padding: 0; /* Remove o padding padrão do botão */
-  margin: 0; /* Remove a margem padrão do botão */
-  font: inherit; /* Faz com que o botão herde a fonte do elemento pai */
-  cursor: pointer; /* Garante que o cursor seja de ponteiro para indicar clicável */
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  cursor: pointer;
 
   span {
     font-family: var(--font-title);
@@ -29,10 +28,9 @@ const StyledLinkItem = styled.a`
   }
 
   svg {
-    font-size: 1.7rem; /* Tamanho do ícone */
+    font-size: 1.7rem;
   }
 
-  // Estilização condicional para o estado ativo
   ${(props) =>
     props.$isActive &&
     `
@@ -54,14 +52,12 @@ const HeaderMobileLinkItem = ({
 }) => {
   return (
     <StyledItemHome>
-      {/* Condicionalmente renderiza um 'a' com href ou um 'button'/'div' com onClick */}
-      {href ? ( // Se tiver href, renderiza como link normal
+      {href ? (
         <StyledLinkItem href={href} $isActive={isActive}>
           {Icon && <Icon />}
           <span>{text}</span>
         </StyledLinkItem>
       ) : (
-        // Se não tiver href, e tiver onClick, renderiza como algo clicável
         <StyledLinkItem
           as="button"
           onClick={onClick}

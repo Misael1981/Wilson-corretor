@@ -14,11 +14,12 @@ import { MdOutlineRealEstateAgent } from "react-icons/md";
 import { IoHomeOutline, IoSearchOutline } from "react-icons/io5";
 import { GrContact } from "react-icons/gr";
 import { IoIosMore } from "react-icons/io";
-import MobileDrawer from "../../Components/HeaderHomeMobile/MobileDrawer";
+import MobileDrawer from "../../Components/MobileDrawer";
 
 const Home = () => {
   const [isMobile, setIsMobile] = useState(false);
-  const [isDrawerOpen, setIsDrawerOpen] = useState(false); // <--- Novo estado para o menu lateral
+  const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+  const [activeSection, setActiveSection] = useState("");
 
   // Função para abrir o menu
   const openDrawer = () => setIsDrawerOpen(true);
@@ -27,7 +28,7 @@ const Home = () => {
 
   const sectionIds = useMemo(
     () => [
-      "hero-section",
+      "categories",
       "properties-featured",
       "property-type-input",
       "contact",
@@ -35,17 +36,23 @@ const Home = () => {
     []
   );
 
-  const [activeSection, setActiveSection] = useState("");
   const mobileMenuItems = [
-    { icon: IoHomeOutline, text: "Home", href: "#hero-section" },
+    { icon: IoHomeOutline, text: "Categorias", href: "#categories" },
     {
       icon: MdOutlineRealEstateAgent,
       text: "Imóveis",
       href: "#properties-featured",
     },
-    { icon: IoSearchOutline, text: "Busca", href: "#property-type-input" }, // Ajuste o href conforme necessário
+    { icon: IoSearchOutline, text: "Busca", href: "#property-type-input" },
     { icon: GrContact, text: "Contato", href: "#contact" },
-    { icon: IoIosMore, text: "Mais", onClick: openDrawer }, // <--- Usa onClick para abrir o menu lateral
+    { icon: IoIosMore, text: "Mais", onClick: openDrawer },
+  ];
+
+  const desktopMenuItems = [
+    { text: "Categorias", href: "#categories" },
+    { text: "Imóveis", href: "#properties-featured" },
+    { text: "Busca", href: "#property-type-input" },
+    { text: "Contato", href: "#contact" },
   ];
 
   useEffect(() => {
@@ -64,7 +71,7 @@ const Home = () => {
     // rootMargin: Adiciona uma margem ao redor da viewport para que a interseção seja detectada antes
     // threshold: Porcentagem do elemento que precisa estar visível para ser considerado "intersecting"
     const observerOptions = {
-      root: null, // Observar em relação à viewport
+      root: null,
       rootMargin: "0px 0px -50% 0px", // Detecta quando o topo da seção chega à metade da tela
       threshold: 0, // Apenas para inicializar, o rootMargin é mais importante aqui
     };
@@ -78,7 +85,6 @@ const Home = () => {
       });
     }, observerOptions);
 
-    // Observar cada seção
     sectionIds.forEach((id) => {
       const element = document.getElementById(id);
       if (element) {
@@ -86,11 +92,10 @@ const Home = () => {
       }
     });
 
-    // Limpar o observer ao desmontar o componente
     return () => {
       observer.disconnect();
     };
-  }, [sectionIds]); // Re-executa se a lista de IDs mudar (improvável, mas boa prática)
+  }, [sectionIds]);
 
   return (
     <>
@@ -100,9 +105,11 @@ const Home = () => {
           activeSection={activeSection}
         />
       ) : (
-        <HeaderHome />
+        <HeaderHome // PASSE AS PROPS PARA O HEADER DESKTOP
+          menuItems={desktopMenuItems}
+          activeSection={activeSection}
+        />
       )}
-      {/* Renderiza o MobileDrawer condicionalmente e passa as props */}
       <MobileDrawer isOpen={isDrawerOpen} onClose={closeDrawer} />
       <main>
         <HeroSection />

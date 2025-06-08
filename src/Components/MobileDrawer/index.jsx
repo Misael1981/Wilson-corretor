@@ -1,6 +1,5 @@
-// src/Components/MobileDrawer/index.jsx
 import styled from "styled-components";
-import { IoCloseOutline } from "react-icons/io5"; // Ícone para fechar o menu
+import { IoCloseOutline } from "react-icons/io5";
 
 const DrawerOverlay = styled.div`
   position: fixed;
@@ -33,12 +32,12 @@ const DrawerContent = styled.div`
 `;
 
 const CloseButton = styled.button`
-  align-self: flex-end; /* Alinha o botão X à direita */
+  align-self: flex-end;
   background-color: transparent;
   border: none;
   font-size: 2rem;
   cursor: pointer;
-  color: var(--color-blue); // Ou outra cor
+  color: var(--color-blue);
 `;
 
 const DrawerMenu = styled.ul`

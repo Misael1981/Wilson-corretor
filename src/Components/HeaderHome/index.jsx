@@ -31,13 +31,25 @@ const ListStylized = styled.ul`
 
 const LinkStylized = styled.a`
   text-decoration: none;
-  color: var(--color-golden);
+  color: #ccc;
   font-family: var(--font-title);
   font-size: 1.5rem;
   font-weight: 600;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: var(--color-golden);
+  }
+
+  ${(props) =>
+    props.$isActive &&
+    `
+    color: var(--color-golden); /* Cor dourada para o ativo (prioridade) */
+    border-bottom: 5px solid var(--color-golden); /* Linha embaixo do link ativo */
+  `}
 `;
 
-const HeaderHome = () => {
+const HeaderHome = ({ menuItems, activeSection }) => {
   return (
     <>
       <HeaderStylized>
@@ -46,18 +58,20 @@ const HeaderHome = () => {
             <img src={LogoHorizontal} alt="Logo do Wilson Santiago" />
           </div>
           <ListStylized>
-            <li>
-              <LinkStylized href="#">Home</LinkStylized>
-            </li>
-            <li>
-              <LinkStylized href="#">Imóveis</LinkStylized>
-            </li>
-            <li>
-              <LinkStylized href="#">Busca</LinkStylized>
-            </li>
-            <li>
-              <LinkStylized href="#">Contato</LinkStylized>
-            </li>
+            {menuItems.map((item) => {
+              const sectionId = item.href ? item.href.substring(1) : "";
+              const isActive = sectionId === activeSection;
+
+              return (
+                <li key={item.href}>
+                  {" "}
+                  {/* Use o href como key, idealmente um id único */}
+                  <LinkStylized href={item.href} $isActive={isActive}>
+                    {item.text}
+                  </LinkStylized>
+                </li>
+              );
+            })}
           </ListStylized>
         </NavStylized>
       </HeaderStylized>
