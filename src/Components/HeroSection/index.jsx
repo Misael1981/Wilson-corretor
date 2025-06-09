@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import LogoVertical from "/img/logo-vertical.svg";
-import SearchField from "../../../../Components/SearchField";
+import SearchField from "../SearchField";
 
 const HeroSectionStylized = styled.section`
   width: 100%;

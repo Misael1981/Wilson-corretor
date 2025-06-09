@@ -3,6 +3,7 @@ import imageApartamento from "../assets/apartamento-01.png";
 import imageChacara from "../assets/chacara-01.png";
 import imageLoja from "../assets/loja.jpg";
 import styled from "styled-components";
+import { Link } from "react-router-dom";
 
 const categoryBackgrounds = {
   casa: imageCasa,
@@ -11,7 +12,8 @@ const categoryBackgrounds = {
   loja: imageLoja,
 };
 
-const CardCategoryStylized = styled.div`
+const CardCategoryStylized = styled(Link)`
+  text-decoration: none;
   width: 15rem;
   height: 12rem;
   background-image: linear-gradient(
@@ -34,8 +36,9 @@ const CardCategoryStylized = styled.div`
 `;
 
 const CardsCategories = ({ categoryType, title }) => {
+  const toPath = `/imoveis/${categoryType}`;
   return (
-    <CardCategoryStylized categoryType={categoryType}>
+    <CardCategoryStylized to={toPath} categoryType={categoryType}>
       <h3>{title}</h3>
     </CardCategoryStylized>
   );

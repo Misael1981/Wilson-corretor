@@ -1,7 +1,7 @@
 import { useEffect, useState, useMemo } from "react";
 import Categories from "./Components/Categories";
 import HeaderHomeMobile from "../../Components/HeaderHomeMobile";
-import HeroSection from "./Components/HeroSection";
+import HeroSection from "../../Components/HeroSection";
 import HeaderHome from "../../Components/HeaderHome";
 import FinancialBanner from "../../Components/FinancialBanner";
 import About from "./Components/About";
