@@ -3,6 +3,7 @@ import styled from "styled-components";
 import HeaderPages from "./components/HeaderPages";
 import PropertyCard from "../../Components/PropertyCard";
 import useFetch from "../../hooks/useFetch";
+import InputPages from "./components/InputPages";
 
 const PageContainer = styled.div`
   margin: 0 auto;
@@ -51,6 +52,7 @@ const RealEstate = () => {
   return (
     <>
       <HeaderPages />
+      <InputPages />
       <PageContainer>
         <PageTitle>
           {category ? category.replace(/-/g, " ") : "Todos os Imóveis"}
@@ -60,7 +62,6 @@ const RealEstate = () => {
           {properties.map((property) => (
             <PropertyCard key={property.id} propertyData={property} />
           ))}
-          {console.log("Do RealEstate", properties)}
         </PropertiesGrid>
       </PageContainer>
     </>
