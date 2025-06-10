@@ -5,6 +5,8 @@ import { Link } from "react-router-dom";
 import Login from "../../../../Components/Login";
 
 const HeaderPagesStylized = styled.header`
+  position: sticky;
+  top: 0;
   width: 100%;
   height: 6rem;
   background-color: var(--color-blue);

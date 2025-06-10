@@ -4,10 +4,22 @@ import HeaderPages from "./components/HeaderPages";
 import PropertyCard from "../../Components/PropertyCard";
 import useFetch from "../../hooks/useFetch";
 import InputPages from "./components/InputPages";
+import ButtonFilter from "./components/ButtonFilter";
+import PropertyActions from "./components/PropertyActions";
+import Footer from "../../Components/Footer";
 
 const PageContainer = styled.div`
   margin: 0 auto;
   padding: 2rem;
+`;
+
+const HeroPageContainer = styled.section`
+  background-color: #f0eaea;
+  padding: 1rem 0;
+  border-bottom: 1px solid var(--color-blue-ligth);
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
 `;
 
 const PageTitle = styled.h1`
@@ -19,10 +31,6 @@ const PageTitle = styled.h1`
 `;
 
 const PropertiesGrid = styled.div`
-  /* display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 2rem;
-  justify-items: center; */
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -52,10 +60,16 @@ const RealEstate = () => {
   return (
     <>
       <HeaderPages />
-      <InputPages />
+      <HeroPageContainer>
+        <InputPages />
+        <ButtonFilter />
+        <PropertyActions />
+      </HeroPageContainer>
       <PageContainer>
         <PageTitle>
-          {category ? category.replace(/-/g, " ") : "Todos os Imóveis"}
+          Temos {properties.length}{" "}
+          {category ? category.replace(/-/g, " ") : "imóveis"}
+          {properties.length === 1 ? "" : "s"} disponíveis
         </PageTitle>
 
         <PropertiesGrid>
@@ -64,6 +78,7 @@ const RealEstate = () => {
           ))}
         </PropertiesGrid>
       </PageContainer>
+      <Footer />
     </>
   );
 };
