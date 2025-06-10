@@ -1,17 +1,22 @@
 import styled from "styled-components";
+
+// Importando Componentes
 import Title from "../Title";
-import CardProperty from "./Components/CardProperty";
+
+// Import do HOOK
+import useFetch from "../../hooks/useFetch";
+
 // Swiper
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import "swiper/css";
-import "swiper/css/pagination"; // Se for usar pagination (bolinhas)
+import "swiper/css/pagination";
 import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
 // Import required modules
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
-import { useEffect, useState } from "react";
+import CardProperty from "./Components/CardProperty";
 
 const PropertiesFeaturedStylized = styled.section`
   width: 95vw;
@@ -22,32 +27,12 @@ const PropertiesFeaturedStylized = styled.section`
 const ContainerCards = styled.div``;
 
 const PropertiesFeatured = () => {
-  const [data, setData] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState(null);
+  // Use seu hook personalizado para buscar os dados
+  const { data, isLoading, error } = useFetch("/propertiesRealEstate.json");
 
-  useEffect(() => {
-    fetch("/propertiesRealEstate.json")
-      .then((response) => {
-        if (!response.ok) {
-          // Verifica se a resposta foi bem-sucedida (status 200-299)
-          throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        return response.json();
-      })
-      .then(setData)
-      .catch((err) => {
-        console.error("Erro ao buscar dados:", err);
-        setError(err); // Armazena o erro no estado
-      })
-      .finally(() => {
-        setIsLoading(false); // Finaliza o loading, independente de sucesso ou erro
-      });
-  }, []);
-
-  if (isLoading) return <p>Carregando imóveis...</p>; // Mensagem de loading
-  if (error) return <p>Erro ao carregar imóveis: {error.message}</p>; // Mensagem de erro
-  if (!data.length) return <p>Nenhum imóvel encontrado.</p>;
+  if (isLoading) return <p>Carregando imóveis...</p>;
+  if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
+  if (!data || !data.length) return <p>Nenhum imóvel encontrado.</p>; // Ajuste para !data ou !data.length
 
   return (
     <PropertiesFeaturedStylized id="properties-featured">
@@ -65,29 +50,12 @@ const PropertiesFeatured = () => {
             disableOnInteraction: false,
           }}
           loop={true}
-          // >>> Configuração de Breakpoints para Responsividade <<<
           breakpoints={{
-            768: {
-              slidesPerView: 2,
-              slidesPerGroup: 1,
-            },
-
-            1024: {
-              slidesPerView: 3,
-              slidesPerGroup: 1,
-            },
-            1224: {
-              slidesPerView: 4,
-              slidesPerGroup: 1,
-            },
-
-            1440: {
-              slidesPerView: 5,
-              slidesPerGroup: 1,
-            },
+            768: { slidesPerView: 2, slidesPerGroup: 1 },
+            1024: { slidesPerView: 3, slidesPerGroup: 1 },
+            1224: { slidesPerView: 4, slidesPerGroup: 1 },
+            1440: { slidesPerView: 5, slidesPerGroup: 1 },
           }}
-          onSlideChange={() => console.log("slide change")}
-          onSwiper={(swiper) => console.log(swiper)}
         >
           {data.map((property) => (
             <SwiperSlide key={property.id}>

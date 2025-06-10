@@ -11,6 +11,13 @@ const MiniBlogStylized = styled.section`
   margin: 2rem auto;
 `;
 
+const SubTitleBlog = styled.h6`
+  text-align: center;
+  font-size: 1.5rem;
+  max-width: 80vw;
+  margin: 0 auto;
+`;
+
 const ContainerBlogs = styled.div`
   width: 100%;
   box-sizing: border-box;
@@ -113,13 +120,11 @@ const MiniBlog = () => {
   return (
     <MiniBlogStylized>
       <div>
-        <Title>
-          Explore
-          <h6>
-            Uma seleção de conteúdos que simplificam sua jornada de compra,
-            venda ou manutenção dos seus imóveis
-          </h6>
-        </Title>
+        <Title>Explore</Title>
+        <SubTitleBlog>
+          Uma seleção de conteúdos que simplificam sua jornada de compra, venda
+          ou manutenção dos seus imóveis
+        </SubTitleBlog>
       </div>
       <ContainerBlogs>
         <ContainerFinancial>

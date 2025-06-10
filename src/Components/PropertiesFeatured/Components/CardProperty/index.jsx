@@ -119,7 +119,7 @@ const CardProperty = ({ propertyData }) => {
           </li>
         </CardPropertyDescriptionList>
         <CardPropertyPriceAndFavorite>
-          <strong class="preco">{price}</strong>
+          <strong id="preco">{price}</strong>
           <button>
             <GoHeart />
           </button>
