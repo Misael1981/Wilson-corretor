@@ -6,9 +6,16 @@ import useFetch from "../../hooks/useFetch";
 import InputPages from "./components/InputPages";
 import ButtonFilter from "./components/ButtonFilter";
 import PropertyActions from "./components/PropertyActions";
-import Footer from "../../Components/Footer";
+import AdvancedSearch from "./components/AdvancedSearch";
+import { useState } from "react";
 
 const PageContainer = styled.div`
+  @media screen and (width > 1020px) {
+    display: flex;
+  }
+`;
+
+const PageContainerCard = styled.div`
   margin: 0 auto;
   padding: 2rem;
 `;
@@ -46,6 +53,14 @@ const RealEstate = () => {
     error,
   } = useFetch("/propertiesRealEstate.json");
 
+  // NOVO ESTADO: Para controlar a visibilidade do filtro mobile
+  const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
+
+  // NOVA FUNÇÃO: Para alternar a visibilidade
+  const toggleMobileFilter = () => {
+    setIsMobileFilterOpen(!isMobileFilterOpen);
+  };
+
   if (isLoading) return <p>Carregando imóveis...</p>;
   if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
 
@@ -60,25 +75,35 @@ const RealEstate = () => {
   return (
     <>
       <HeaderPages />
-      <HeroPageContainer>
-        <InputPages />
-        <ButtonFilter />
-        <PropertyActions />
-      </HeroPageContainer>
       <PageContainer>
-        <PageTitle>
-          Temos {properties.length}{" "}
-          {category ? category.replace(/-/g, " ") : "imóveis"}
-          {properties.length === 1 ? "" : "s"} disponíveis
-        </PageTitle>
-
-        <PropertiesGrid>
-          {properties.map((property) => (
-            <PropertyCard key={property.id} propertyData={property} />
-          ))}
-        </PropertiesGrid>
+        {/* REMOVIDO: isMobileFilterOpen &&  <--- Agora AdvancedSearch SEMPRE é renderizado */}
+        {/* A visibilidade é controlada pelo CSS dentro do AdvancedSearch Stylized */}
+        <AdvancedSearch
+          isMobileFilterOpen={isMobileFilterOpen} // Passa o estado para o filho
+          onClose={toggleMobileFilter} // Passa a função de fechar para o filho (se tiver botão fechar no modal)
+        />
+        <main>
+          <HeroPageContainer>
+            <InputPages />
+            {/* O ButtonFilter só aparece em mobile, e chama o toggleMobileFilter */}
+            <ButtonFilter onClick={toggleMobileFilter} />
+            <PropertyActions />
+          </HeroPageContainer>
+          <PageContainerCard>
+            <PageTitle>
+              Temos {properties.length}{" "}
+              {category ? category.replace(/-/g, " ") : "imóveis"}
+              {properties.length === 1 ? "" : "s"}{" "}
+              {properties.length === 1 ? "disponível" : "disponíveis"}
+            </PageTitle>
+            <PropertiesGrid>
+              {properties.map((property) => (
+                <PropertyCard key={property.id} propertyData={property} />
+              ))}
+            </PropertiesGrid>
+          </PageContainerCard>
+        </main>
       </PageContainer>
-      <Footer />
     </>
   );
 };

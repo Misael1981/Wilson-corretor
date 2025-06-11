@@ -2,7 +2,7 @@ import { IoSearchSharp } from "react-icons/io5";
 import styled from "styled-components";
 
 const ContainerInputStylized = styled.div`
-  width: 90vw;
+  width: 90%;
   margin: 0 auto;
   display: flex;
   align-items: center;

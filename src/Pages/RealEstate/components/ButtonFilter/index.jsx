@@ -13,11 +13,15 @@ const ButtonFilterStylized = styled.button`
   color: var(--color-golden);
   border-color: var(--color-golden);
   margin: 0 auto;
+
+  @media screen and (width > 1020px) {
+    display: none;
+  }
 `;
 
-const ButtonFilter = () => {
+const ButtonFilter = ({ onClick }) => {
   return (
-    <ButtonFilterStylized>
+    <ButtonFilterStylized onClick={onClick}>
       <CiFilter />
       Filtros
     </ButtonFilterStylized>

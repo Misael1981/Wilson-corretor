@@ -129,7 +129,6 @@ const CardPropertyFooter = styled.footer`
 `;
 
 const PropertyCard = ({ propertyData }) => {
-  console.log("Do card", propertyData);
   if (!propertyData) {
     return <div>Dados do imóvel não disponíveis. </div>;
   }
