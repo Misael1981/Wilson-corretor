@@ -8,6 +8,7 @@ import ButtonFilter from "./components/ButtonFilter";
 import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
 import { useState } from "react";
+import Footer from "../../Components/Footer";
 
 const PageContainer = styled.div`
   @media screen and (width > 1020px) {
@@ -102,6 +103,7 @@ const RealEstate = () => {
               ))}
             </PropertiesGrid>
           </PageContainerCard>
+          <Footer />
         </main>
       </PageContainer>
     </>

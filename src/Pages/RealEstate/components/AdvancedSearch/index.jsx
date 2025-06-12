@@ -4,9 +4,10 @@ import QuantitySelector from "./QuantitySelector";
 import Button from "../../../../Components/Button";
 
 const AdvancedSearchTitleStylized = styled.div`
+  width: 90%;
   padding: 1rem;
   text-align: center;
-  background-color: var(--color-golden);
+  /* background-color: var(--color-golden); */
   color: var(--color-blue);
   /* Removido position: sticky e top aqui, pois será controlado pelo pai ou media query */
 
@@ -111,9 +112,11 @@ const AdvancedSearchStylized = styled.aside`
       background-color: white; /* Fundo branco do modal */
       width: 90%; /* Largura do modal */
       max-width: 500px; /* Largura máxima */
-      height: 90%; /* Altura do modal */
-      max-height: 800px; /* Altura máxima */
-      border-radius: 1rem;
+      height: 90vh; /* Altura do modal */
+      overflow-y: auto; /* Altura máxima */
+      -webkit-overflow-scrolling: touch;
+      border-radius: 0 0 1rem 1rem;
+      box-sizing: border-box;
       padding: 1rem;
       /* Remove sticky, top, height, overflow-y daqui para mobile */
       /* Já que ele será o conteúdo dentro do overlay */
@@ -122,10 +125,11 @@ const AdvancedSearchStylized = styled.aside`
 
     /* Estilo do título do modal */
     & > ${AdvancedSearchTitleStylized} {
-        position: absolute; /* Ou relative, dependendo da sua barra de título no modal */
+        position: relative; /* Ou relative, dependendo da sua barra de título no modal */
         top: 0;
         left: 0;
-        width: 100%;
+        width: 90%;
+        box-sizing: border-box;
         background-color: var(--color-golden);
         color: var(--color-blue);
         border-top-left-radius: 1rem;
