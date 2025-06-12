@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import Title from "../../../../Components/Title";
 import CardsCategories from "./CardsCategories";
+import ButtonAllProperties from "../../../../Components/ButtonAllProperties";
 
 const CategoriesStylized = styled.section`
   width: 90vw;
-  min-height: 50vh;
-  margin: 3rem auto 0;
+  margin: 3rem auto 2rem;
 `;
 
 const CardsCategoriesContainer = styled.div`
@@ -36,6 +36,7 @@ const Categories = () => {
           />
         ))}
       </CardsCategoriesContainer>
+      <ButtonAllProperties>Ver todos os imóveis</ButtonAllProperties>
     </CategoriesStylized>
   );
 };

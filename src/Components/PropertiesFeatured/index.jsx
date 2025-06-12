@@ -17,6 +17,7 @@ import "swiper/css/autoplay";
 // Import required modules
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
 import CardProperty from "./Components/CardProperty";
+import ButtonAllProperties from "../../Components/ButtonAllProperties";
 
 const PropertiesFeaturedStylized = styled.section`
   width: 95vw;
@@ -24,7 +25,9 @@ const PropertiesFeaturedStylized = styled.section`
   margin: 2rem auto;
 `;
 
-const ContainerCards = styled.div``;
+const ContainerCards = styled.div`
+  margin-bottom: 1rem;
+`;
 
 const PropertiesFeatured = () => {
   // Use seu hook personalizado para buscar os dados
@@ -64,6 +67,7 @@ const PropertiesFeatured = () => {
           ))}
         </Swiper>
       </ContainerCards>
+      <ButtonAllProperties>Ver todos os imóveis</ButtonAllProperties>
     </PropertiesFeaturedStylized>
   );
 };

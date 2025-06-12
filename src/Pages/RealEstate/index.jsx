@@ -66,7 +66,6 @@ const RealEstate = () => {
   if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
 
   // Filtra os imóveis.
-  // Se allProperties for vazio, a filtragem resultará em um array vazio, o que é correto.
   const properties = allProperties.filter((prop) =>
     category
       ? prop.type && prop.type.toLowerCase() === category.toLowerCase()
@@ -77,8 +76,6 @@ const RealEstate = () => {
     <>
       <HeaderPages />
       <PageContainer>
-        {/* REMOVIDO: isMobileFilterOpen &&  <--- Agora AdvancedSearch SEMPRE é renderizado */}
-        {/* A visibilidade é controlada pelo CSS dentro do AdvancedSearch Stylized */}
         <AdvancedSearch
           isMobileFilterOpen={isMobileFilterOpen} // Passa o estado para o filho
           onClose={toggleMobileFilter} // Passa a função de fechar para o filho (se tiver botão fechar no modal)
