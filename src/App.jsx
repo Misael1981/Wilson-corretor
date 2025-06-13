@@ -4,6 +4,7 @@ import Blogs from "./Pages/Blogs";
 import GlobalStyles from "./Components/GlobalStyles";
 // Importa o componente da pasta RealEstate e o nomeia como CategoryProperties
 import CategoryProperties from "./Pages/RealEstate";
+import PropertyDetailPage from "./Pages/PropertyDetailPage";
 
 function App() {
   return (
@@ -23,9 +24,9 @@ function App() {
         */}
         <Route path="/imoveis/:category" element={<CategoryProperties />} />
 
-        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/imovel/:id" element={<PropertyDetailPage />} />
 
-        {/* Rota para 404 (Página não encontrada) - mantém como estava */}
+        <Route path="/blogs" element={<Blogs />} />
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
     </BrowserRouter>

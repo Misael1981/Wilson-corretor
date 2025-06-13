@@ -10,6 +10,7 @@ const HeaderPagesStylized = styled.header`
   width: 100%;
   height: 6rem;
   background-color: var(--color-blue);
+  z-index: 1001;
 `;
 
 const HeaderPagesContainer = styled.div`

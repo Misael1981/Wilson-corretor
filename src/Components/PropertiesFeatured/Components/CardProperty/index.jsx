@@ -4,6 +4,7 @@ import { LuBedDouble } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import { FaCarRear } from "react-icons/fa6";
 import Button from "../../../Button";
+import { Link } from "react-router-dom";
 
 const CardPropertyStylized = styled.div`
   box-sizing: border-box;
@@ -124,6 +125,9 @@ const CardProperty = ({ propertyData }) => {
             <GoHeart />
           </button>
         </CardPropertyPriceAndFavorite>
+        <Link to={`/imovel/${propertyData.id}`}>
+          <Button>Mais Detalhes</Button>
+        </Link>
         <CardPropertyFooter>
           <Button isGolden={true}>Mensagem</Button>
           <Button>Ligar</Button>

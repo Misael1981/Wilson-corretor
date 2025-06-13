@@ -10,6 +10,7 @@ const ButtonStylized = styled.button`
   font-size: 1.3rem;
   font-weight: 700;
   padding: 0.8rem;
+  cursor: pointer;
   border: none;
   border-radius: 0.6rem;
 

@@ -8,6 +8,7 @@ import { LuBedDouble } from "react-icons/lu";
 import { GoHeart } from "react-icons/go";
 import { FaCarRear } from "react-icons/fa6";
 import Button from "../../Components/Button";
+import { Link } from "react-router-dom";
 
 // Seus estilos para o card individual (reutilizando os que te passei antes)
 const CardStylized = styled.div`
@@ -170,7 +171,9 @@ const PropertyCard = ({ propertyData }) => {
         </CardPropertyDescriptionList>
         <CardDescription>{propertyData.description}</CardDescription>
         <ButtonMoreDetails>
-          <Button>Mais Detalhes</Button>
+          <Link to={`/imovel/${propertyData.id}`}>
+            <Button>Mais Detalhes</Button>
+          </Link>
         </ButtonMoreDetails>
         <CardPropertyFooter>
           <Button isGolden={true}>Mensagem</Button>
