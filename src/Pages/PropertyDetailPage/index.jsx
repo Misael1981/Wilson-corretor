@@ -5,17 +5,25 @@ import useFetch from "../../hooks/useFetch"; // Seu hook de fetch
 import HeaderPages from "../RealEstate/components/HeaderPages"; // Reutilize o header
 import Footer from "../../Components/Footer"; // Reutilize o footer
 import PropertyCarousel from "./components/PropertyCarousel";
+import RecentlyAdded from "./components/RecentlyAdded";
+
+const DetailPageContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  box-sizing: border-box;
+  padding: 2rem;
+  max-width: 85rem;
+`;
 
 // Styled Components para a página de detalhes
-const DetailPageContainer = styled.div`
+const DetailMainContainer = styled.div`
   padding: 2rem;
-  max-width: 900px;
+  max-width: 50rem;
   margin: 0 auto;
   background: var(--degrade-blue);
   border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  margin-top: 2rem;
-  margin-bottom: 2rem;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
 `;
 
 const PropertyImage = styled.div`
@@ -110,38 +118,38 @@ const PropertyDetailPage = () => {
     <>
       <HeaderPages />
       <DetailPageContainer>
-        <PropertyImage>
-          <PropertyCarousel images={property.images || []} />
-        </PropertyImage>
-        <PropertyTitle>{property.title}</PropertyTitle>
-        <PropertySubtitle>
-          {property.address || "Endereço não disponível"}
-        </PropertySubtitle>
-        <PropertyPrice>
-          R${" "}
-          {property.price
-            ? property.price.toLocaleString("pt-BR")
-            : "Preço não disponível"}
-        </PropertyPrice>
-
-        <PropertyDetailsGrid>
-          <DetailItem>
-            Área: {property.area ? `${property.area}m²` : "N/A"}
-          </DetailItem>
-          <DetailItem>Quartos: {property.bedrooms || "N/A"}</DetailItem>
-          <DetailItem>Banheiros: {property.bathrooms || "N/A"}</DetailItem>
-          <DetailItem>Vagas: {property.parkingSpaces || "N/A"}</DetailItem>
-          <DetailItem>Tipo: {property.type || "N/A"}</DetailItem>
-        </PropertyDetailsGrid>
-
-        <PropertyDescription>
-          <h3>Descrição do Imóvel:</h3>
-          {property.description ||
-            "Nenhuma descrição detalhada disponível para este imóvel."}
-        </PropertyDescription>
-
-        <ContactButton>Entrar em Contato</ContactButton>
-        {/* Você pode adicionar mais seções aqui: mapa, galeria de fotos, etc. */}
+        <DetailMainContainer>
+          <PropertyImage>
+            <PropertyCarousel images={property.images || []} />
+          </PropertyImage>
+          <PropertyTitle>{property.title}</PropertyTitle>
+          <PropertySubtitle>
+            {property.address || "Endereço não disponível"}
+          </PropertySubtitle>
+          <PropertyPrice>
+            R${" "}
+            {property.price
+              ? property.price.toLocaleString("pt-BR")
+              : "Preço não disponível"}
+          </PropertyPrice>
+          <PropertyDetailsGrid>
+            <DetailItem>
+              Área: {property.area ? `${property.area}m²` : "N/A"}
+            </DetailItem>
+            <DetailItem>Quartos: {property.bedrooms || "N/A"}</DetailItem>
+            <DetailItem>Banheiros: {property.bathrooms || "N/A"}</DetailItem>
+            <DetailItem>Vagas: {property.parkingSpaces || "N/A"}</DetailItem>
+            <DetailItem>Tipo: {property.type || "N/A"}</DetailItem>
+          </PropertyDetailsGrid>
+          <PropertyDescription>
+            <h3>Descrição do Imóvel:</h3>
+            {property.description ||
+              "Nenhuma descrição detalhada disponível para este imóvel."}
+          </PropertyDescription>
+          <ContactButton>Entrar em Contato</ContactButton>
+          {/* Você pode adicionar mais seções aqui: mapa, galeria de fotos, etc. */}
+        </DetailMainContainer>
+        <RecentlyAdded />
       </DetailPageContainer>
       <Footer />
     </>
