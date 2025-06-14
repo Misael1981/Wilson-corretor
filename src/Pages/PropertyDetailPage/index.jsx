@@ -8,17 +8,25 @@ import PropertyCarousel from "./components/PropertyCarousel";
 import RecentlyAdded from "./components/RecentlyAdded";
 
 const DetailPageContainer = styled.div`
+  width: 95vw;
+  max-width: 85rem;
   display: flex;
+  flex-direction: column;
   justify-content: center;
   gap: 1rem;
+  margin: 0 auto;
   box-sizing: border-box;
-  padding: 2rem;
-  max-width: 85rem;
+  padding: 2rem 0;
+
+  @media screen and (width > 1120px) {
+    flex-direction: row;
+  }
 `;
 
 // Styled Components para a página de detalhes
 const DetailMainContainer = styled.div`
   padding: 2rem;
+  width: 80vw;
   max-width: 50rem;
   margin: 0 auto;
   background: var(--degrade-blue);

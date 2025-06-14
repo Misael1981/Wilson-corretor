@@ -12,14 +12,19 @@ import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import styled from "styled-components"; // <--- Importe styled-components
 
-// 1. Crie um contêiner para o carrossel principal e o de thumbs
+// 1. Cria um contêiner para o carrossel principal e o de thumbs
 const CarouselContainer = styled.div`
-  max-width: 800px; /* Largura máxima do carrossel */
-  margin: 0 auto 2rem auto; /* Centraliza e adiciona margem inferior */
-  padding: 1rem; /* Adiciona um padding interno */
-  background-color: #504f4f; /* Fundo leve para destacar */
+  max-width: 800px;
+  margin: 0 auto 2rem auto;
+  padding: 1rem;
+  background-color: #504f4f;
   border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+  @media screen and (width > 1024px) {
+    width: 60vw;
+    height: 70vh;
+  }
 
   /* Você pode usar isso para estilizar elementos dentro do Swiper,
      como os botões de navegação, caso queira sobrescrever o padrão
@@ -33,20 +38,18 @@ const CarouselContainer = styled.div`
 
 // 2. Estilize o Swiper principal (mySwiper2)
 const StyledMainSwiper = styled(Swiper)`
-  height: 80%; /* Do seu CSS original */
-  width: 100%; /* Do seu CSS original */
-  /* As variáveis CSS podem ser passadas via style prop ou aqui, se preferir */
+  height: 80%;
+  width: 100%;
 
   .swiper-slide {
     background-size: cover;
     background-position: center;
-    /* Styles do swiper-slide genérico */
     text-align: center;
-    font-size: 18px;
-    background: #444; /* Cor de fundo do slide */
+    background: #444;
     display: flex;
     justify-content: center;
     align-items: center;
+    cursor: pointer;
   }
 
   .swiper-slide img {
@@ -59,18 +62,19 @@ const StyledMainSwiper = styled(Swiper)`
 
 // 3. Estilize o Swiper de thumbs (mySwiper)
 const StyledThumbsSwiper = styled(Swiper)`
-  height: 20%; /* Do seu CSS original */
+  height: 20%;
   box-sizing: border-box;
-  padding: 10px 0; /* Do seu CSS original */
+  padding: 10px 0;
 
   .swiper-slide {
-    width: 25%; /* Do seu CSS original */
-    height: 100%; /* Do seu CSS original */
-    opacity: 0.4; /* Do seu CSS original */
+    width: 25%;
+    height: 100%;
+    opacity: 0.4;
+    cursor: pointer;
   }
 
   .swiper-slide-thumb-active {
-    opacity: 1; /* Do seu CSS original */
+    opacity: 1;
   }
 
   .swiper-slide img {
@@ -109,12 +113,10 @@ const PropertyCarousel = ({ images }) => {
         navigation={true}
         thumbs={{ swiper: thumbsSwiper }}
         modules={[FreeMode, Navigation, Thumbs]}
-        // Removido className="mySwiper2" - os estilos já estão no StyledMainSwiper
       >
         {imagesToDisplay.map((image, index) => (
           <SwiperSlide key={index}>
             {" "}
-            {/* Use um key único */}
             <img src={image} alt={`Imóvel - ${index}`} />
           </SwiperSlide>
         ))}
@@ -127,7 +129,6 @@ const PropertyCarousel = ({ images }) => {
         freeMode={true}
         watchSlidesProgress={true}
         modules={[FreeMode, Navigation, Thumbs]}
-        // Removido className="mySwiper" - os estilos já estão no StyledThumbsSwiper
       >
         {imagesToDisplay.map((image, index) => (
           <SwiperSlide key={index}>

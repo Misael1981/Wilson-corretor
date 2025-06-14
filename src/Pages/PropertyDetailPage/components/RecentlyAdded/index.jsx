@@ -4,8 +4,10 @@ import useFetch from "../../../../hooks/useFetch";
 
 const RecentlyAddedContainer = styled.div`
   width: 30rem;
+  max-width: 90vw;
   background: var(--degrade-blue);
   min-height: 20rem;
+  margin: 0 auto;
   border-radius: 1rem;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
   box-sizing: border-box;
