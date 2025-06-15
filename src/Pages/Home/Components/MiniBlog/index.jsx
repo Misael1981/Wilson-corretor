@@ -4,9 +4,11 @@ import financialImage from "./assets/financing.jpg";
 import empreendimentos from "./assets/empreendimentos.jpg";
 import manutencao from "./assets/manutencao.jpg";
 import vendas from "./assets/vendas.jpg";
+import { Link } from "react-router-dom";
 
 const MiniBlogStylized = styled.section`
-  width: 95vw;
+  width: 100%;
+  max-width: 95vw;
   height: auto;
   margin: 2rem auto;
 `;
@@ -16,12 +18,15 @@ const SubTitleBlog = styled.h6`
   font-size: 1.5rem;
   max-width: 80vw;
   margin: 0 auto;
+  color: var(--color-blue);
 `;
 
 const ContainerBlogs = styled.div`
   width: 100%;
+  max-width: 75rem;
   box-sizing: border-box;
   padding: 1rem;
+  margin: 0 auto;
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
@@ -53,12 +58,13 @@ const ContainerMaintenance = styled.div`
   align-items: stretch;
 `;
 
-const Blog = styled.div`
+const Blog = styled(Link)`
+  flex: 1;
   width: 20rem;
   max-width: 90vw;
   min-height: 15rem;
   padding: 1rem;
-  border: 1px solid var(--color-blue);
+  border: 1px solid var(--color-golden);
   border-radius: 1rem;
   background-image: linear-gradient(
       rgba(15, 27, 41, 0.4),
@@ -75,8 +81,13 @@ const Blog = styled.div`
   color: white;
   font-weight: bold;
   cursor: pointer;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  transition: transform 0.2s ease-in-out;
+  text-decoration: none;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
 
   h3 {
     margin: 0.5rem 0;
@@ -128,16 +139,28 @@ const MiniBlog = () => {
       </div>
       <ContainerBlogs>
         <ContainerFinancial>
-          <Blog key={financialData.id} backgroundImageUrl={financialData.image}>
+          <Blog
+            to={`/blog/${venturesData.id}`}
+            key={financialData.id}
+            backgroundImageUrl={financialData.image}
+          >
             <h3>{financialData.title}</h3>
             <h4>{financialData.description}</h4>
           </Blog>
           <OpportunitiesStylized>
-            <Blog key={venturesData.id} backgroundImageUrl={venturesData.image}>
+            <Blog
+              to={`/blog/${venturesData.id}`}
+              key={venturesData.id}
+              backgroundImageUrl={venturesData.image}
+            >
               <h3>{venturesData.title}</h3>
               <h4>{venturesData.description}</h4>
             </Blog>
-            <Blog key={salesData.id} backgroundImageUrl={salesData.image}>
+            <Blog
+              to={`/blog/${venturesData.id}`}
+              key={salesData.id}
+              backgroundImageUrl={salesData.image}
+            >
               <h3>{salesData.title}</h3>
               <h4>{salesData.description}</h4>
             </Blog>
@@ -145,6 +168,7 @@ const MiniBlog = () => {
         </ContainerFinancial>
         <ContainerMaintenance>
           <Blog
+            to={`/blog/${venturesData.id}`}
             key={maintenanceData.id}
             backgroundImageUrl={maintenanceData.image}
           >

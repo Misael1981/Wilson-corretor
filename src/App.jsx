@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
-import Blogs from "./Pages/Blogs";
+import Blog from "./Pages/Blog";
 import GlobalStyles from "./Components/GlobalStyles";
 // Importa o componente da pasta RealEstate e o nomeia como CategoryProperties
 import CategoryProperties from "./Pages/RealEstate";
@@ -26,7 +26,7 @@ function App() {
 
         <Route path="/imovel/:id" element={<PropertyDetailPage />} />
 
-        <Route path="/blogs" element={<Blogs />} />
+        <Route path="/blog" element={<Blog />} />
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
     </BrowserRouter>
