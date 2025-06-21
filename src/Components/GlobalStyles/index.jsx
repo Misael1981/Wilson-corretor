@@ -21,8 +21,13 @@ const GlobalStyles = createGlobalStyle`
     175deg,
     rgba(235, 152, 38, 1) 0%, 
     rgba(214, 182, 137, 1) 48%, 
-    rgba(242, 158, 41, 0.95) 100%);
+    rgba(242, 158, 41, 0.95) 100%
+  );
+  --degrade-whatsapp: linear-gradient(17deg,rgba(2, 173, 65, 1) 0%, rgba(6, 112, 45, 1) 51%, rgba(37, 211, 102, 0.95) 100%);
 }
+
+
+
 html {
   line-height: 1.15; 
   -webkit-text-size-adjust: 100%; 

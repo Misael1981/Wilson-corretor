@@ -80,6 +80,11 @@ const CardPropertyFooter = styled.footer`
   gap: 1rem;
 `;
 
+const LinkStylized = styled(Link)`
+  display: flex;
+  text-decoration: none;
+`;
+
 const CardProperty = ({ propertyData }) => {
   const {
     title,
@@ -125,11 +130,18 @@ const CardProperty = ({ propertyData }) => {
             <GoHeart />
           </button>
         </CardPropertyPriceAndFavorite>
-        <Link to={`/imovel/${propertyData.id}`}>
-          <Button>Mais Detalhes</Button>
-        </Link>
+        <LinkStylized to={`/imovel/${propertyData.id}`}>
+          <Button
+            background={"var(--degrade-golden)"}
+            color={"var(--color-blue)"}
+          >
+            Mais Detalhes
+          </Button>
+        </LinkStylized>
         <CardPropertyFooter>
-          <Button isGolden={true}>Mensagem</Button>
+          <Button background={"var(--degrade-whatsapp)"} color={"#ccc"}>
+            Mensagem
+          </Button>
           <Button>Ligar</Button>
         </CardPropertyFooter>
       </CardPropertyContent>
