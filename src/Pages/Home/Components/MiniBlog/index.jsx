@@ -47,7 +47,7 @@ const OpportunitiesStylized = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
+  align-items: stretch; /* Mudei para stretch para os itens dentro do flex-direction column preencherem o espaço */
   gap: 1rem;
 `;
 
@@ -100,34 +100,50 @@ const Blog = styled(Link)`
 `;
 
 const MiniBlog = () => {
-  const financialData = {
-    id: "1",
-    image: financialImage,
-    title: "Financiamento",
-    description:
-      "Artigo com dicas e informações sobre financiamento de imóveis.",
-  };
+  // Centralize os dados em um array para facilitar a gestão e mapeamento
+  const blogArticlesData = [
+    {
+      id: "1",
+      // SLUG CORRIGIDO para combinar com blogArticles.json
+      slug: "as-melhores-dicas-para-comprar-seu-primeiro-imovel",
+      image: financialImage,
+      title: "Financiamento",
+      description:
+        "Artigo com dicas e informações sobre financiamento de imóveis.",
+    },
+    {
+      id: "2",
+      // SLUG CORRIGIDO para combinar com blogArticles.json
+      slug: "tendencias-mercado-imobiliario-2025",
+      image: empreendimentos,
+      title: "Empreendimentos",
+      description: "Descubra novas oportunidades de investimento em imóveis.",
+    },
+    {
+      id: "3",
+      // SLUG CORRIGIDO para combinar com blogArticles.json
+      slug: "como-valorizar-seu-imovel-para-venda-rapida",
+      image: manutencao,
+      title: "Manutenção",
+      description: "Dicas essenciais para cuidar e valorizar seu patrimônio.",
+    },
+    {
+      id: "4",
+      // SLUG CORRIGIDO para combinar com blogArticles.json
+      slug: "7-segredos-manutencao-preventiva-imoveis",
+      image: vendas,
+      title: "Vendas",
+      description: "O guia completo para vender seu imóvel de forma eficiente.",
+    },
+  ];
 
-  const venturesData = {
-    id: "2",
-    image: empreendimentos,
-    title: "Empreendimentos",
-    description: "Descubra novas oportunidades de investimento em imóveis.",
-  };
+  // Agora, referencie os dados que você precisa diretamente pelo array
+  // Ou mantenha as variáveis se preferir, mas use os IDs corretos nos links
+  const financialData = blogArticlesData[0];
+  const venturesData = blogArticlesData[1];
+  const maintenanceData = blogArticlesData[2];
+  const salesData = blogArticlesData[3];
 
-  const maintenanceData = {
-    id: "3",
-    image: manutencao,
-    title: "Manutenção",
-    description: "Dicas essenciais para cuidar e valorizar seu patrimônio.",
-  };
-
-  const salesData = {
-    id: "4",
-    image: vendas,
-    title: "Vendas",
-    description: "O guia completo para vender seu imóvel de forma eficiente.",
-  };
   return (
     <MiniBlogStylized>
       <div>
@@ -139,8 +155,10 @@ const MiniBlog = () => {
       </div>
       <ContainerBlogs>
         <ContainerFinancial>
+          {/* Card de Financiamento */}
           <Blog
-            to={`/blog/${venturesData.id}`}
+            // CORRIGIDO: O link agora usa o ID/Slug de financialData
+            to={`/blog/${financialData.slug || financialData.id}`}
             key={financialData.id}
             backgroundImageUrl={financialData.image}
           >
@@ -148,16 +166,20 @@ const MiniBlog = () => {
             <h4>{financialData.description}</h4>
           </Blog>
           <OpportunitiesStylized>
+            {/* Card de Empreendimentos */}
             <Blog
-              to={`/blog/${venturesData.id}`}
+              // CORRIGIDO: O link agora usa o ID/Slug de venturesData
+              to={`/blog/${venturesData.slug || venturesData.id}`}
               key={venturesData.id}
               backgroundImageUrl={venturesData.image}
             >
               <h3>{venturesData.title}</h3>
               <h4>{venturesData.description}</h4>
             </Blog>
+            {/* Card de Vendas */}
             <Blog
-              to={`/blog/${venturesData.id}`}
+              // CORRIGIDO: O link agora usa o ID/Slug de salesData
+              to={`/blog/${salesData.slug || salesData.id}`}
               key={salesData.id}
               backgroundImageUrl={salesData.image}
             >
@@ -167,8 +189,10 @@ const MiniBlog = () => {
           </OpportunitiesStylized>
         </ContainerFinancial>
         <ContainerMaintenance>
+          {/* Card de Manutenção */}
           <Blog
-            to={`/blog/${venturesData.id}`}
+            // CORRIGIDO: O link agora usa o ID/Slug de maintenanceData
+            to={`/blog/${maintenanceData.slug || maintenanceData.id}`}
             key={maintenanceData.id}
             backgroundImageUrl={maintenanceData.image}
           >

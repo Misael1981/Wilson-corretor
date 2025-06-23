@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import useFetch from "../../hooks/useFetch"; // Seu hook de fetch
 import HeaderPages from "../RealEstate/components/HeaderPages"; // Reutilize o header
-import Footer from "../../Components/Footer"; // Reutilize o footer
+import Footer from "../../Components/Footer";
 
 // Styled Components para a página de detalhes do artigo
 const ArticleDetailContainer = styled.div`
@@ -53,58 +53,78 @@ const ArticleContentSection = styled.div`
 `;
 
 const ArticleDetailPage = () => {
-  // 1. Pega o ID (ou slug) da URL
-  const { id } = useParams(); // 'id' aqui será o slug ou ID do artigo vindo da URL
+  const { id } = useParams(); // Pega o 'id' ou 'slug' da URL
 
-  // 2. Usa o useFetch para buscar TODOS os artigos (como o blogArticles.json)
   const {
     data: allArticles,
-    isLoading,
-    error,
-  } = useFetch("/blogArticles.json"); // <--- Caminho para o seu JSON de artigos
+    isLoading: articlesLoading,
+    error: articlesError,
+  } = useFetch("/blogArticles.json"); // Caminho para seu JSON de artigos
 
-  // Estado para armazenar o artigo específico que será exibido
   const [article, setArticle] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // 3. Usa useEffect para encontrar o artigo quando allArticles ou id mudarem
   useEffect(() => {
-    if (allArticles) {
-      // Tenta encontrar o artigo pelo slug primeiro, se existir
-      let foundArticle = allArticles.find((a) => a.slug === id);
+    // --- CONSOLE.LOGS DE DEBUG GERAIS (MANTENHA ESTES) ---
+    console.log("--- DEBUG ArticleDetailPage GERAL ---");
+    console.log("ID/Slug da URL (useParams):", id);
+    console.log(
+      "Estado de Carregamento dos Artigos (isLoading):",
+      articlesLoading
+    );
+    console.log("Erro ao Carregar Artigos (error):", articlesError);
+    console.log("Todos os Artigos Carregados (allArticles):", allArticles);
+    console.log("-------------------------------------");
+    // ----------------------------------------------------
 
-      // Se não encontrou pelo slug, tenta encontrar pelo ID (caso você use IDs numéricos na URL)
-      if (!foundArticle) {
-        foundArticle = allArticles.find((a) => String(a.id) === id);
-      }
+    if (articlesLoading) return;
 
-      setArticle(foundArticle);
+    if (articlesError) {
+      setError(articlesError);
+      setLoading(false);
+      return;
     }
-  }, [allArticles, id]); // Re-executa se os dados dos artigos ou o ID/slug da URL mudarem
 
-  // 4. Lógica de carregamento, erro e artigo não encontrado
-  if (isLoading)
+    if (allArticles) {
+      const foundArticle = allArticles.find(
+        (art) =>
+          String(art.id) === String(id) || String(art.slug) === String(id)
+      );
+
+      if (foundArticle) {
+        setArticle(foundArticle);
+        setLoading(false);
+      } else {
+        setError(new Error("Artigo não encontrado."));
+        setLoading(false);
+      }
+    }
+  }, [id, allArticles, articlesLoading, articlesError]);
+
+  if (loading)
     return (
-      <p style={{ textAlign: "center", padding: "2rem" }}>
+      <p style={{ textAlign: "center", marginTop: "5rem" }}>
         Carregando detalhes do artigo...
       </p>
     );
   if (error)
     return (
-      <p style={{ textAlign: "center", padding: "2rem", color: "red" }}>
-        Erro ao carregar artigo: {error.message}
+      <p style={{ textAlign: "center", color: "red", marginTop: "5rem" }}>
+        Erro: {error.message}
       </p>
     );
   if (!article)
     return (
-      <p style={{ textAlign: "center", padding: "2rem" }}>
-        Artigo não encontrado.
+      <p style={{ textAlign: "center", marginTop: "5rem" }}>
+        Artigo não disponível.
       </p>
     );
 
   // 5. Renderiza o conteúdo completo do artigo
   return (
     <>
-      <HeaderPages /> {/* Seu Header global */}
+      <HeaderPages />
       <ArticleDetailContainer>
         <ArticleImage
           src={
