@@ -4,7 +4,7 @@ import Blog from "./Pages/Blog";
 import GlobalStyles from "./Components/GlobalStyles";
 import CategoryProperties from "./Pages/RealEstate";
 import PropertyDetailPage from "./Pages/PropertyDetailPage";
-import ArticleDetailPage from "./Pages/ArticleDetailPage";
+import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
 
 function App() {
   return (
