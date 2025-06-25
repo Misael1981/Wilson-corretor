@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 const CardDevStylized = styled.div`
   text-align: center;
+  border-top: 1px solid var(--color-golden);
 `;
 
 const ImageDev = styled.img`

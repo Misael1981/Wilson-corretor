@@ -6,6 +6,7 @@ import Footer from "../../../Components/Footer";
 import Article from "../components/Article";
 import IndexPosts from "../components/IndexPosts";
 import styled from "styled-components";
+import Breadcrumbs from "../../../Components/Breadcrumbs";
 
 const ContainerArticlesStylized = styled.div`
   width: 100%;
@@ -88,6 +89,7 @@ const ArticleDetailPage = () => {
   return (
     <>
       <HeaderPages />
+      <Breadcrumbs />
       <main>
         <ContainerArticlesStylized>
           <Article article={article} />

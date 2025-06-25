@@ -5,7 +5,7 @@ import CardDev from "./components/CardDev";
 const FooterStylized = styled.footer`
   width: 100%;
   background: var(--degrade-blue);
-  padding-bottom: 4rem;
+  padding: 4rem 0;
 
   @media screen and (width > 1020px) {
     padding: 0;
@@ -23,20 +23,6 @@ const FooterContainer = styled.div`
 `;
 
 const ContentFooter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  text-align: center;
-  gap: 2rem;
-
-  /* @media screen and (width > 1020px) {
-    flex-direction: row;
-
-    p {
-      align-self: flex-end;
-    }
-  } */
-
   p {
     color: #ccc;
     font-size: 1rem;
@@ -44,13 +30,24 @@ const ContentFooter = styled.div`
   }
 `;
 
+const ContainerCardsFooter = styled.div`
+  width: 100%;
+  padding-top: 4rem;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+`;
+
 const Footer = () => {
   return (
     <FooterStylized>
       <FooterContainer>
-        <CardTags />
-        <ContentFooter>
+        <ContainerCardsFooter>
           <CardDev />
+          <CardTags />
+        </ContainerCardsFooter>
+        <ContentFooter>
           <p>
             &copy; 2025{" "}
             <strong>Misael Borges - Desenvolvedor full-stack</strong>. Proibida
