@@ -3,8 +3,7 @@ import styled from "styled-components";
 import TitleFooter from "../TitleFooter";
 
 const CardTagsStylized = styled.div`
-  padding: 0 1rem;
-  width: 800px;
+  width: 500px;
   text-align: center;
   border-top: 1px solid var(--color-golden);
 `;

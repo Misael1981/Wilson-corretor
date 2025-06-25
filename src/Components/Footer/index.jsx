@@ -35,8 +35,8 @@ const ContainerCardsFooter = styled.div`
   padding-top: 4rem;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  align-items: center;
+  justify-content: center;
+  gap: 2rem;
 `;
 
 const Footer = () => {

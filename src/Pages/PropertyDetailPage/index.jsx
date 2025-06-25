@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import useFetch from "../../hooks/useFetch"; // Seu hook de fetch
-import HeaderPages from "../RealEstate/components/HeaderPages"; // Reutilize o header
-import Footer from "../../Components/Footer"; // Reutilize o footer
+import useFetch from "../../hooks/useFetch";
+import HeaderPages from "../RealEstate/components/HeaderPages";
+import Footer from "../../Components/Footer";
 import PropertyCarousel from "./components/PropertyCarousel";
 import RecentlyAdded from "./components/RecentlyAdded";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 const DetailPageContainer = styled.div`
   width: 95vw;
@@ -23,7 +24,6 @@ const DetailPageContainer = styled.div`
   }
 `;
 
-// Styled Components para a página de detalhes
 const DetailMainContainer = styled.div`
   padding: 2rem;
   width: 80vw;
@@ -36,7 +36,6 @@ const DetailMainContainer = styled.div`
 
 const PropertyImage = styled.div`
   width: 100%;
-  /* max-height: 1200px; */
   border-radius: 0.8rem;
   margin-bottom: 1.5rem;
 `;
@@ -101,30 +100,30 @@ const ContactButton = styled.button`
 `;
 
 const PropertyDetailPage = () => {
-  const { id } = useParams(); // Obtém o ID do imóvel da URL
+  const { id } = useParams();
   const {
     data: allProperties,
     isLoading,
     error,
-  } = useFetch("/propertiesRealEstate.json"); // Busca todos os imóveis
+  } = useFetch("/propertiesRealEstate.json");
 
   const [property, setProperty] = useState(null);
 
   useEffect(() => {
     if (allProperties) {
-      // Encontra o imóvel pelo ID (ID da URL é string, id do JSON pode ser number)
       const foundProperty = allProperties.find((p) => String(p.id) === id);
       setProperty(foundProperty);
     }
-  }, [allProperties, id]); // Dependências: re-executa se allProperties ou id mudarem
+  }, [allProperties, id]);
 
   if (isLoading) return <p>Carregando detalhes do imóvel...</p>;
   if (error) return <p>Erro ao carregar imóvel: {error.message}</p>;
-  if (!property) return <p>Imóvel não encontrado.</p>; // Se não encontrou o imóvel
+  if (!property) return <p>Imóvel não encontrado.</p>;
 
   return (
     <>
       <HeaderPages />
+      <Breadcrumbs />
       <DetailPageContainer>
         <DetailMainContainer>
           <PropertyImage>
@@ -155,7 +154,6 @@ const PropertyDetailPage = () => {
               "Nenhuma descrição detalhada disponível para este imóvel."}
           </PropertyDescription>
           <ContactButton>Entrar em Contato</ContactButton>
-          {/* Você pode adicionar mais seções aqui: mapa, galeria de fotos, etc. */}
         </DetailMainContainer>
         <RecentlyAdded />
       </DetailPageContainer>

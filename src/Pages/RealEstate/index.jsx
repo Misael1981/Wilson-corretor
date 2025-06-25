@@ -9,6 +9,7 @@ import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
 import { useState } from "react";
 import Footer from "../../Components/Footer";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 
 const PageContainer = styled.div`
   @media screen and (width > 1020px) {
@@ -82,6 +83,7 @@ const RealEstate = () => {
         />
         <main>
           <HeroPageContainer>
+            <Breadcrumbs />
             <InputPages />
             {/* O ButtonFilter só aparece em mobile, e chama o toggleMobileFilter */}
             <ButtonFilter onClick={toggleMobileFilter} />
