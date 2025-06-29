@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import useFetch from "../../hooks/useFetch";
-import HeaderPages from "../RealEstate/components/HeaderPages";
 import Footer from "../../Components/Footer";
 import PropertyCarousel from "./components/PropertyCarousel";
 import RecentlyAdded from "./components/RecentlyAdded";
@@ -122,7 +121,6 @@ const PropertyDetailPage = () => {
 
   return (
     <>
-      <HeaderPages />
       <Breadcrumbs />
       <DetailPageContainer>
         <DetailMainContainer>

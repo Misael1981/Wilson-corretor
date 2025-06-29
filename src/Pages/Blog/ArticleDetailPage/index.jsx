@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useFetch from "../../../hooks/useFetch";
-import HeaderPages from "../../RealEstate/components/HeaderPages";
 import Footer from "../../../Components/Footer";
 import Article from "../components/Article";
 import IndexPosts from "../components/IndexPosts";
@@ -88,7 +87,6 @@ const ArticleDetailPage = () => {
 
   return (
     <>
-      <HeaderPages />
       <Breadcrumbs />
       <main>
         <ContainerArticlesStylized>

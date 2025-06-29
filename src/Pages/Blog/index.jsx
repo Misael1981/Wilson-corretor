@@ -1,5 +1,3 @@
-import Header from "../../Components/Header";
-import HeaderModelo from "../../Components/HeaderModelo";
 import useFetch from "../../hooks/useFetch";
 import ArticleCard from "./components/ArticleCard";
 
@@ -28,8 +26,6 @@ const Blog = () => {
 
   return (
     <>
-      <Header />
-      <HeaderModelo />
       <h1>Blog</h1>
       {allArticles.map((article) => (
         <ArticleCard key={article.id || article.slug} articleData={article} />

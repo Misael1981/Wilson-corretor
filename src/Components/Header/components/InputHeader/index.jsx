@@ -7,10 +7,16 @@ const InputHeaderStylized = styled.div`
   border-radius: 0.3rem;
   background-color: #051b35;
   box-sizing: border-box;
+  box-sizing: border-box;
   padding: 0.5rem;
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  @media screen and (width > 1024px) {
+    margin: auto 0;
+    max-width: 20rem;
+  }
 
   input {
     background-color: transparent;

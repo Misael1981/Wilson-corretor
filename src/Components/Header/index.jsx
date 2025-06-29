@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
+import HeaderDesktop from "./HeaderDesktop";
 
 const HeaderStylized = styled.header`
   position: sticky;
@@ -16,17 +17,30 @@ const HeaderStylized = styled.header`
   z-index: 100;
   color: #ccc;
 
-  @media screen and (min-width: 1021px) {
-    display: none;
+  @media screen and (width > 1024px) {
+    height: 6rem;
   }
 `;
 
-const MenuButton = styled.button`
+const MobileToggle = styled.button`
   background: none;
   border: none;
   color: inherit;
   cursor: pointer;
   font-size: 2rem;
+
+  @media screen and (width > 1024px) {
+    display: none;
+  }
+`;
+
+const HeaderDesktopContainer = styled.div`
+  display: none;
+
+  @media screen and (width > 1024px) {
+    display: block;
+    width: 100%;
+  }
 `;
 
 const Header = () => {
@@ -39,9 +53,12 @@ const Header = () => {
   return (
     <>
       <HeaderStylized>
-        <MenuButton onClick={handleMenuToggle}>
+        <MobileToggle onClick={handleMenuToggle}>
           <IoMenu />
-        </MenuButton>
+        </MobileToggle>
+        <HeaderDesktopContainer>
+          <HeaderDesktop />
+        </HeaderDesktopContainer>
       </HeaderStylized>
       <Sidebar
         isOpen={isMobileMenuOpen}

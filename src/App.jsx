@@ -5,11 +5,13 @@ import GlobalStyles from "./Components/GlobalStyles";
 import CategoryProperties from "./Pages/RealEstate";
 import PropertyDetailPage from "./Pages/PropertyDetailPage";
 import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
+import Header from "./Components/Header";
 
 function App() {
   return (
     <BrowserRouter>
       <GlobalStyles />
+      <Header />
       <Routes>
         {/* Home */}
         <Route path="/" element={<Home />} />

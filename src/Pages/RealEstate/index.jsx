@@ -1,6 +1,5 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
-import HeaderPages from "./components/HeaderPages";
 import PropertyCard from "../../Components/PropertyCard";
 import useFetch from "../../hooks/useFetch";
 import InputPages from "./components/InputPages";
@@ -75,7 +74,6 @@ const RealEstate = () => {
 
   return (
     <>
-      <HeaderPages />
       <PageContainer>
         <AdvancedSearch
           isMobileFilterOpen={isMobileFilterOpen} // Passa o estado para o filho
