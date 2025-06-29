@@ -1,53 +1,137 @@
-import { MdKeyboardArrowRight } from "react-icons/md";
+import React, { useState } from "react";
+import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
+import { Link } from "react-router-dom";
 import styled from "styled-components";
 
 const ListPagesStylized = styled.ul`
+  list-style: none;
+  padding: 0;
+  margin: 0;
+
   @media screen and (width > 1024px) {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.8rem;
+    gap: 1rem;
   }
+
   li {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    position: relative;
     color: var(--color-golden);
-    font-size: 1.1rem;
-    padding: 1rem 0;
+    font-size: 1rem;
     border-bottom: 1px solid #00f0ff;
-    cursor: pointer;
 
     @media screen and (width > 1024px) {
       border: none;
       padding: 0;
-      gap: 0.3rem;
+      &:hover .submenu {
+        display: flex;
+      }
     }
 
-    &:hover {
-      background-color: #102431;
+    .main-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem;
+      cursor: pointer;
+
+      @media screen and (width > 1024px) {
+        padding: 0.5rem 0;
+      }
+
+      button {
+        background: none;
+        border: none;
+        font-size: 1.5rem;
+        color: var(--color-golden);
+        cursor: pointer;
+      }
     }
 
-    button {
-      background-color: transparent;
-      border: 0;
-      padding: 0 0.5rem 0 0;
-      font-size: 1rem;
-      color: var(--color-golden);
+    .submenu {
+      display: flex;
+      flex-direction: column;
+      padding: 0.5rem 1rem;
+      background-color: var(--color-blue);
+
+      @media screen and (width > 1024px) {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 300px;
+        background-color: var(--color-blue);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+        z-index: 10;
+        display: none;
+      }
     }
   }
 `;
 
+const LinkStylized = styled(Link)`
+  text-decoration: none;
+  color: #ccc;
+  font-size: 0.95rem;
+  padding: 1rem 0;
+
+  &:hover {
+    color: white;
+  }
+`;
+
+const submenuLinks = {
+  Home: [
+    { text: "Página Principal", to: "/" },
+    { text: "Sobre nós", to: "/" },
+    { text: "Seja Parceiro", to: "/" },
+  ],
+  Imóveis: [
+    { text: "Casas", to: "/imoveis/casa" },
+    { text: "Apartamentos", to: "/imoveis/apartamento" },
+    { text: "Imóveis Comerciais", to: "/imoveis/loja" },
+    { text: "Sítios", to: "/imoveis/chacara" },
+    { text: "Lotes para contrução", to: "/imoveis/casa" },
+  ],
+  Blog: [
+    { text: "Financiamento", to: "/blog" },
+    { text: "Empreendimentos", to: "/blog" },
+    { text: "Vendas", to: "/blog" },
+    { text: "Dicas de Manutenção", to: "/blog" },
+  ],
+};
+
 const ListPages = () => {
-  const pages = ["Home", "Imóveis", "Blog"];
+  const [activeDrawer, setActiveDrawer] = useState(null);
+  const pages = Object.keys(submenuLinks);
+
+  const toggleDrawer = (page) => {
+    setActiveDrawer((prev) => (prev === page ? null : page));
+  };
+
   return (
     <ListPagesStylized>
       {pages.map((page) => (
-        <li>
-          {page}
-          <button>
-            <MdKeyboardArrowRight />
-          </button>
+        <li key={page}>
+          <div className="main-item" onClick={() => toggleDrawer(page)}>
+            {page}
+            <button aria-label={`Toggle ${page}`}>
+              {activeDrawer === page ? (
+                <MdKeyboardArrowDown />
+              ) : (
+                <MdKeyboardArrowRight />
+              )}
+            </button>
+          </div>
+          {activeDrawer === page && (
+            <div className="submenu">
+              {submenuLinks[page].map((sub, i) => (
+                <LinkStylized key={i} to={sub.to}>
+                  {sub.text}
+                </LinkStylized>
+              ))}
+            </div>
+          )}
         </li>
       ))}
     </ListPagesStylized>
