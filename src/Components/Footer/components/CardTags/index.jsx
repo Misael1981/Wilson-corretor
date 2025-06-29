@@ -3,7 +3,8 @@ import styled from "styled-components";
 import TitleFooter from "../TitleFooter";
 
 const CardTagsStylized = styled.div`
-  width: 500px;
+  width: 30rem;
+  max-width: 90vw;
   text-align: center;
   border-top: 1px solid var(--color-golden);
 `;
@@ -34,6 +35,12 @@ const TagLink = styled(Link)`
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   }
+
+  @media (max-width: 330px) {
+    white-space: normal;
+    word-break: break-word;
+    text-align: center;
+  }
 `;
 
 const CardTags = () => {
@@ -50,7 +57,7 @@ const CardTags = () => {
       to: "/imoveis?tipo=apartamento&status=venda&cidade=pouso-alegre",
     },
     {
-      text: "Casa para venda em Pouso Alegre - MG com 3 quartos ou mais",
+      text: "Casa para venda em Pouso Alegre - MG",
       to: "/imoveis?tipo=casa&quartos=3&cidade=pouso-alegre",
     },
     {
@@ -63,7 +70,7 @@ const CardTags = () => {
       to: "/imoveis?tipo=chacara&regiao=sul-minas",
     },
     {
-      text: "Apartamento e Casa para venda em Pouso Alegre - MG",
+      text: "Apartamento para venda em Pouso Alegre - MG",
       to: "/imoveis?tipos=apartamento,casa&status=venda&cidade=pouso-alegre",
     },
     {
