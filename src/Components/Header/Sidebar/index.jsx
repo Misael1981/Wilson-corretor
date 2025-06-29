@@ -56,7 +56,7 @@ const Sidebar = ({ isOpen, onClose }) => {
 
       <NavList>
         <ListButtons />
-        <ListPages />
+        <ListPages onClose={onClose} />
       </NavList>
       <InputHeader />
     </SidebarContainer>

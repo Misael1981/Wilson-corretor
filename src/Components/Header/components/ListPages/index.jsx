@@ -50,20 +50,37 @@ const ListPagesStylized = styled.ul`
     }
 
     .submenu {
+      overflow: hidden;
+      max-height: 0;
+      opacity: 0;
+      transform: translateY(-10px);
+      transition: all 0.3s ease;
       display: flex;
       flex-direction: column;
-      padding: 0.5rem 1rem;
+      padding: 0 1rem;
       background-color: var(--color-blue);
+      visibility: hidden;
+
+      &.open {
+        max-height: 500px;
+        opacity: 1;
+        transform: translateY(0);
+        padding: 0.5rem 1rem;
+        visibility: visible;
+      }
 
       @media screen and (width > 1024px) {
+        display: none;
         position: absolute;
         top: 100%;
         left: 0;
         width: 300px;
-        background-color: var(--color-blue);
         box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
         z-index: 10;
-        display: none;
+
+        li:hover & {
+          display: flex;
+        }
       }
     }
   }
@@ -101,7 +118,7 @@ const submenuLinks = {
   ],
 };
 
-const ListPages = () => {
+const ListPages = ({ onClose }) => {
   const [activeDrawer, setActiveDrawer] = useState(null);
   const pages = Object.keys(submenuLinks);
 
@@ -123,15 +140,20 @@ const ListPages = () => {
               )}
             </button>
           </div>
-          {activeDrawer === page && (
-            <div className="submenu">
-              {submenuLinks[page].map((sub, i) => (
-                <LinkStylized key={i} to={sub.to}>
-                  {sub.text}
-                </LinkStylized>
-              ))}
-            </div>
-          )}
+          <div
+            className={`submenu ${activeDrawer === page ? "open" : ""}`}
+            onMouseLeave={() => {
+              if (window.innerWidth > 1024) {
+                setActiveDrawer(null);
+              }
+            }}
+          >
+            {submenuLinks[page].map((sub, i) => (
+              <LinkStylized key={i} to={sub.to} onClick={onClose}>
+                {sub.text}
+              </LinkStylized>
+            ))}
+          </div>
         </li>
       ))}
     </ListPagesStylized>
