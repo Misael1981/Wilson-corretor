@@ -23,6 +23,7 @@ const InputHeaderStylized = styled.div`
     color: #ccc;
     border: none;
     outline: 0;
+    max-width: 60%;
   }
   button {
     font-size: 0.75rem;
