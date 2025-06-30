@@ -2,9 +2,9 @@ import React from "react";
 import styled from "styled-components";
 import { IoClose } from "react-icons/io5";
 import logoHorizonatl from "/img/logo-horizontal.svg";
-import ListPages from "../components/ListPages";
-import ListButtons from "../components/ListButtons";
-import InputHeader from "../components/InputHeader";
+import ListPages from "../ListPages";
+import ListButtons from "../ListButtons";
+import InputHeader from "../InputHeader";
 
 const SidebarContainer = styled.div`
   position: fixed;

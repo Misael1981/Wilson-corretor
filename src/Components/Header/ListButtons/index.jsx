@@ -2,6 +2,7 @@ import { IoPersonCircleSharp } from "react-icons/io5";
 import { FaRegBell } from "react-icons/fa";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import styled from "styled-components";
+import ContatoDrawer from "./ContatoDrawer";
 
 const ListButtonsStylized = styled.div`
   @media screen and (width > 1024px) {
@@ -39,26 +40,31 @@ const ContainerLoginNotification = styled.div`
 `;
 
 const ContainerContact = styled.div`
+  /* background-color: transparent;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  font-size: 1.1rem;
+  gap: 0.5rem;
+  font-size: 1rem;
   color: var(--color-golden);
+  border: none;
   border-bottom: 1px solid #00f0ff;
-  padding: 2rem 0 1rem;
+  padding: 1.5rem 1rem 1rem; */
 
   @media screen and (width > 1024px) {
-    order: -1;
-    border: none;
-    padding: 0;
     display: none;
   }
   @media screen and (width > 1124px) {
-    display: block;
+    display: flex;
+    order: -1;
+    border: none;
+    padding: 0;
   }
 
   svg {
     padding: 0 0.5rem 0 0;
+    font-size: 1.5rem;
   }
 `;
 
@@ -73,8 +79,7 @@ const ListButtons = () => {
         <FaRegBell />
       </ContainerLoginNotification>
       <ContainerContact>
-        <span>Contato</span>
-        <MdKeyboardArrowRight />
+        <ContatoDrawer />
       </ContainerContact>
     </ListButtonsStylized>
   );

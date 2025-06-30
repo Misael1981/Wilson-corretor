@@ -5,7 +5,7 @@ import CardDev from "./components/CardDev";
 const FooterStylized = styled.footer`
   width: 100%;
   background: var(--degrade-blue);
-  padding: 4rem 0;
+  padding: 0;
 
   @media screen and (width > 1020px) {
     padding: 0;

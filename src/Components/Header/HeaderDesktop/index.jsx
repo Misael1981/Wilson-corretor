@@ -1,9 +1,9 @@
 import React from "react";
 import logoHorizonatl from "/img/logo-horizontal.svg";
 import styled from "styled-components";
-import ListPages from "../components/ListPages";
-import ListButtons from "../components/ListButtons";
-import InputHeader from "../components/InputHeader";
+import ListPages from "../ListPages";
+import ListButtons from "../ListButtons";
+import InputHeader from "../InputHeader";
 
 const HeaderDesktopStylized = styled.div`
   width: 100%;
