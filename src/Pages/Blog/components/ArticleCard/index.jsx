@@ -1,36 +1,42 @@
 import React from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom"; // Para a navegação
+import { Link } from "react-router-dom";
+
+const ContainerArticleCard = styled.div`
+  width: 350px;
+  max-width: 95vw;
+`;
 
 const ArticleCardStylized = styled(Link)`
-  // O card inteiro é um Link!
   display: flex;
   flex-direction: column;
   border: 1px solid var(--color-blue-light);
   border-radius: 0.8rem;
-  overflow: hidden; /* Garante que a imagem arredondada não vaze */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  text-decoration: none; /* Remove o sublinhado padrão do Link */
-  color: inherit; /* Herda a cor do texto para não ficar azul de link */
-  transition: transform 0.2s ease-in-out; /* Efeito de hover */
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
+  text-decoration: none;
+  color: inherit;
   background-color: white;
+  transition: transform 0.2s ease-in-out;
 
   &:hover {
-    transform: translateY(-5px); /* Efeito de "levantar" no hover */
+    transform: translateY(-5px);
   }
 `;
 
 const ArticleImage = styled.img`
   width: 100%;
-  height: 200px; /* Altura fixa para as imagens dos cards */
-  object-fit: cover; /* Garante que a imagem preencha o espaço sem distorcer */
+  height: 200px;
+  object-fit: cover;
 `;
 
 const ArticleContent = styled.div`
   padding: 1rem;
+  height: 220px;
   display: flex;
   flex-direction: column;
-  flex-grow: 1; /* Permite que o conteúdo ocupe o espaço restante */
+  justify-content: space-between;
+  flex-grow: 1;
 `;
 
 const ArticleTitle = styled.h3`
@@ -44,48 +50,47 @@ const ArticleTitle = styled.h3`
 
 const ArticleSummary = styled.p`
   color: var(--color-dark-gray);
-  font-size: 0.9rem;
+  font-size: 0.7rem;
   line-height: 1.5;
-  flex-grow: 1; /* Para que o resumo empurre o restante para baixo */
+  flex-grow: 1;
 `;
 
 const ArticleMeta = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  font-size: 0.8rem;
+  font-size: 0.6rem;
   color: var(--color-gray);
   margin-top: 1rem;
 `;
 
 const ArticleCard = ({ articleData }) => {
-  // Pega o slug ou ID para o Link
   const articleLink = `/blog/${articleData.slug || articleData.id}`;
 
-  // Pega a primeira imagem do array, ou um fallback
   const imageUrl =
     articleData.imageUrl ||
     "https://placehold.co/400x200/E0E0E0/333333?text=IMAGEM+DO+ARTIGO";
 
   return (
-    <ArticleCardStylized to={articleLink}>
-      {" "}
-      {/* <--- O card inteiro é um Link */}
-      <ArticleImage src={imageUrl} alt={articleData.title} />
-      <ArticleContent>
-        <ArticleTitle>{articleData.title}</ArticleTitle>
-        <ArticleSummary>{articleData.summary}</ArticleSummary>
-        <ArticleMeta>
-          <h1>Página ArticleCard</h1>
-          <span>Por: {articleData.author || "Desconhecido"}</span>
-          <span>
-            {articleData.publishedAt
-              ? new Date(articleData.publishedAt).toLocaleDateString("pt-BR")
-              : "Data Indisp."}
-          </span>
-        </ArticleMeta>
-      </ArticleContent>
-    </ArticleCardStylized>
+    <ContainerArticleCard>
+      <ArticleCardStylized to={articleLink}>
+        {" "}
+        {/* <--- O card inteiro é um Link */}
+        <ArticleImage src={imageUrl} alt={articleData.title} />
+        <ArticleContent>
+          <ArticleTitle>{articleData.title}</ArticleTitle>
+          <ArticleSummary>{articleData.summary}</ArticleSummary>
+          <ArticleMeta>
+            <span>Por: {articleData.author || "Desconhecido"}</span>
+            <span>
+              {articleData.publishedAt
+                ? new Date(articleData.publishedAt).toLocaleDateString("pt-BR")
+                : "Data Indisp."}
+            </span>
+          </ArticleMeta>
+        </ArticleContent>
+      </ArticleCardStylized>
+    </ContainerArticleCard>
   );
 };
 

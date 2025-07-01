@@ -4,6 +4,8 @@ import useFetch from "../../hooks/useFetch";
 import ArticleCard from "./components/ArticleCard";
 import FeaturedArticleCard from "./components/FeaturedArticleCard";
 import IndexPosts from "./components/IndexPosts";
+import WorkWithUs from "../../Components/WorkWithUsBanner";
+import Footer from "../../Components/Footer";
 
 const BlogTitle = styled.section`
   box-sizing: border-box;
@@ -36,6 +38,14 @@ const BlogMainSection = styled.section`
   gap: 2rem;
 `;
 
+const BlogCardsContainer = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+  margin: 2rem auto;
+`;
+
 const Blog = () => {
   const {
     data: allArticles,
@@ -50,7 +60,6 @@ const Blog = () => {
     Number(artigo.id) > Number(maior.id) ? artigo : maior
   );
 
-  // Se não houver artigos ou o array estiver vazio
   if (!allArticles || allArticles.length === 0) {
     return (
       <>
@@ -79,10 +88,17 @@ const Blog = () => {
           <FeaturedArticleCard article={artigoMaisRecente} />
           <IndexPosts articles={allArticles} />
         </BlogMainSection>
-        {allArticles.map((article) => (
-          <ArticleCard key={article.id || article.slug} articleData={article} />
-        ))}
+        <BlogCardsContainer>
+          {allArticles.map((article) => (
+            <ArticleCard
+              key={article.id || article.slug}
+              articleData={article}
+            />
+          ))}
+        </BlogCardsContainer>
+        <WorkWithUs />
       </MainStylized>
+      <Footer />
     </>
   );
 };

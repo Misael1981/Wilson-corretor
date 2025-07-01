@@ -1,8 +1,8 @@
 import styled from "styled-components";
 
 const FeaturedStylized = styled.section`
-  width: 50rem;
-  height: 50rem;
+  width: 40rem;
+  height: 40rem;
   max-width: 90vw;
   box-sizing: border-box;
   padding: 2rem;
@@ -16,7 +16,20 @@ const FeaturedStylized = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
-  color: #fff;
+  gap: 1rem;
+  transition: transform 0.2s ease-in-out;
+
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  h2,
+  p {
+    background-color: var(--color-blue);
+    color: #fff;
+    padding: 0.5rem;
+    margin: 0;
+  }
 `;
 
 const TagsList = styled.ul`
@@ -45,17 +58,15 @@ const FeaturedArticleCard = ({ article }) => {
 
   return (
     <FeaturedStylized backgroundImage={article.imageUrl}>
-      <div>
-        <TagsList>
-          {article.tags.map((tag, index) => (
-            <TagItem key={index}>
-              <span>{tag}</span>
-            </TagItem>
-          ))}
-        </TagsList>
-        <h2>{article.title}</h2>
-        <p>{article.summary}</p>
-      </div>
+      <TagsList>
+        {article.tags.map((tag, index) => (
+          <TagItem key={index}>
+            <span>{tag}</span>
+          </TagItem>
+        ))}
+      </TagsList>
+      <h2>{article.title}</h2>
+      <p>{article.summary}</p>
     </FeaturedStylized>
   );
 };
