@@ -1,5 +1,40 @@
+import styled from "styled-components";
+import Breadcrumbs from "../../Components/Breadcrumbs";
 import useFetch from "../../hooks/useFetch";
 import ArticleCard from "./components/ArticleCard";
+import FeaturedArticleCard from "./components/FeaturedArticleCard";
+import IndexPosts from "./components/IndexPosts";
+
+const BlogTitle = styled.section`
+  box-sizing: border-box;
+  padding: 2rem;
+
+  h1 {
+    font-family: var(--font-title);
+    color: var(--color-blue);
+    font-size: 2.8rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+  }
+  p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: var(--color-blue);
+  }
+`;
+
+const MainStylized = styled.main`
+  width: 100%;
+`;
+
+const BlogMainSection = styled.section`
+  max-width: 95vw;
+  margin: 2rem auto;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 2rem;
+`;
 
 const Blog = () => {
   const {
@@ -10,6 +45,10 @@ const Blog = () => {
 
   if (isLoading) return <p>Carregando artigos do blog...</p>;
   if (error) return <p>Erro ao carregar artigos: {error.message}</p>;
+
+  const artigoMaisRecente = allArticles.reduce((maior, artigo) =>
+    Number(artigo.id) > Number(maior.id) ? artigo : maior
+  );
 
   // Se não houver artigos ou o array estiver vazio
   if (!allArticles || allArticles.length === 0) {
@@ -26,10 +65,24 @@ const Blog = () => {
 
   return (
     <>
-      <h1>Blog</h1>
-      {allArticles.map((article) => (
-        <ArticleCard key={article.id || article.slug} articleData={article} />
-      ))}
+      <Breadcrumbs />
+      <MainStylized>
+        <BlogTitle>
+          <h1>O Blog para a sua casa</h1>
+          <p>
+            Aqui você encontra dicas de financiamento, oportunidades para
+            empreendimentos, sugestões para você que quer vender seu imóvel,
+            além de dicas para você cuidar e valorizar seu imóvel!
+          </p>
+        </BlogTitle>
+        <BlogMainSection>
+          <FeaturedArticleCard article={artigoMaisRecente} />
+          <IndexPosts articles={allArticles} />
+        </BlogMainSection>
+        {allArticles.map((article) => (
+          <ArticleCard key={article.id || article.slug} articleData={article} />
+        ))}
+      </MainStylized>
     </>
   );
 };
