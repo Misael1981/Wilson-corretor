@@ -1,8 +1,8 @@
-import React, { useState } from "react";
 import { IoMenu } from "react-icons/io5";
 import styled from "styled-components";
 import Sidebar from "./Sidebar";
 import HeaderDesktop from "./HeaderDesktop";
+import { useState } from "react";
 
 const HeaderStylized = styled.header`
   position: sticky;
