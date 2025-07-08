@@ -1,0 +1,262 @@
+[
+  {
+    "id": "1",
+    "title": "Casa Teste",
+    "type": "casa",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/casa-01.jpg",
+    "images": [
+      "/assets/casa-01.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "250",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "128.455"
+  },
+  {
+    "id": "2",
+    "title": "Casa Teste",
+    "type": "casa",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/casa-02.jpg",
+    "images": [
+      "/assets/casa-02.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "220",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "95.000"
+  },
+  {
+    "id": "3",
+    "title": "Casa Teste",
+    "type": "casa",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/casa-03.jpg",
+    "images": [
+      "/assets/casa-03.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "280",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "1",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "70.000"
+  },
+  {
+    "id": "4",
+    "title": "Casarão",
+    "type": "casa",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/casarao-01.jpg",
+    "images": [
+      "/assets/casarao-01.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "480",
+    "bedrooms": "4",
+    "bathrooms": "3",
+    "parkingSpaces": "2",
+    "price": "170.000",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!"
+  },
+  {
+    "id": "5",
+    "title": "Apartamento",
+    "type": "apartamento",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/apartamento-01.jpg",
+    "images": [
+      "/assets/apartamento-01.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "180",
+    "bedrooms": "3",
+    "bathrooms": "2",
+    "parkingSpaces": "2",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "150.000"
+  },
+  {
+    "id": "6",
+    "title": "Ponto Comercial",
+    "type": "loja",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/ponto-comercial-01.jpg",
+    "images": [
+      "/assets/ponto-comercial-01.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "180",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "180.000"
+  },
+  {
+    "id": "7",
+    "title": "Ponto Comercial",
+    "type": "loja",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/ponto-comercial-02.jpg",
+    "images": [
+      "/assets/ponto-comercial-02.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "180",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "2",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "220.000"
+  },
+  {
+    "id": "8",
+    "title": "Ponto Comercial",
+    "type": "loja",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/ponto-comercial-03.jpg",
+    "images": [
+      "/assets/ponto-comercial-03.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "380",
+    "bedrooms": "",
+    "bathrooms": "2",
+    "parkingSpaces": "4",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "450.000"
+  },
+  {
+    "id": "9",
+    "title": "Ponto Comercial",
+    "type": "loja",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/ponto-comercial-04.jpg",
+    "images": [
+      "/assets/ponto-comercial-04.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "250",
+    "bedrooms": "",
+    "bathrooms": "1",
+    "parkingSpaces": "3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "280.000"
+  },
+  {
+    "id": "10",
+    "title": "Sítio",
+    "type": "chacara",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/sitio-01.jpg",
+    "images": [
+      "/assets/sitio-01.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "450",
+    "bedrooms": "2",
+    "bathrooms": "3",
+    "parkingSpaces": "3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "580.000"
+  },
+  {
+    "id": "11",
+    "title": "Sítio",
+    "type": "chacara",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/sitio-02.jpg",
+    "images": [
+      "/assets/sitio-02.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "350",
+    "bedrooms": "4",
+    "bathrooms": "3",
+    "parkingSpaces": "3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "680.000"
+  },
+  {
+    "id": "12",
+    "title": "Sítio",
+    "type": "chacara",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/sitio-03.jpg",
+    "images": [
+      "/assets/sitio-03.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "650",
+    "bedrooms": "2",
+    "bathrooms": "1",
+    "parkingSpaces": "3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "480.000"
+  },
+  {
+    "id": "13",
+    "title": "Sítio",
+    "type": "chacara",
+    "location": "Bairro Fictício",
+    "city": "Cidade Fictícia",
+    "image": "/assets/sitio-04.jpg",
+    "images": [
+      "/assets/sitio-04.jpg",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+1",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+2",
+      "https://placehold.co/800x800/E0E0E0/333333?text=IMAGEM+3"
+    ],
+    "area": "750",
+    "bedrooms": "4",
+    "bathrooms": "5",
+    "parkingSpaces": "3",
+    "description": "Lorem ipsum dolor sit amet consectetur adipisicing elit. Praesentium commodi facilis illo expedita corporis deleniti!",
+    "price": "780.000"
+  }
+]

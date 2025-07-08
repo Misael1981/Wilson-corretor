@@ -1,0 +1,7 @@
+{
+  "compilerOptions": {
+    "baseUrl": "src", // Isso diz que 'src' é a pasta raiz para suas importações absolutas
+    "jsx": "react-jsx" // Informa ao compilador que você está usando JSX
+  },
+  "include": ["src"] // Opcional, mas útil para o VS Code
+}
