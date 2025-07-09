@@ -18,7 +18,7 @@ const SelectStylezed = styled.select`
   width: 100%;
   box-sizing: border-box;
   padding: 0.6rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   color: var(--color-blue);
   border-radius: 0.5rem;
   border: none;

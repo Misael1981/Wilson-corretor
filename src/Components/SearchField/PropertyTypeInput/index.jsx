@@ -17,10 +17,15 @@ const InputStylezed = styled.input`
   width: 100%;
   box-sizing: border-box;
   padding: 0.8rem;
-  font-size: 1.3rem;
+  font-size: 1rem;
   color: var(--color-blue);
   border-radius: 0.5rem;
   border: none;
+
+  &::placeholder {
+    font-size: 0.8rem; /* Tamanho da fonte MENOR para o placeholder */
+    color: #999; /* Opcional: Mudar a cor do placeholder para algo mais suave */
+  }
 `;
 
 const PropertyTypeInput = () => {

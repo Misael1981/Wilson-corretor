@@ -35,7 +35,7 @@ const SearchField = () => {
           <ContainerSearch>
             <PropertyTypeSelect />
             <PropertyTypeInput />
-            <Button>Buscar</Button>
+            <Button fontSize={"1rem"}>Buscar</Button>
           </ContainerSearch>
         </FieldsetStylized>
       </FormStylized>
