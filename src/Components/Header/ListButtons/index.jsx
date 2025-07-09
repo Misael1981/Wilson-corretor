@@ -8,10 +8,7 @@ const ListButtonsStylized = styled.div`
   @media screen and (width > 1024px) {
     display: flex;
     align-items: center;
-<<<<<<< HEAD
     gap: 0.5rem;
-=======
->>>>>>> 060a3a11933365002666540e4d8458f4c18f9275
   }
 `;
 
@@ -31,13 +28,8 @@ const ContainerLoginNotification = styled.div`
     display: flex;
     align-items: center;
     gap: 0.3rem;
-<<<<<<< HEAD
     padding: 0.3rem 0.5rem;
     font-size: 1rem;
-=======
-    padding: 0.5rem 1rem;
-    font-size: 1.2rem;
->>>>>>> 060a3a11933365002666540e4d8458f4c18f9275
     border: 0;
     border-radius: 0.3rem;
     color: var(--color-blue);
@@ -49,21 +41,6 @@ const ContainerLoginNotification = styled.div`
 `;
 
 const ContainerContact = styled.div`
-<<<<<<< HEAD
-=======
-  /* background-color: transparent;
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 0.5rem;
-  font-size: 1rem;
-  color: var(--color-golden);
-  border: none;
-  border-bottom: 1px solid #00f0ff;
-  padding: 1.5rem 1rem 1rem; */
->>>>>>> 060a3a11933365002666540e4d8458f4c18f9275
-
   @media screen and (width > 1024px) {
     display: none;
   }

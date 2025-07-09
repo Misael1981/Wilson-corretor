@@ -8,11 +8,8 @@ const InputHeaderStylized = styled.div`
   background-color: #051b35;
   box-sizing: border-box;
   box-sizing: border-box;
-<<<<<<< HEAD
+
   padding: 0.3rem;
-=======
-  padding: 0.5rem;
->>>>>>> 060a3a11933365002666540e4d8458f4c18f9275
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -31,11 +28,7 @@ const InputHeaderStylized = styled.div`
   }
   button {
     font-size: 0.75rem;
-<<<<<<< HEAD
     padding: 6px 12px;
-=======
-    padding: 8px 16px;
->>>>>>> 060a3a11933365002666540e4d8458f4c18f9275
     background: var(--color-golden);
     color: var(--color-blue);
     font-weight: 700;

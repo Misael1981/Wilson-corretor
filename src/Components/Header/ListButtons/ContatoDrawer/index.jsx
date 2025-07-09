@@ -83,7 +83,7 @@ const ContatoDrawer = () => {
 
       <DrawerContent open={isOpen}>
         <a href="https://wa.me/5599999999999" target="_blank" rel="noreferrer">
-          WhatsApp
+          Whatsapp
         </a>
         <a
           href="https://instagram.com/seuinsta"
