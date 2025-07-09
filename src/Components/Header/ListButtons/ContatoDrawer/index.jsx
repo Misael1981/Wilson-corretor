@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { MdKeyboardArrowRight, MdKeyboardArrowDown } from "react-icons/md";
 import { Link } from "react-router-dom";
+import { FaWhatsapp, FaInstagram } from "react-icons/fa";
+import { SiGooglemaps } from "react-icons/si";
 
 const DrawerWrapper = styled.div`
   width: 100%;
@@ -37,7 +39,7 @@ const TriggerButton = styled.button`
   }
 `;
 
-const DrawerContent = styled.div`
+const DrawerContent = styled.ul`
   overflow: hidden;
   max-height: ${({ open }) => (open ? "500px" : "0")};
   opacity: ${({ open }) => (open ? "1" : "0")};
@@ -54,6 +56,12 @@ const DrawerContent = styled.div`
     color: #ccc;
     font-size: 0.95rem;
     text-decoration: none;
+  }
+
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
   }
 
   a:hover {
@@ -82,18 +90,25 @@ const ContatoDrawer = () => {
       </TriggerButton>
 
       <DrawerContent open={isOpen}>
-        <a href="https://wa.me/5599999999999" target="_blank" rel="noreferrer">
-          Whatsapp
-        </a>
-        <a
-          href="https://instagram.com/seuinsta"
-          target="_blank"
-          rel="noreferrer"
-        >
-          Instagram
-        </a>
-        <Link to="/contato">Página de Contato</Link>
-        <p>Rua Tal, 123 - Bairro X - Cidade</p>
+        <li>
+          <a href="https://wa.me/5535999415176text=Olá! Gostaria de mais informações sobre um imóvel." target="_blank" rel="noreferrer">
+          <FaWhatsapp />
+            035 99941 5176
+          </a>
+        </li>
+        <li>
+          <a
+            href="https://instagram.com/seuinsta"
+            target="_blank"
+            rel="noreferrer"
+          >
+            <FaInstagram />
+            Nos siga nas redes sociais
+          </a>
+        </li>
+        <Link to="/contato"><SiGooglemaps />Ver no mapa</Link>
+        <p>Avenida Abreu Lima, 149 - Centro
+Pouso Alegre - MG</p>
       </DrawerContent>
     </DrawerWrapper>
   );
