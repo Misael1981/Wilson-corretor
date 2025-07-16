@@ -6,6 +6,7 @@ import CategoryProperties from "./Pages/RealEstate";
 import PropertyDetailPage from "./Pages/PropertyDetailPage";
 import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
 import Header from "./Components/Header";
+import { db } from "./firebase";
 
 function App() {
   return (
