@@ -7,6 +7,7 @@ import PropertyDetailPage from "./Pages/PropertyDetailPage";
 import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
 import Header from "./Components/Header";
 import { db } from "./firebase";
+import Login from "./Pages/Login";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
         <Route path="/blog/:id" element={<ArticleDetailPage />} />{" "}
         {/* Rota para detalhes de um artigo específico (ex: /blog/como-comprar-imovel) */}
         {/* Rota para páginas não encontradas */}
+        <Route path="/login" element={<Login />} />
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
     </BrowserRouter>

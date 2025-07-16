@@ -11,15 +11,24 @@ const ButtonStylized = styled.button`
   cursor: pointer;
   border: none;
   border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
 
   &:hover {
     filter: brightness(1.1);
   }
 `;
 
-const Button = ({ children, background, color, fontSize }) => {
+const Button = ({ children, background, color, fontSize, ariaLabel }) => {
   return (
-    <ButtonStylized background={background} color={color} fontSize={fontSize}>
+    <ButtonStylized
+      aria-label={ariaLabel}
+      background={background}
+      color={color}
+      fontSize={fontSize}
+    >
       {children}
     </ButtonStylized>
   );
