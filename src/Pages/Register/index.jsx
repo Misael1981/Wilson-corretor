@@ -1,17 +1,18 @@
 import styled from "styled-components";
 import logo from "/img/logo-horizontal.svg";
 import Button from "../../Components/Button";
-import Divisor from "../../Components/Divisor";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import BackButton from "../../Components/BackButton";
 import { Link } from "react-router-dom";
+import Divisor from "../../Components/Divisor";
 
 const LoginContainer = styled.main`
   width: 35rem;
   max-width: 95vw;
   margin: 2rem auto;
   box-sizing: border-box;
+  padding-bottom: 1rem;
   border: 1px solid var(--color-blue, #3498db);
   border-radius: 0.5rem;
   overflow: hidden;
@@ -108,9 +109,11 @@ const ErrorMessage = styled.p`
   margin-bottom: 0.5rem;
 `;
 
-const Login = () => {
+const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [name, setName] = useState("");
+  const [phone, setPhone] = useState("");
   const [error, setError] = useState(null);
 
   const handleEmailLogin = (e) => {
@@ -166,9 +169,35 @@ const Login = () => {
             <FcGoogle size={24} /> {/* Ajuste o tamanho do ícone */}
             Entrar com Google
           </Button>
-          <Divisor>Ou entre com seu e-mail</Divisor>
+          <Divisor>Preencha o formulário</Divisor>
           {error && <ErrorMessage role="alert">{error}</ErrorMessage>}{" "}
           {/* Exibe a mensagem de erro */}
+          <InputGroup>
+            <label htmlFor="name-login">Nome e sobrenome</label>
+            <input
+              type="text"
+              id="name-login"
+              name="name-login"
+              placeholder="Digite seu nome completo"
+              required
+              aria-required="true"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+            />
+          </InputGroup>
+          <InputGroup>
+            <label htmlFor="phone-login">Telefone</label>
+            <input
+              type="tel"
+              id="phone-login"
+              name="phone-login"
+              placeholder="Digite seu telefone"
+              required
+              aria-required="true"
+              value={phone}
+              onChange={(e) => setPhone(e.target.value)}
+            />
+          </InputGroup>
           <InputGroup>
             <label htmlFor="email-login">E-mail</label>
             <input
@@ -200,16 +229,10 @@ const Login = () => {
           <Button type="submit" ariaLabel={"Entrar na sua conta"}>
             Entrar
           </Button>
-          <FooterLogin>
-            <a href="#">Esqueci minha senha</a>
-            <p>
-              Não possui uma conta?<Link to="/registro">Cadastre-se aqui</Link>
-            </p>
-          </FooterLogin>
         </FormLogin>
       </LoginContainer>
     </>
   );
 };
 
-export default Login;
+export default Register;
