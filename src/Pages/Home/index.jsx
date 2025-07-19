@@ -11,17 +11,15 @@ import Contact from "../../Components/Contact";
 const Home = () => {
   return (
     <>
-      <main>
-        <HeroSection />
-        <Categories />
-        <FinancialBanner />
-        <About />
-        <PropertiesFeatured />
-        <WorkWithUs />
-        <MiniBlog />
-        <Contact />
-        <Footer />
-      </main>
+      <HeroSection />
+      <Categories />
+      <FinancialBanner />
+      <About />
+      <PropertiesFeatured />
+      <WorkWithUs />
+      <MiniBlog />
+      <Contact />
+      <Footer />
     </>
   );
 };

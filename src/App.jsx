@@ -5,7 +5,6 @@ import GlobalStyles from "./Components/GlobalStyles";
 import CategoryProperties from "./Pages/RealEstate";
 import PropertyDetailPage from "./Pages/PropertyDetailPage";
 import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
-import Header from "./Components/Header";
 import Login from "./Pages/Login";
 import DefaultPage from "./Components/DefaultPage";
 import Register from "./Pages/Register";
@@ -13,7 +12,7 @@ import Users from "./Pages/Users";
 
 function App() {
   return (
-    <BrowserRouter>
+    <>
       <GlobalStyles />
       <Routes>
         {/* Home */}
@@ -38,7 +37,7 @@ function App() {
 
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

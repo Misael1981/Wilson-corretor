@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import ContatoDrawer from "./ContatoDrawer";
 import ButtonLogin from "../ButtonLogin";
+import AuthButton from "../AuthButton";
 
 const ListButtonsStylized = styled.div`
   @media screen and (width > 1024px) {
@@ -30,7 +31,7 @@ const ContainerContact = styled.div`
 const ListButtons = () => {
   return (
     <ListButtonsStylized>
-      <ButtonLogin />
+      <AuthButton />
       <ContainerContact>
         <ContatoDrawer />
       </ContainerContact>
