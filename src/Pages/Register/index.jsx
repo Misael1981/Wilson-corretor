@@ -1,11 +1,14 @@
 import styled from "styled-components";
 import logo from "/img/logo-horizontal.svg";
 import Button from "../../Components/Button";
+import BackButton from "../../Components/BackButton";
+import Divisor from "../../Components/Divisor";
 import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
-import BackButton from "../../Components/BackButton";
-import { Link } from "react-router-dom";
-import Divisor from "../../Components/Divisor";
+import { useNavigate } from "react-router-dom";
+import { db, auth } from "../../firebase.js";
+import { createUserWithEmailAndPassword } from "firebase/auth";
+import { doc, setDoc } from "firebase/firestore";
 
 const LoginContainer = styled.main`
   width: 35rem;
@@ -114,22 +117,74 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [name, setName] = useState("");
   const [phone, setPhone] = useState("");
-  const [error, setError] = useState(null);
 
-  const handleEmailLogin = (e) => {
-    e.preventDefault();
-    setError(null);
-    console.log("Tentando login com e-mail:", email, password);
-    if (!email || !password) {
-      setError("Por favor, preencha todos os campos.");
-      return;
+  const [error, setError] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const navigate = useNavigate();
+
+  async function handleRegister(event) {
+    event.preventDefault();
+    setError(null); // Limpa erros anteriores
+    setIsLoading(true); // Inicia o carregamento
+
+    try {
+      // 1. Criar a conta de autenticação no Firebase Auth
+      const userCredential = await createUserWithEmailAndPassword(
+        auth,
+        email,
+        password
+      );
+      const user = userCredential.user; // O objeto user do Firebase Auth
+
+      // 2. Salvar informações adicionais do usuário no Firestore
+      // O ID do documento no Firestore será o UID do usuário do Firebase Auth
+      await setDoc(doc(db, "users", user.uid), {
+        name: name,
+        lastName: name,
+        email: email, // Armazenar o email também no Firestore para facilitar consultas
+        phoneNumber: phone,
+        role: "client", // Definir o papel padrão como 'client'
+        createdAt: new Date(), // Opcional: registrar a data de criação
+      });
+
+      console.log(
+        "Usuário cadastrado com sucesso e dados salvos no Firestore!"
+      );
+      navigate("/", { replace: true }); // Redireciona após o cadastro
+    } catch (error) {
+      let errorMessage = "Ocorreu um erro desconhecido. Tente novamente.";
+      switch (error.code) {
+        case "auth/email-already-in-use":
+          errorMessage =
+            "Este e-mail já está em uso. Tente outro ou faça login.";
+          break;
+        case "auth/invalid-email":
+          errorMessage = "O formato do e-mail é inválido.";
+          break;
+        case "auth/weak-password":
+          errorMessage = "A senha deve ter pelo menos 6 caracteres.";
+          break;
+        case "auth/operation-not-allowed":
+          errorMessage =
+            "O método de login por e-mail/senha não está habilitado. Contate o suporte.";
+          break;
+        default:
+          errorMessage = `Erro no cadastro: ${error.message}`; // Mensagem genérica para outros erros
+      }
+      setError(errorMessage);
+      console.error("Erro ao fazer o cadastro:", error);
+    } finally {
+      setIsLoading(false); // Finaliza o carregamento
     }
-    if (email === "teste@erro.com") {
-      setError("Credenciais inválidas. Tente novamente.");
-    } else {
-      console.log("Login bem-sucedido (simulado)!");
-    }
-  };
+  }
+
+  const ErrorMessage = styled.p`
+    color: red;
+    font-size: 0.85rem;
+    text-align: center;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+  `;
 
   return (
     <>
@@ -155,7 +210,7 @@ const Register = () => {
             plataforma.
           </p>
         </LoginDescription>
-        <FormLogin onSubmit={handleEmailLogin}>
+        <FormLogin onSubmit={handleRegister}>
           <Button
             type="button"
             ariaLabel={"Entrar com sua conta Google"}
@@ -226,8 +281,13 @@ const Register = () => {
               onChange={(e) => setPassword(e.target.value)}
             />
           </InputGroup>
-          <Button type="submit" ariaLabel={"Entrar na sua conta"}>
-            Entrar
+          {error && <ErrorMessage>{error}</ErrorMessage>}
+          <Button
+            type="submit"
+            disabled={isLoading}
+            ariaLabel={"Entrar na sua conta"}
+          >
+            {isLoading ? "Cadastrando..." : "Cadastrar"}
           </Button>
         </FormLogin>
       </LoginContainer>

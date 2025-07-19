@@ -6,6 +6,9 @@ import { FcGoogle } from "react-icons/fc";
 import { useState } from "react";
 import BackButton from "../../Components/BackButton";
 import { Link } from "react-router-dom";
+import { auth } from "../../firebase.js";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import { useNavigate } from "react-router-dom";
 
 const LoginContainer = styled.main`
   width: 35rem;
@@ -113,20 +116,22 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState(null);
 
-  const handleEmailLogin = (e) => {
+  const navigate = useNavigate();
+
+  async function handleEmailLogin(e) {
     e.preventDefault();
     setError(null);
-    console.log("Tentando login com e-mail:", email, password);
-    if (!email || !password) {
-      setError("Por favor, preencha todos os campos.");
-      return;
-    }
-    if (email === "teste@erro.com") {
-      setError("Credenciais inválidas. Tente novamente.");
-    } else {
-      console.log("Login bem-sucedido (simulado)!");
-    }
-  };
+
+    await signInWithEmailAndPassword(auth, email, password)
+      .then(() => {
+        alert("Login efetuado com sucesso");
+        navigate("/", { replace: true });
+      })
+      .catch((error) => {
+        setError(null);
+        console.log("Erro ao fazr login " + error);
+      });
+  }
 
   return (
     <>
