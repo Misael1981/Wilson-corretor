@@ -4,7 +4,8 @@ import { auth } from "../../../firebase.js";
 import { IoPersonCircleSharp } from "react-icons/io5";
 import { useAuth } from "../../../context/AuthContext.jsx";
 
-const AuthStatusContainer = styled.div`
+const AuthStatusContainer = styled(Link)`
+  text-decoration: none;
   display: flex;
   align-items: center;
 `;
@@ -95,7 +96,7 @@ const AuthButton = () => {
 
   if (currentUser) {
     return (
-      <AuthStatusContainer>
+      <AuthStatusContainer to={"/admin"}>
         {userData && userData.role === "admin" ? (
           <AdminButtonStyled to="/admin-dashboard">
             Olá, {userData.name ? userData.name.split(" ")[0] : "Admin"}!

@@ -19,8 +19,8 @@ import {
 
 const DashboardContainer = styled.div`
   padding: 1.5rem;
+  box-sizing: border-box;
   background-color: #f8f9fa; /* Cor de fundo clara para o dashboard */
-
   min-height: 100%; /* Garante que o container ocupe a altura disponível */
   display: flex;
   flex-direction: column;
@@ -169,6 +169,12 @@ const AdminDashboardPage = () => {
     "Artigo 'Melhores bairros para investir' publicado.",
     "Imóvel 'Casa com Piscina' foi marcado como vendido.",
   ]);
+
+  console.log(
+    mostViewedProperties,
+    setMostViewedProperties,
+    setRecentActivities
+  );
 
   // Dados mockados para os gráficos (substituir por dados reais do Firestore)
   const userGrowthData = [

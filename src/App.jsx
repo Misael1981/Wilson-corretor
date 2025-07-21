@@ -10,6 +10,10 @@ import DefaultPage from "./Components/DefaultPage";
 import Register from "./Pages/Register";
 import AdminLayout from "./features/layouts/AdminLayout";
 import AdminDashboardPage from "./features/pages/AdminDashboardPage";
+import ArticlesAdmin from "./features/pages/ArticlesAdmin";
+import PropertiesAdmin from "./features/pages/PropertiesAdmin";
+import UsersAdmin from "./features/pages/UsersAdmin";
+import SettingsAdmin from "./features/pages/SettingsAdmin";
 
 function App() {
   return (
@@ -34,8 +38,13 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
+
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
+          <Route path="artigos" element={<ArticlesAdmin />} />
+          <Route path="imoveis" element={<PropertiesAdmin />} />
+          <Route path="usuarios" element={<UsersAdmin />} />
+          <Route path="configuracoes" element={<SettingsAdmin />} />
         </Route>
 
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
