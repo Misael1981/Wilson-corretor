@@ -124,33 +124,30 @@ const Register = () => {
 
   async function handleRegister(event) {
     event.preventDefault();
-    setError(null); // Limpa erros anteriores
-    setIsLoading(true); // Inicia o carregamento
+    setError(null);
+    setIsLoading(true);
 
     try {
-      // 1. Criar a conta de autenticação no Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(
         auth,
         email,
         password
       );
-      const user = userCredential.user; // O objeto user do Firebase Auth
+      const user = userCredential.user;
 
-      // 2. Salvar informações adicionais do usuário no Firestore
-      // O ID do documento no Firestore será o UID do usuário do Firebase Auth
       await setDoc(doc(db, "users", user.uid), {
         name: name,
         lastName: name,
-        email: email, // Armazenar o email também no Firestore para facilitar consultas
+        email: email,
         phoneNumber: phone,
-        role: "client", // Definir o papel padrão como 'client'
-        createdAt: new Date(), // Opcional: registrar a data de criação
+        role: "client",
+        createdAt: new Date(),
       });
 
       console.log(
         "Usuário cadastrado com sucesso e dados salvos no Firestore!"
       );
-      navigate("/", { replace: true }); // Redireciona após o cadastro
+      navigate("/", { replace: true });
     } catch (error) {
       let errorMessage = "Ocorreu um erro desconhecido. Tente novamente.";
       switch (error.code) {
@@ -169,12 +166,12 @@ const Register = () => {
             "O método de login por e-mail/senha não está habilitado. Contate o suporte.";
           break;
         default:
-          errorMessage = `Erro no cadastro: ${error.message}`; // Mensagem genérica para outros erros
+          errorMessage = `Erro no cadastro: ${error.message}`;
       }
       setError(errorMessage);
       console.error("Erro ao fazer o cadastro:", error);
     } finally {
-      setIsLoading(false); // Finaliza o carregamento
+      setIsLoading(false);
     }
   }
 
@@ -221,7 +218,7 @@ const Register = () => {
               gap: "0.5rem",
             }}
           >
-            <FcGoogle size={24} /> {/* Ajuste o tamanho do ícone */}
+            <FcGoogle size={24} />
             Entrar com Google
           </Button>
           <Divisor>Preencha o formulário</Divisor>

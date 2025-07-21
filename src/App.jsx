@@ -8,7 +8,8 @@ import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
 import Login from "./Pages/Login";
 import DefaultPage from "./Components/DefaultPage";
 import Register from "./Pages/Register";
-import Users from "./Pages/Users";
+import AdminLayout from "./features/layouts/AdminLayout";
+import AdminDashboardPage from "./features/pages/AdminDashboardPage";
 
 function App() {
   return (
@@ -33,7 +34,9 @@ function App() {
         </Route>
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<Register />} />
-        <Route path="/usuario" element={<Users />} />
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route index element={<AdminDashboardPage />} />
+        </Route>
 
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
