@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import logo from "/img/logo-vertical.svg";
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import { IoClose } from "react-icons/io5";
 
@@ -46,7 +46,7 @@ const CloseButton = styled.button`
   }
 `;
 
-const SidebarImageContainer = styled.div`
+const SidebarImageContainer = styled(Link)`
   width: 14rem;
   box-sizing: border-box;
   padding: 1rem 2rem;
@@ -129,7 +129,7 @@ const SidebarAdmin = ({ isOpen, onClose }) => {
         <IoClose />
       </CloseButton>
 
-      <SidebarImageContainer>
+      <SidebarImageContainer to={"/"}>
         <img src={logo} alt="Logo de Wilson Santiago Imóveis" />
       </SidebarImageContainer>
       <nav>
