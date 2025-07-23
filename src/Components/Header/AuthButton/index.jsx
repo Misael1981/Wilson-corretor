@@ -1,13 +1,15 @@
+// src/components/Auth/AuthButton.jsx
 import styled from "styled-components";
 import { Link, useNavigate } from "react-router-dom";
-import { auth } from "../../../firebase.js";
+import { auth } from "@/firebase"; // Usando absolute import
 import { IoPersonCircleSharp } from "react-icons/io5";
-import { useAuth } from "../../../context/AuthContext.jsx";
+import { useAuth } from "@/context/AuthContext"; // Usando absolute import
 
-const AuthStatusContainer = styled(Link)`
-  text-decoration: none;
+// AuthStatusContainer agora é uma DIV, não um Link
+const AuthStatusContainer = styled.div`
   display: flex;
   align-items: center;
+  gap: 1rem; /* Espaçamento entre os elementos (nome e botão sair) */
 `;
 
 const LoginButtonStyled = styled(Link)`
@@ -43,10 +45,10 @@ const LoginButtonStyled = styled(Link)`
 const UserNameDisplay = styled.div`
   color: #fff;
   font-weight: 600;
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 1rem; /* Adicionado padding para consistência visual */
   border-radius: 0.5rem;
-  text-decoration: none;
-  cursor: default;
+  /* text-decoration: none; Removido, pois não é um link */
+  cursor: default; /* Cursor padrão, pois não é clicável */
 `;
 
 const AdminButtonStyled = styled(Link)`
@@ -84,7 +86,7 @@ const AuthButton = () => {
     try {
       await auth.signOut();
       console.log("Usuário deslogado com sucesso!");
-      navigate("/login");
+      navigate("/login"); // Redireciona para a página de login após o logout
     } catch (error) {
       console.error("Erro ao deslogar:", error);
     }
@@ -95,17 +97,23 @@ const AuthButton = () => {
   }
 
   if (currentUser) {
+    // Acessando o nome de forma mais segura
+    const userName =
+      userData && userData.name ? userData.name.split(" ")[0] : "Usuário";
+    const userRole = userData && userData.role ? userData.role : "client"; // Pega o role ou define padrão
+
     return (
-      <AuthStatusContainer to={"/admin"}>
-        {userData && userData.role === "admin" ? (
-          <AdminButtonStyled to="/admin-dashboard">
-            Olá, {userData.name ? userData.name.split(" ")[0] : "Admin"}!
-            (Admin)
+      <AuthStatusContainer>
+        {" "}
+        {/* Agora é uma DIV */}
+        {userRole === "admin" ? (
+          <AdminButtonStyled to="/admin">
+            {" "}
+            {/* Link para a rota base do admin dashboard */}
+            Olá, {userName}! (Admin)
           </AdminButtonStyled>
         ) : (
-          <UserNameDisplay>
-            Olá, {userData ? userData.name.split(" ")[0] : "Usuário"}!
-          </UserNameDisplay>
+          <UserNameDisplay>Olá, {userName}!</UserNameDisplay>
         )}
         <LogoutButtonStyled onClick={handleLogout}>Sair</LogoutButtonStyled>
       </AuthStatusContainer>

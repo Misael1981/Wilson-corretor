@@ -74,3 +74,9 @@ Botões grandes e claros para as tarefas mais frequentes:
 - Um gráfico de linha mostrando o crescimento de usuários ao longo do tempo.
 
 - Um gráfico de barras mostrando a quantidade de imóveis por tipo (casa, apartamento, terreno).
+
+```
+firebase deploy --only hosting
+
+npm run build
+```

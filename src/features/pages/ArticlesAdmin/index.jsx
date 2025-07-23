@@ -1,18 +1,17 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; // Importe useNavigate
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
-import { db } from "@/firebase"; // Assumindo que firebase.js exporta 'db'
+import { db } from "@/firebase";
 
-// Styled Components para o layout da página de Artigos
+// Styled Components (mantidos os mesmos)
 const ArticlesPageContainer = styled.div`
   padding: 1.5rem;
-  background-color: #fff; /* Fundo branco para o conteúdo da página */
+  background-color: #fff;
   border-radius: 0.8rem;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
 `;
 
-// Cabeçalho da página (título e botão de nova ação)
 const PageHeader = styled.div`
   display: flex;
   justify-content: space-between;
@@ -22,14 +21,12 @@ const PageHeader = styled.div`
   padding-bottom: 1rem;
 `;
 
-// Título da página
 const PageTitle = styled.h1`
   color: #333;
   font-size: 2rem;
   margin: 0;
 `;
 
-// Botão para criar novo artigo
 const NewArticleButton = styled(Link)`
   background-color: var(--color-golden, #f39c12);
   color: #fff;
@@ -47,14 +44,12 @@ const NewArticleButton = styled(Link)`
   }
 `;
 
-// Estilos para a tabela de artigos
 const ArticlesTable = styled.table`
   width: 100%;
-  border-collapse: collapse; /* Remove espaçamento entre as bordas das células */
+  border-collapse: collapse;
   margin-top: 1.5rem;
 `;
 
-// Cabeçalho da tabela
 const TableHeader = styled.thead`
   background-color: #f0f0f0;
   th {
@@ -66,21 +61,17 @@ const TableHeader = styled.thead`
   }
 `;
 
-// Corpo da tabela
 const TableBody = styled.tbody`
   tr {
     &:nth-child(even) {
-      /* Estilo para linhas pares */
       background-color: #f9f9f9;
     }
     &:hover {
-      /* Estilo de hover para as linhas */
-      background-color: #f0f5ff; /* Um azul bem suave no hover */
+      background-color: #f0f5ff;
     }
   }
 `;
 
-// Linha da tabela
 const TableRow = styled.tr`
   td {
     padding: 1rem;
@@ -89,18 +80,18 @@ const TableRow = styled.tr`
   }
 `;
 
-// Container para os botões de ação na tabela
 const ActionsContainer = styled.div`
   display: flex;
   gap: 0.5rem;
 `;
 
-// Botão de ação (Editar/Excluir)
+// Corrigido para Transient Props ($)
 const ActionButton = styled.button`
-  background-color: ${(props) =>
-    props.primary
-      ? "var(--color-blue, #0f1e2e)"
-      : "#dc3545"}; /* Azul para Editar, Vermelho para Excluir */
+  background-color: ${(props) => {
+    if (props.$primary) return "var(--color-blue, #0f1e2e)";
+    if (props.$danger) return "#dc3545";
+    return "#6c757d"; // Default
+  }};
   color: #fff;
   border: none;
   padding: 0.6rem 1rem;
@@ -110,8 +101,11 @@ const ActionButton = styled.button`
   transition: background-color 0.3s ease, transform 0.2s ease;
 
   &:hover {
-    background-color: ${(props) =>
-      props.primary ? "var(--color-dark-blue, #0a141f)" : "#c82333"};
+    background-color: ${(props) => {
+      if (props.$primary) return "var(--color-dark-blue, #0a141f)";
+      if (props.$danger) return "#c82333";
+      return "#5a6268";
+    }};
     transform: translateY(-1px);
   }
 `;
@@ -120,13 +114,13 @@ const ArticlesAdmin = () => {
   const [articles, setArticles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const navigate = useNavigate(); // Inicialize useNavigate
 
-  // Função para buscar os artigos do Firestore
   const fetchArticles = async () => {
     setLoading(true);
     setError(null);
     try {
-      const articlesCollectionRef = collection(db, "articles"); // Referência à coleção 'articles'
+      const articlesCollectionRef = collection(db, "articles");
       const querySnapshot = await getDocs(articlesCollectionRef);
 
       const fetchedArticles = querySnapshot.docs.map((doc) => ({
@@ -135,7 +129,7 @@ const ArticlesAdmin = () => {
       }));
 
       setArticles(fetchedArticles);
-      console.log("Artigos carregados:", fetchedArticles); // Para depuração
+      console.log("Artigos carregados:", fetchedArticles);
     } catch (err) {
       console.error("Erro ao buscar artigos:", err);
       setError("Não foi possível carregar os artigos. Tente novamente.");
@@ -144,19 +138,15 @@ const ArticlesAdmin = () => {
     }
   };
 
-  // Função para lidar com a edição de um artigo
   const handleEdit = (articleId) => {
-    console.log(`Editar artigo com ID: ${articleId}`);
-    // Implementar navegação para a página de edição: navigate(`/admin/artigos/editar/${articleId}`);
+    navigate(`/admin/artigos/editar/${articleId}`); // Navega para a página de edição
   };
 
-  // Função para lidar com a exclusão de um artigo
   const handleDelete = async (articleId) => {
     if (window.confirm("Tem certeza que deseja excluir este artigo?")) {
-      // Usar modal customizado em produção
       try {
         await deleteDoc(doc(db, "articles", articleId));
-        setArticles(articles.filter((article) => article.id !== articleId)); // Remove da lista local
+        setArticles(articles.filter((article) => article.id !== articleId));
         console.log(`Artigo com ID: ${articleId} excluído com sucesso!`);
       } catch (err) {
         console.error("Erro ao excluir artigo:", err);
@@ -165,7 +155,6 @@ const ArticlesAdmin = () => {
     }
   };
 
-  // Carrega os artigos quando o componente é montado
   useEffect(() => {
     fetchArticles();
   }, []);
@@ -213,21 +202,29 @@ const ArticlesAdmin = () => {
                 <td>{article.author || "Desconhecido"}</td>
                 <td>{article.status || "Rascunho"}</td>
                 <td>
-                  {article.publicationDate
+                  {/* CORREÇÃO AQUI: Use article.publishedAt */}
+                  {article.publishedAt && article.publishedAt.seconds
                     ? new Date(
-                        article.publicationDate.seconds * 1000
+                        article.publishedAt.seconds * 1000
                       ).toLocaleDateString("pt-BR")
                     : "N/A"}
                 </td>
                 <td>
                   <ActionsContainer>
                     <ActionButton
-                      primary
+                      $primary
                       onClick={() => handleEdit(article.id)}
                     >
+                      {" "}
+                      {/* Use $primary */}
                       Editar
                     </ActionButton>
-                    <ActionButton onClick={() => handleDelete(article.id)}>
+                    <ActionButton
+                      $danger
+                      onClick={() => handleDelete(article.id)}
+                    >
+                      {" "}
+                      {/* Use $danger */}
                       Excluir
                     </ActionButton>
                   </ActionsContainer>

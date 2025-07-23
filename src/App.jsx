@@ -14,6 +14,8 @@ import ArticlesAdmin from "./features/pages/ArticlesAdmin";
 import PropertiesAdmin from "./features/pages/PropertiesAdmin";
 import UsersAdmin from "./features/pages/UsersAdmin";
 import SettingsAdmin from "./features/pages/SettingsAdmin";
+import CreateArticles from "./features/pages/ArticlesAdmin/pages/CreateArticles";
+import EditArticlePage from "./features/pages/ArticlesAdmin/pages/EditArticlePage";
 
 function App() {
   return (
@@ -42,6 +44,8 @@ function App() {
         <Route path="/admin" element={<AdminLayout />}>
           <Route index element={<AdminDashboardPage />} />
           <Route path="artigos" element={<ArticlesAdmin />} />
+          <Route path="artigos/criar" element={<CreateArticles />} />
+          <Route path="artigos/editar/:id" element={<EditArticlePage />} />
           <Route path="imoveis" element={<PropertiesAdmin />} />
           <Route path="usuarios" element={<UsersAdmin />} />
           <Route path="configuracoes" element={<SettingsAdmin />} />
