@@ -3,9 +3,9 @@ import styled from "styled-components";
 const ButtonStylized = styled.button`
   flex: 1;
 
-  background: ${(props) => props.background || "var(--degrade-blue)"};
-  color: ${(props) => props.color || "var(--color-golden)"};
-  font-size: ${(props) => props.fontSize || "1.3rem"};
+  background: ${(props) => props.$background || "var(--degrade-blue)"};
+  color: ${(props) => props.$color || "var(--color-golden)"};
+  font-size: ${(props) => props.$fontSize || "1.3rem"};
   font-weight: 700;
   padding: 0.8rem;
   cursor: pointer;
@@ -25,9 +25,9 @@ const Button = ({ children, background, color, fontSize, ariaLabel }) => {
   return (
     <ButtonStylized
       aria-label={ariaLabel}
-      background={background}
-      color={color}
-      fontSize={fontSize}
+      $background={background}
+      $color={color}
+      $fontSize={fontSize}
     >
       {children}
     </ButtonStylized>

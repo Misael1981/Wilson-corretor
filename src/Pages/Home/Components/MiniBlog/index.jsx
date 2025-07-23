@@ -1,10 +1,16 @@
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
 import Title from "../../../../Components/Title";
-import financialImage from "./assets/financing.jpg";
-import empreendimentos from "./assets/empreendimentos.jpg";
-import manutencao from "./assets/manutencao.jpg";
-import vendas from "./assets/vendas.jpg";
 import { Link } from "react-router-dom";
+import {
+  collection,
+  query,
+  orderBy,
+  limit,
+  getDocs,
+  where,
+} from "firebase/firestore";
+import { db } from "@/firebase";
 
 const MiniBlogStylized = styled.section`
   width: 100%;
@@ -47,7 +53,7 @@ const OpportunitiesStylized = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: stretch; /* Mudei para stretch para os itens dentro do flex-direction column preencherem o espaço */
+  align-items: stretch;
   gap: 1rem;
 `;
 
@@ -58,6 +64,7 @@ const ContainerMaintenance = styled.div`
   align-items: stretch;
 `;
 
+// CORREÇÃO AQUI: Use $backgroundImageUrl para a prop
 const Blog = styled(Link)`
   flex: 1;
   width: 20rem;
@@ -70,7 +77,7 @@ const Blog = styled(Link)`
       rgba(15, 27, 41, 0.4),
       rgba(15, 27, 41, 0.4)
     ),
-    url(${(props) => props.backgroundImageUrl});
+    url(${(props) => props.$backgroundImageUrl}); /* Use $backgroundImageUrl aqui */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -100,49 +107,71 @@ const Blog = styled(Link)`
 `;
 
 const MiniBlog = () => {
-  // Centralize os dados em um array para facilitar a gestão e mapeamento
-  const blogArticlesData = [
-    {
-      id: "1",
-      // SLUG CORRIGIDO para combinar com blogArticles.json
-      slug: "as-melhores-dicas-para-comprar-seu-primeiro-imovel",
-      image: financialImage,
-      title: "Financiamento",
-      description:
-        "Artigo com dicas e informações sobre financiamento de imóveis.",
-    },
-    {
-      id: "2",
-      // SLUG CORRIGIDO para combinar com blogArticles.json
-      slug: "tendencias-mercado-imobiliario-2025",
-      image: empreendimentos,
-      title: "Empreendimentos",
-      description: "Descubra novas oportunidades de investimento em imóveis.",
-    },
-    {
-      id: "3",
-      // SLUG CORRIGIDO para combinar com blogArticles.json
-      slug: "como-valorizar-seu-imovel-para-venda-rapida",
-      image: manutencao,
-      title: "Manutenção",
-      description: "Dicas essenciais para cuidar e valorizar seu patrimônio.",
-    },
-    {
-      id: "4",
-      // SLUG CORRIGIDO para combinar com blogArticles.json
-      slug: "7-segredos-manutencao-preventiva-imoveis",
-      image: vendas,
-      title: "Vendas",
-      description: "O guia completo para vender seu imóvel de forma eficiente.",
-    },
-  ];
+  const [articles, setArticles] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // Agora, referencie os dados que você precisa diretamente pelo array
-  // Ou mantenha as variáveis se preferir, mas use os IDs corretos nos links
-  const financialData = blogArticlesData[0];
-  const venturesData = blogArticlesData[1];
-  const maintenanceData = blogArticlesData[2];
-  const salesData = blogArticlesData[3];
+  useEffect(() => {
+    const fetchArticles = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const articlesCollectionRef = collection(db, "articles");
+        const q = query(
+          articlesCollectionRef,
+          where("status", "==", "published"),
+          orderBy("publishedAt", "desc"),
+          limit(4)
+        );
+        const querySnapshot = await getDocs(q);
+
+        const fetchedArticles = querySnapshot.docs.map((doc) => ({
+          id: doc.id,
+          ...doc.data(),
+        }));
+
+        setArticles(fetchedArticles);
+      } catch (err) {
+        console.error("Erro ao carregar artigos para MiniBlog:", err);
+        setError("Não foi possível carregar os artigos do blog.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchArticles();
+  }, []);
+
+  const financialArticle = articles[0];
+  const venturesArticle = articles[1];
+  const salesArticle = articles[2];
+  const maintenanceArticle = articles[3];
+
+  if (loading) {
+    return (
+      <MiniBlogStylized>
+        <p style={{ textAlign: "center", color: "var(--color-blue)" }}>
+          Carregando artigos do blog...
+        </p>
+      </MiniBlogStylized>
+    );
+  }
+
+  if (error) {
+    return (
+      <MiniBlogStylized>
+        <p style={{ textAlign: "center", color: "red" }}>{error}</p>
+      </MiniBlogStylized>
+    );
+  }
+
+  const placeholderArticle = {
+    id: "placeholder",
+    slug: "em-breve",
+    imageUrl: "https://placehold.co/400x250/cccccc/333333?text=Em+Breve",
+    title: "Em Breve",
+    summary: "Mais conteúdo interessante chegando em breve!",
+  };
 
   return (
     <MiniBlogStylized>
@@ -155,50 +184,102 @@ const MiniBlog = () => {
       </div>
       <ContainerBlogs>
         <ContainerFinancial>
-          {/* Card de Financiamento */}
-          <Blog
-            // CORRIGIDO: O link agora usa o ID/Slug de financialData
-            to={`/blog/${financialData.slug || financialData.id}`}
-            key={financialData.id}
-            backgroundImageUrl={financialData.image}
-          >
-            <h3>{financialData.title}</h3>
-            <h4>{financialData.description}</h4>
-          </Blog>
+          {financialArticle ? (
+            <Blog
+              to={`/blog/${financialArticle.slug || financialArticle.id}`}
+              key={financialArticle.id}
+              $backgroundImageUrl={
+                financialArticle.imageUrl || placeholderArticle.imageUrl
+              } /* Use $backgroundImageUrl aqui */
+            >
+              <h3>{financialArticle.title || "Sem Título"}</h3>
+              <h4>{financialArticle.summary || "Sem resumo"}</h4>
+            </Blog>
+          ) : (
+            <Blog
+              to={`/blog/${placeholderArticle.slug}`}
+              key={placeholderArticle.id + "-1"}
+              $backgroundImageUrl={
+                placeholderArticle.imageUrl
+              } /* Use $backgroundImageUrl aqui */
+            >
+              <h3>{placeholderArticle.title}</h3>
+              <h4>{placeholderArticle.summary}</h4>
+            </Blog>
+          )}
           <OpportunitiesStylized>
-            {/* Card de Empreendimentos */}
-            <Blog
-              // CORRIGIDO: O link agora usa o ID/Slug de venturesData
-              to={`/blog/${venturesData.slug || venturesData.id}`}
-              key={venturesData.id}
-              backgroundImageUrl={venturesData.image}
-            >
-              <h3>{venturesData.title}</h3>
-              <h4>{venturesData.description}</h4>
-            </Blog>
-            {/* Card de Vendas */}
-            <Blog
-              // CORRIGIDO: O link agora usa o ID/Slug de salesData
-              to={`/blog/${salesData.slug || salesData.id}`}
-              key={salesData.id}
-              backgroundImageUrl={salesData.image}
-            >
-              <h3>{salesData.title}</h3>
-              <h4>{salesData.description}</h4>
-            </Blog>
+            {venturesArticle ? (
+              <Blog
+                to={`/blog/${venturesArticle.slug || venturesArticle.id}`}
+                key={venturesArticle.id}
+                $backgroundImageUrl={
+                  venturesArticle.imageUrl || placeholderArticle.imageUrl
+                } /* Use $backgroundImageUrl aqui */
+              >
+                <h3>{venturesArticle.title || "Sem Título"}</h3>
+                <h4>{venturesArticle.summary || "Sem resumo"}</h4>
+              </Blog>
+            ) : (
+              <Blog
+                to={`/blog/${placeholderArticle.slug}`}
+                key={placeholderArticle.id + "-2"}
+                $backgroundImageUrl={
+                  placeholderArticle.imageUrl
+                } /* Use $backgroundImageUrl aqui */
+              >
+                <h3>{placeholderArticle.title}</h3>
+                <h4>{placeholderArticle.summary}</h4>
+              </Blog>
+            )}
+            {salesArticle ? (
+              <Blog
+                to={`/blog/${salesArticle.slug || salesArticle.id}`}
+                key={salesArticle.id}
+                $backgroundImageUrl={
+                  salesArticle.imageUrl || placeholderArticle.imageUrl
+                } /* Use $backgroundImageUrl aqui */
+              >
+                <h3>{salesArticle.title || "Sem Título"}</h3>
+                <h4>{salesArticle.summary || "Sem resumo"}</h4>
+              </Blog>
+            ) : (
+              <Blog
+                to={`/blog/${placeholderArticle.slug}`}
+                key={placeholderArticle.id + "-3"}
+                $backgroundImageUrl={
+                  placeholderArticle.imageUrl
+                } /* Use $backgroundImageUrl aqui */
+              >
+                <h3>{placeholderArticle.title}</h3>
+                <h4>{placeholderArticle.summary}</h4>
+              </Blog>
+            )}
           </OpportunitiesStylized>
         </ContainerFinancial>
         <ContainerMaintenance>
-          {/* Card de Manutenção */}
-          <Blog
-            // CORRIGIDO: O link agora usa o ID/Slug de maintenanceData
-            to={`/blog/${maintenanceData.slug || maintenanceData.id}`}
-            key={maintenanceData.id}
-            backgroundImageUrl={maintenanceData.image}
-          >
-            <h3>{maintenanceData.title}</h3>
-            <h4>{maintenanceData.description}</h4>
-          </Blog>
+          {maintenanceArticle ? (
+            <Blog
+              to={`/blog/${maintenanceArticle.slug || maintenanceArticle.id}`}
+              key={maintenanceArticle.id}
+              $backgroundImageUrl={
+                maintenanceArticle.imageUrl || placeholderArticle.imageUrl
+              } /* Use $backgroundImageUrl aqui */
+            >
+              <h3>{maintenanceArticle.title || "Sem Título"}</h3>
+              <h4>{maintenanceArticle.summary || "Sem resumo"}</h4>
+            </Blog>
+          ) : (
+            <Blog
+              to={`/blog/${placeholderArticle.slug}`}
+              key={placeholderArticle.id + "-4"}
+              $backgroundImageUrl={
+                placeholderArticle.imageUrl
+              } /* Use $backgroundImageUrl aqui */
+            >
+              <h3>{placeholderArticle.title}</h3>
+              <h4>{placeholderArticle.summary}</h4>
+            </Blog>
+          )}
         </ContainerMaintenance>
       </ContainerBlogs>
     </MiniBlogStylized>

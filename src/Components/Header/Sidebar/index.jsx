@@ -8,7 +8,7 @@ import InputHeader from "../InputHeader";
 
 const SidebarContainer = styled.div`
   position: fixed;
-  top: ${({ isOpen }) => (isOpen ? "0px" : "100%")};
+  top: ${({ $isOpen }) => ($isOpen ? "0px" : "100%")};
   left: 0;
   width: 100%;
   height: 100vh;
@@ -46,7 +46,7 @@ const NavList = styled.nav`
 
 const Sidebar = ({ isOpen, onClose }) => {
   return (
-    <SidebarContainer isOpen={isOpen}>
+    <SidebarContainer $isOpen={isOpen}>
       <SidebarHeader>
         <img src={logoHorizonatl} alt="Logo do corretor Wilson Santiago" />
         <CloseButton onClick={onClose}>

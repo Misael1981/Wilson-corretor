@@ -12,6 +12,7 @@ const categoryBackgrounds = {
   loja: imageLoja,
 };
 
+// CORREÇÃO AQUI: Use $categoryType na definição do styled component
 const CardCategoryStylized = styled(Link)`
   text-decoration: none;
   width: 15rem;
@@ -20,7 +21,7 @@ const CardCategoryStylized = styled(Link)`
       rgba(15, 27, 41, 0.4),
       rgba(15, 27, 41, 0.4)
     ),
-    ${(props) => `url(${categoryBackgrounds[props.categoryType]})`};
+    ${(props) => `url(${categoryBackgrounds[props.$categoryType]})`}; /* Adicione o $ aqui! */
   background-size: cover;
   background-position: center;
   border-radius: 8px;
@@ -38,7 +39,10 @@ const CardCategoryStylized = styled(Link)`
 const CardsCategories = ({ categoryType, title }) => {
   const toPath = `/imoveis/${categoryType}`;
   return (
-    <CardCategoryStylized to={toPath} categoryType={categoryType}>
+    // CORREÇÃO AQUI: Use $categoryType ao passar a prop no JSX
+    <CardCategoryStylized to={toPath} $categoryType={categoryType}>
+      {" "}
+      {/* Adicione o $ aqui! */}
       <h3>{title}</h3>
     </CardCategoryStylized>
   );
