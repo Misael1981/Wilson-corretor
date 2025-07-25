@@ -364,7 +364,6 @@ const CreateProperties = () => {
             name="address"
             value={propertyData.address}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
@@ -511,7 +510,6 @@ const CreateProperties = () => {
             name="ownerName"
             value={propertyData.ownerName}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
@@ -523,7 +521,6 @@ const CreateProperties = () => {
             name="ownerPhone"
             value={propertyData.ownerPhone}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
