@@ -190,6 +190,8 @@ const EditPropertiesPage = () => {
     area: "",
     ownerName: "",
     ownerPhone: "",
+    projectCode: "", // NOVO CAMPO: Código do Projeto
+    garageSpaces: "", // NOVO CAMPO: Vagas na Garagem
     amenities: [],
   });
 
@@ -238,6 +240,11 @@ const EditPropertiesPage = () => {
             area: data.area !== undefined ? data.area.toString() : "",
             ownerName: data.ownerName || "",
             ownerPhone: data.ownerPhone || "",
+            projectCode: data.projectCode || "", // NOVO: Popula Código do Projeto
+            garageSpaces:
+              data.garageSpaces !== undefined
+                ? data.garageSpaces.toString()
+                : "", // NOVO: Popula Vagas na Garagem
             amenities: data.amenities || [],
           });
           setOriginalImageUrls(data.imageUrls || []);
@@ -369,6 +376,7 @@ const EditPropertiesPage = () => {
         bedrooms: parseInt(propertyData.bedrooms),
         bathrooms: parseInt(propertyData.bathrooms),
         area: parseFloat(propertyData.area),
+        garageSpaces: parseInt(propertyData.garageSpaces), // NOVO: Converte vagas para número inteiro
         imageUrls: finalImageUrls, // Salva as URLs finais das imagens
         updatedAt: Timestamp.now(), // Atualiza o timestamp
       });
@@ -578,6 +586,31 @@ const EditPropertiesPage = () => {
             value={propertyData.ownerPhone}
             onChange={handleChange}
             required
+          />
+        </FormGroup>
+
+        {/* NOVO CAMPO: Código do Projeto */}
+        <FormGroup>
+          <Label htmlFor="projectCode">Código do Projeto</Label>
+          <Input
+            type="text"
+            id="projectCode"
+            name="projectCode"
+            value={propertyData.projectCode}
+            onChange={handleChange}
+          />
+        </FormGroup>
+
+        {/* NOVO CAMPO: Vagas na Garagem */}
+        <FormGroup>
+          <Label htmlFor="garageSpaces">Vagas na Garagem</Label>
+          <Input
+            type="number"
+            id="garageSpaces"
+            name="garageSpaces"
+            value={propertyData.garageSpaces}
+            onChange={handleChange}
+            min="0"
           />
         </FormGroup>
 

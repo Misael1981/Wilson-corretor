@@ -4,11 +4,9 @@ import { useNavigate } from "react-router-dom"; // Para navegação
 import { collection, addDoc, Timestamp } from "firebase/firestore"; // Firestore
 import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"; // Firebase Storage
 import { db, storage } from "@/firebase"; // Importa as instâncias do db e storage
-
-// Importa o componente Button (se você o tiver em outro lugar, ajuste o caminho)
 import Button from "@/Components/Button"; // Ajuste o caminho conforme sua estrutura
 
-// Styled Components
+// Styled Components (mantidos os mesmos, pois já estão bons!)
 const FormContainer = styled.div`
   max-width: 800px;
   margin: 2rem auto;
@@ -168,12 +166,11 @@ const Message = styled.p`
 const CreateProperties = () => {
   const navigate = useNavigate();
 
-  // Estados para os campos do formulário
   const [propertyData, setPropertyData] = useState({
     title: "",
     description: "",
     address: "",
-    neighborhood: "", // NOVO CAMPO: Bairro
+    neighborhood: "",
     city: "",
     state: "",
     price: "",
@@ -182,8 +179,10 @@ const CreateProperties = () => {
     bedrooms: "",
     bathrooms: "",
     area: "", // Área em m²
-    ownerName: "", // NOVO CAMPO: Proprietário
-    ownerPhone: "", // NOVO CAMPO: Telefone do Proprietário
+    ownerName: "",
+    ownerPhone: "",
+    projectCode: "", // NOVO CAMPO: Código do Projeto
+    garageSpaces: "", // NOVO CAMPO: Vagas na Garagem
     amenities: [], // Futuramente: lista de comodidades
   });
 
@@ -275,6 +274,7 @@ const CreateProperties = () => {
         bedrooms: parseInt(propertyData.bedrooms), // Converte para número inteiro
         bathrooms: parseInt(propertyData.bathrooms), // Converte para número inteiro
         area: parseFloat(propertyData.area), // Converte área para número
+        garageSpaces: parseInt(propertyData.garageSpaces), // NOVO: Converte vagas para número inteiro
         imageUrls: uploadedImageUrls, // Salva as URLs das imagens
         createdAt: Timestamp.now(), // Data de criação
         updatedAt: Timestamp.now(), // Data da última atualização
@@ -288,7 +288,7 @@ const CreateProperties = () => {
         title: "",
         description: "",
         address: "",
-        neighborhood: "", // Limpa o novo campo Bairro
+        neighborhood: "",
         city: "",
         state: "",
         price: "",
@@ -297,8 +297,10 @@ const CreateProperties = () => {
         bedrooms: "",
         bathrooms: "",
         area: "",
-        ownerName: "", // Limpa o novo campo Proprietário
-        ownerPhone: "", // Limpa o novo campo Telefone do Proprietário
+        ownerName: "",
+        ownerPhone: "",
+        projectCode: "", // Limpa o novo campo Código do Projeto
+        garageSpaces: "", // Limpa o novo campo Vagas na Garagem
         amenities: [],
       });
       setImageFiles([]);
@@ -331,6 +333,18 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
+        {/* NOVO CAMPO: Código do Projeto */}
+        <FormGroup>
+          <Label htmlFor="projectCode">Código do Projeto</Label>
+          <Input
+            type="text"
+            id="projectCode"
+            name="projectCode"
+            value={propertyData.projectCode}
+            onChange={handleChange}
+          />
+        </FormGroup>
+
         <FormGroup>
           <Label htmlFor="description">Descrição</Label>
           <TextArea
@@ -354,7 +368,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Bairro */}
         <FormGroup>
           <Label htmlFor="neighborhood">Bairro</Label>
           <Input
@@ -464,6 +477,19 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
+        {/* NOVO CAMPO: Vagas na Garagem */}
+        <FormGroup>
+          <Label htmlFor="garageSpaces">Vagas na Garagem</Label>
+          <Input
+            type="number"
+            id="garageSpaces"
+            name="garageSpaces"
+            value={propertyData.garageSpaces}
+            onChange={handleChange}
+            min="0"
+          />
+        </FormGroup>
+
         <FormGroup>
           <Label htmlFor="area">Área (m²)</Label>
           <Input
@@ -477,7 +503,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Proprietário */}
         <FormGroup>
           <Label htmlFor="ownerName">Nome do Proprietário</Label>
           <Input
@@ -490,11 +515,10 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Telefone do Proprietário */}
         <FormGroup>
           <Label htmlFor="ownerPhone">Telefone do Proprietário</Label>
           <Input
-            type="tel" // Tipo "tel" para telefones
+            type="tel"
             id="ownerPhone"
             name="ownerPhone"
             value={propertyData.ownerPhone}
@@ -510,7 +534,7 @@ const CreateProperties = () => {
             id="images"
             name="images"
             accept="image/*"
-            multiple // Permite múltiplos arquivos
+            multiple
             onChange={handleImageChange}
           />
           <ImagePreviewContainer>

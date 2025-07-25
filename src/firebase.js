@@ -4,7 +4,7 @@ import { getAuth } from "firebase/auth";
 import { getStorage } from "firebase/storage"; // Importa o Firebase Storage
 
 const firebaseConfig = {
-  apiKey: "AIzaSyANXtZzfRLrn7Njzsn6pjqyQXNZix1uD0g",
+  apiKey: "AIzaSyDorzvAxL8HXAbZafAuDPb_cBUrPaRn-nM",
   authDomain: "wilson-corretor-imoveis.firebaseapp.com",
   projectId: "wilson-corretor-imoveis",
   storageBucket: "wilson-corretor-imoveis.firebasestorage.app", // Estava com .appspot.com e não com .firebasestorage.app
