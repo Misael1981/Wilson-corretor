@@ -17,6 +17,7 @@ import SettingsAdmin from "./features/pages/SettingsAdmin";
 import CreateArticles from "./features/pages/ArticlesAdmin/pages/CreateArticles";
 import EditArticlePage from "./features/pages/ArticlesAdmin/pages/EditArticlePage";
 import CreateProperties from "./features/pages/PropertiesAdmin/pages/CreateProperties";
+import EditPropertiesPage from "./features/pages/PropertiesAdmin/pages/EditPropertiesPage";
 
 function App() {
   return (
@@ -49,6 +50,10 @@ function App() {
           <Route path="artigos/editar/:id" element={<EditArticlePage />} />
           <Route path="imoveis" element={<PropertiesAdmin />} />
           <Route path="imoveis/cadastrar" element={<CreateProperties />} />
+          <Route
+            path="/admin/imoveis/editar/:id"
+            element={<EditPropertiesPage />}
+          />
           <Route path="usuarios" element={<UsersAdmin />} />
           <Route path="configuracoes" element={<SettingsAdmin />} />
         </Route>

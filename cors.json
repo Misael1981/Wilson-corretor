@@ -1,7 +1,12 @@
 [
   {
-    "origin": ["*"],
+    "origin": [
+      "http://localhost:5173",
+      "http://localhost:3000",
+      "https://wilson-corretor-imoveis.web.app"
+    ],
     "method": ["GET", "PUT", "POST", "DELETE"],
-    "maxAgeSeconds": 3600
+    "maxAgeSeconds": 3600,
+    "responseHeader": ["Content-Type", "Authorization"]
   }
 ]

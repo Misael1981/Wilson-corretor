@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/firebase"; // Assumindo que firebase.js exporta 'db'
 
@@ -121,6 +121,8 @@ const PropertiesAdmin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
+  const navigate = useNavigate();
+
   // Função para buscar os imóveis do Firestore
   const fetchProperties = async () => {
     setLoading(true);
@@ -147,6 +149,7 @@ const PropertiesAdmin = () => {
   // Função para lidar com a edição de um imóvel
   const handleEdit = (propertyId) => {
     console.log(`Editar imóvel com ID: ${propertyId}`);
+    navigate(`/admin/imoveis/editar/${propertyId}`);
     // Implementar navegação para a página de edição: navigate(`/admin/imoveis/editar/${propertyId}`);
   };
 

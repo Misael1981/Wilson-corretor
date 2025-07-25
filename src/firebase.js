@@ -7,7 +7,7 @@ const firebaseConfig = {
   apiKey: "AIzaSyANXtZzfRLrn7Njzsn6pjqyQXNZix1uD0g",
   authDomain: "wilson-corretor-imoveis.firebaseapp.com",
   projectId: "wilson-corretor-imoveis",
-  storageBucket: "wilson-corretor-imoveis.appspot.com", // CORRIGIDO: Geralmente é .appspot.com
+  storageBucket: "wilson-corretor-imoveis.firebasestorage.app", // Estava com .appspot.com e não com .firebasestorage.app
   messagingSenderId: "515603074585",
   appId: "1:515603074585:web:3ccd86bff9ac1d7472a488",
 };

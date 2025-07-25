@@ -1,14 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { useNavigate } from "react-router-dom"; // Para navegação
-import { collection, addDoc, Timestamp } from "firebase/firestore"; // Firestore
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage"; // Firebase Storage
+import { useParams, useNavigate } from "react-router-dom";
+import { doc, getDoc, updateDoc, Timestamp } from "firebase/firestore"; // Firestore
+import {
+  ref,
+  uploadBytesResumable,
+  getDownloadURL,
+  deleteObject,
+} from "firebase/storage"; // Firebase Storage
 import { db, storage } from "@/firebase"; // Importa as instâncias do db e storage
 
 // Importa o componente Button (se você o tiver em outro lugar, ajuste o caminho)
 import Button from "@/Components/Button"; // Ajuste o caminho conforme sua estrutura
 
-// Styled Components
+// Styled Components (reutilizando os do CreateProperties, se possível)
 const FormContainer = styled.div`
   max-width: 800px;
   margin: 2rem auto;
@@ -165,7 +170,8 @@ const Message = styled.p`
   color: ${(props) => (props.type === "error" ? "red" : "green")};
 `;
 
-const CreateProperties = () => {
+const EditPropertiesPage = () => {
+  const { id } = useParams(); // Obtém o ID do imóvel da URL
   const navigate = useNavigate();
 
   // Estados para os campos do formulário
@@ -173,28 +179,84 @@ const CreateProperties = () => {
     title: "",
     description: "",
     address: "",
-    neighborhood: "", // NOVO CAMPO: Bairro
+    neighborhood: "",
     city: "",
     state: "",
     price: "",
-    type: "", // 'casa', 'apartamento', 'chacara', 'loja'
-    status: "for_sale", // 'for_sale', 'for_rent', 'sold'
+    type: "",
+    status: "for_sale",
     bedrooms: "",
     bathrooms: "",
-    area: "", // Área em m²
-    ownerName: "", // NOVO CAMPO: Proprietário
-    ownerPhone: "", // NOVO CAMPO: Telefone do Proprietário
-    amenities: [], // Futuramente: lista de comodidades
+    area: "",
+    ownerName: "",
+    ownerPhone: "",
+    amenities: [],
   });
 
-  // Estados para upload de imagens
-  const [imageFiles, setImageFiles] = useState([]); // Arquivos de imagem selecionados
-  const [imagePreviews, setImagePreviews] = useState([]); // URLs para pré-visualização das imagens
+  // Estados para imagens
+  const [originalImageUrls, setOriginalImageUrls] = useState([]); // URLs das imagens como vieram do Firestore
+  const [currentImageUrls, setCurrentImageUrls] = useState([]); // URLs das imagens atualmente exibidas (existentes)
+  const [newImageFiles, setNewImageFiles] = useState([]); // Novos arquivos de imagem selecionados
+  const [newImagePreviews, setNewImagePreviews] = useState([]); // URLs para pré-visualização de novas imagens
 
   // Estados para feedback do usuário
   const [loading, setLoading] = useState(false);
+  const [isFetchingProperty, setIsFetchingProperty] = useState(true); // Estado para carregar dados do imóvel
   const [message, setMessage] = useState("");
   const [messageType, setMessageType] = useState(""); // 'success' ou 'error'
+
+  // Efeito para carregar os dados do imóvel quando o componente monta ou o ID muda
+  useEffect(() => {
+    const fetchProperty = async () => {
+      if (!id) {
+        setMessage("ID do imóvel não encontrado na URL.");
+        setMessageType("error");
+        setIsFetchingProperty(false);
+        return;
+      }
+
+      try {
+        const docRef = doc(db, "properties", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setPropertyData({
+            title: data.title || "",
+            description: data.description || "",
+            address: data.address || "",
+            neighborhood: data.neighborhood || "",
+            city: data.city || "",
+            state: data.state || "",
+            price: data.price !== undefined ? data.price.toString() : "", // Converte para string para o input
+            type: data.type || "",
+            status: data.status || "for_sale",
+            bedrooms:
+              data.bedrooms !== undefined ? data.bedrooms.toString() : "",
+            bathrooms:
+              data.bathrooms !== undefined ? data.bathrooms.toString() : "",
+            area: data.area !== undefined ? data.area.toString() : "",
+            ownerName: data.ownerName || "",
+            ownerPhone: data.ownerPhone || "",
+            amenities: data.amenities || [],
+          });
+          setOriginalImageUrls(data.imageUrls || []);
+          setCurrentImageUrls(data.imageUrls || []); // Inicializa com as imagens existentes
+        } else {
+          setMessage("Imóvel não encontrado.");
+          setMessageType("error");
+        }
+      } catch (error) {
+        console.error("Erro ao buscar imóvel:", error);
+        setMessage(`Erro ao carregar imóvel: ${error.message}`);
+        setMessageType("error");
+      } finally {
+        setIsFetchingProperty(false);
+      }
+    };
+
+    fetchProperty();
+  }, [id]); // Dependência do ID para recarregar se o ID da URL mudar
 
   // Manipulador de mudança para campos de texto e select
   const handleChange = (e) => {
@@ -205,28 +267,34 @@ const CreateProperties = () => {
     }));
   };
 
-  // Manipulador de mudança para o input de arquivo (imagens)
-  const handleImageChange = (e) => {
+  // Manipulador de mudança para o input de arquivo (novas imagens)
+  const handleNewImageChange = (e) => {
     const files = Array.from(e.target.files);
-    setImageFiles((prevFiles) => [...prevFiles, ...files]);
+    setNewImageFiles((prevFiles) => [...prevFiles, ...files]);
 
-    // Cria URLs para pré-visualização
     const newPreviews = files.map((file) => URL.createObjectURL(file));
-    setImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
+    setNewImagePreviews((prevPreviews) => [...prevPreviews, ...newPreviews]);
   };
 
-  // Manipulador para remover uma imagem da pré-visualização
-  const handleRemoveImage = (indexToRemove) => {
-    setImageFiles((prevFiles) =>
+  // Manipulador para remover uma imagem EXISTENTE (do Firestore)
+  const handleRemoveExistingImage = (urlToRemove) => {
+    setCurrentImageUrls((prevUrls) =>
+      prevUrls.filter((url) => url !== urlToRemove)
+    );
+  };
+
+  // Manipulador para remover uma NOVA imagem (da pré-visualização)
+  const handleRemoveNewImage = (indexToRemove) => {
+    setNewImageFiles((prevFiles) =>
       prevFiles.filter((_, index) => index !== indexToRemove)
     );
-    setImagePreviews((prevPreviews) =>
+    setNewImagePreviews((prevPreviews) =>
       prevPreviews.filter((_, index) => index !== indexToRemove)
     );
   };
 
-  // Função para fazer upload das imagens para o Firebase Storage
-  const uploadImages = async (files) => {
+  // Função para fazer upload das NOVAS imagens para o Firebase Storage
+  const uploadNewImages = async (files) => {
     const imageUrls = [];
     for (const file of files) {
       const storageRef = ref(storage, `properties/${Date.now()}_${file.name}`);
@@ -236,17 +304,15 @@ const CreateProperties = () => {
         uploadTask.on(
           "state_changed",
           (snapshot) => {
-            // Progresso do upload (opcional, para UI de progresso)
             const progress =
               (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
             console.log(`Upload do ${file.name} está ${progress}% feito.`);
           },
           (error) => {
-            console.error("Erro no upload da imagem:", error);
+            console.error("Erro no upload da nova imagem:", error);
             reject(error);
           },
           async () => {
-            // Upload completo, obtém a URL de download
             const downloadURL = await getDownloadURL(uploadTask.snapshot.ref);
             imageUrls.push(downloadURL);
             resolve();
@@ -257,6 +323,24 @@ const CreateProperties = () => {
     return imageUrls;
   };
 
+  // Função para deletar imagens do Firebase Storage
+  const deleteOldImages = async (urlsToDelete) => {
+    for (const url of urlsToDelete) {
+      try {
+        // Obter o caminho do arquivo no Storage a partir da URL
+        // Ex: https://firebasestorage.googleapis.com/v0/b/project.appspot.com/o/path%2Fto%2Ffile.jpg?...
+        // Precisamos de 'path/to/file.jpg'
+        const path = decodeURIComponent(url.split("/o/")[1].split("?")[0]);
+        const imageRef = ref(storage, path);
+        await deleteObject(imageRef);
+        console.log(`Imagem deletada do Storage: ${path}`);
+      } catch (error) {
+        console.error(`Erro ao deletar imagem ${url} do Storage:`, error);
+        // Não lançar erro para não parar o processo de atualização do documento
+      }
+    }
+  };
+
   // Manipulador de submissão do formulário
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -265,59 +349,56 @@ const CreateProperties = () => {
     setMessageType("");
 
     try {
-      // 1. Upload das imagens para o Firebase Storage
-      const uploadedImageUrls = await uploadImages(imageFiles);
+      // 1. Upload das NOVAS imagens para o Firebase Storage
+      const uploadedNewImageUrls = await uploadNewImages(newImageFiles);
 
-      // 2. Adiciona os dados do imóvel ao Firestore
-      await addDoc(collection(db, "properties"), {
+      // 2. Determinar quais imagens EXISTENTES foram removidas e deletá-las do Storage
+      const urlsToDelete = originalImageUrls.filter(
+        (url) => !currentImageUrls.includes(url)
+      );
+      await deleteOldImages(urlsToDelete);
+
+      // 3. Combinar as URLs das imagens atuais (existentes + novas)
+      const finalImageUrls = [...currentImageUrls, ...uploadedNewImageUrls];
+
+      // 4. Atualiza os dados do imóvel no Firestore
+      const docRef = doc(db, "properties", id);
+      await updateDoc(docRef, {
         ...propertyData,
-        price: parseFloat(propertyData.price), // Converte preço para número
-        bedrooms: parseInt(propertyData.bedrooms), // Converte para número inteiro
-        bathrooms: parseInt(propertyData.bathrooms), // Converte para número inteiro
-        area: parseFloat(propertyData.area), // Converte área para número
-        imageUrls: uploadedImageUrls, // Salva as URLs das imagens
-        createdAt: Timestamp.now(), // Data de criação
-        updatedAt: Timestamp.now(), // Data da última atualização
-        // Adicionar userId do usuário logado aqui, se houver sistema de autenticação
+        price: parseFloat(propertyData.price),
+        bedrooms: parseInt(propertyData.bedrooms),
+        bathrooms: parseInt(propertyData.bathrooms),
+        area: parseFloat(propertyData.area),
+        imageUrls: finalImageUrls, // Salva as URLs finais das imagens
+        updatedAt: Timestamp.now(), // Atualiza o timestamp
       });
 
-      setMessage("Imóvel cadastrado com sucesso!");
+      setMessage("Imóvel atualizado com sucesso!");
       setMessageType("success");
-      // Limpa o formulário após o sucesso
-      setPropertyData({
-        title: "",
-        description: "",
-        address: "",
-        neighborhood: "", // Limpa o novo campo Bairro
-        city: "",
-        state: "",
-        price: "",
-        type: "",
-        status: "for_sale",
-        bedrooms: "",
-        bathrooms: "",
-        area: "",
-        ownerName: "", // Limpa o novo campo Proprietário
-        ownerPhone: "", // Limpa o novo campo Telefone do Proprietário
-        amenities: [],
-      });
-      setImageFiles([]);
-      setImagePreviews([]);
 
-      // Opcional: Navegar para a lista de imóveis após o cadastro
+      // Opcional: Redirecionar após a atualização
       // navigate("/admin/imoveis");
     } catch (error) {
-      console.error("Erro ao cadastrar imóvel:", error);
-      setMessage(`Erro ao cadastrar imóvel: ${error.message}`);
+      console.error("Erro ao atualizar imóvel:", error);
+      setMessage(`Erro ao atualizar imóvel: ${error.message}`);
       setMessageType("error");
     } finally {
       setLoading(false);
     }
   };
 
+  if (isFetchingProperty) {
+    return (
+      <FormContainer>
+        <FormTitle>Carregando Imóvel...</FormTitle>
+        <Message>Buscando dados do imóvel. Por favor, aguarde.</Message>
+      </FormContainer>
+    );
+  }
+
   return (
     <FormContainer>
-      <FormTitle>Cadastrar Imóvel</FormTitle>
+      <FormTitle>Editar Imóvel</FormTitle>
       <form onSubmit={handleSubmit}>
         <FormGroup>
           <Label htmlFor="title">Título do Imóvel</Label>
@@ -354,7 +435,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Bairro */}
         <FormGroup>
           <Label htmlFor="neighborhood">Bairro</Label>
           <Input
@@ -477,7 +557,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Proprietário */}
         <FormGroup>
           <Label htmlFor="ownerName">Nome do Proprietário</Label>
           <Input
@@ -490,11 +569,10 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Telefone do Proprietário */}
         <FormGroup>
           <Label htmlFor="ownerPhone">Telefone do Proprietário</Label>
           <Input
-            type="tel" // Tipo "tel" para telefones
+            type="tel"
             id="ownerPhone"
             name="ownerPhone"
             value={propertyData.ownerPhone}
@@ -505,21 +583,39 @@ const CreateProperties = () => {
 
         <FormGroup>
           <Label htmlFor="images">Fotos do Imóvel</Label>
-          <Input
-            type="file"
-            id="images"
-            name="images"
-            accept="image/*"
-            multiple // Permite múltiplos arquivos
-            onChange={handleImageChange}
-          />
+          {/* Pré-visualização de imagens EXISTENTES */}
           <ImagePreviewContainer>
-            {imagePreviews.map((src, index) => (
-              <ImagePreview key={index}>
-                <img src={src} alt={`Preview ${index}`} />
+            {currentImageUrls.map((src, index) => (
+              <ImagePreview key={src}>
+                <img src={src} alt={`Existente ${index}`} />
                 <RemoveImageButton
                   type="button"
-                  onClick={() => handleRemoveImage(index)}
+                  onClick={() => handleRemoveExistingImage(src)}
+                >
+                  X
+                </RemoveImageButton>
+              </ImagePreview>
+            ))}
+          </ImagePreviewContainer>
+
+          {/* Input para NOVAS imagens */}
+          <Input
+            type="file"
+            id="newImages"
+            name="newImages"
+            accept="image/*"
+            multiple
+            onChange={handleNewImageChange}
+            style={{ marginTop: "1rem" }}
+          />
+          {/* Pré-visualização de NOVAS imagens */}
+          <ImagePreviewContainer>
+            {newImagePreviews.map((src, index) => (
+              <ImagePreview key={index}>
+                <img src={src} alt={`Nova ${index}`} />
+                <RemoveImageButton
+                  type="button"
+                  onClick={() => handleRemoveNewImage(index)}
                 >
                   X
                 </RemoveImageButton>
@@ -532,13 +628,13 @@ const CreateProperties = () => {
 
         <ButtonGroup>
           <Button type="submit" disabled={loading}>
-            {loading ? "Cadastrando..." : "Cadastrar Imóvel"}
+            {loading ? "Atualizando..." : "Atualizar Imóvel"}
           </Button>
           <Button
             type="button"
-            $background="var(--color-red)" // Usando transient prop para o background
-            $color="white" // Usando transient prop para a cor
-            onClick={() => navigate("/admin/imoveis")} // Volta para a lista de imóveis
+            $background="var(--color-red)"
+            $color="white"
+            onClick={() => navigate("/admin/imoveis")}
             disabled={loading}
           >
             Cancelar
@@ -549,4 +645,4 @@ const CreateProperties = () => {
   );
 };
 
-export default CreateProperties;
+export default EditPropertiesPage;
