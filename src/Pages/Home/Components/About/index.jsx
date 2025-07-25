@@ -12,6 +12,11 @@ const AboutStylized = styled.section`
   box-sizing: border-box;
   border-radius: 1rem;
   padding: 2rem 0 0;
+
+  @media screen and (width > 1020px) {
+    width: 100%;
+    max-width: 100vw;
+  }
 `;
 
 const AboutContainer = styled.div`
@@ -22,16 +27,15 @@ const AboutContainer = styled.div`
 `;
 
 const AboutImageStylized = styled.div`
+  box-sizing: border-box;
+  padding: 1rem;
   width: 100%;
-  display: flex;
-
+  max-height: 30rem;
   img {
-    padding: 1rem;
-    display: block;
-    max-width: 90%;
-    height: auto;
-    margin: auto;
-    border-radius: 2rem;
+    width: 100%;
+    height: 100%;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.85) 0px 5px 15px;
   }
 
   @media screen and (width > 1020px) {
@@ -41,7 +45,7 @@ const AboutImageStylized = styled.div`
 
 const AboutContent = styled.div`
   padding: 1rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   line-height: 1.5;
 
   @media screen and (width > 1020px) {

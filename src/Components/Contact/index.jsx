@@ -9,7 +9,6 @@ import Title from "../Title";
 
 const ContactStylized = styled.section`
   width: 100%;
-  min-height: 20rem;
   margin-bottom: 2rem;
   height: auto;
 `;

@@ -79,4 +79,5 @@ Botões grandes e claros para as tarefas mais frequentes:
 firebase deploy --only hosting
 
 npm run build
+gs://wilson-corretor-imoveis.firebasestorage.app
 ```

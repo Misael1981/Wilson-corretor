@@ -13,6 +13,8 @@ const FinancialBannerStylized = styled.section`
   justify-content: center;
 
   @media screen and (width > 1020px) {
+    width: 70rem;
+    max-width: 80vw;
     flex-direction: row;
     align-items: stretch;
   }
@@ -27,7 +29,7 @@ const FinancialBannerContent = styled.div`
 
   h3 {
     font-weight: 600;
-    font-size: 1.5rem;
+    font-size: 1.3rem;
   }
   @media screen and (width > 1020px) {
     border-radius: 1rem 0 0 1rem;
@@ -52,7 +54,7 @@ const ListFinancial = styled.ul`
   margin-bottom: 1rem;
   li {
     margin-bottom: 0.5rem;
-    font-size: 1.3rem;
+    font-size: 1rem;
   }
   li svg {
     margin: 0 0.5rem;

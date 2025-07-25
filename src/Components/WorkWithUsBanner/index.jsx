@@ -14,6 +14,8 @@ const WorkWithUsStylized = styled.section`
   align-items: stretch;
 
   @media screen and (width > 1020px) {
+    width: 70rem;
+    max-width: 80vw;
     flex-direction: row;
   }
 `;
@@ -41,7 +43,7 @@ const WorkWithUsStylizedContent = styled.div`
   justify-content: space-around;
 
   h5 {
-    font-size: 2rem;
+    font-size: 1.5rem;
     color: var(--color-blue);
     margin: 2rem 0;
     font-family: var(--font-title);
