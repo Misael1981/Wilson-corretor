@@ -129,24 +129,73 @@ const CardPropertyFooter = styled.footer`
   gap: 1rem;
 `;
 
+const LinkStyled = styled(Link)`
+  text-decoration: none;
+`;
+
 const PropertyCard = ({ propertyData }) => {
-  if (!propertyData) {
-    return <div>Dados do imóvel não disponíveis. </div>;
-  }
+  const {
+    id,
+    title,
+    neighborhood,
+    city,
+    imageUrls,
+    area,
+    bedrooms,
+    bathrooms,
+    garageSpaces,
+    price,
+    ownerPhone,
+    projectCode,
+  } = propertyData;
+
+  const formatPrice = (price) => {
+    if (price === undefined || price === null) return "Preço não disponível";
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    }).format(price);
+  };
+
+  const handleMessageClick = () => {
+    const defaultPhoneNumber = "5535999415176";
+    const targetPhoneNumber = ownerPhone || defaultPhoneNumber;
+    const message = `Olá, tenho interesse no imóvel "${title}" (Código do Projeto: ${
+      projectCode || "N/A"
+    }). Poderia me dar mais informações?`;
+    const whatsappUrl = `https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  const handleCallClick = () => {
+    const defaultPhoneNumber = "5535999415176";
+    const targetPhoneNumber = ownerPhone || defaultPhoneNumber;
+    window.open(`tel:${targetPhoneNumber}`);
+  };
 
   return (
     <CardStylized>
-      <CardImage src={propertyData.image} alt={propertyData.title} />
+      <CardImage
+        src={
+          imageUrls && imageUrls.length > 0
+            ? imageUrls[0]
+            : "https://placehold.co/300x150/cccccc/333333?text=Sem+Imagem"
+        }
+        alt={title || "Imagem do imóvel"}
+      />
       <CardContent>
         <CardHeader>
-          <h3>{propertyData.title}</h3>
+          <h3>{title}</h3>
           <div>
-            <h4>{propertyData.city}</h4>
-            <h4>{propertyData.location}</h4>
+            <h4>{city}</h4>
+            <h4>{neighborhood}</h4>
           </div>
         </CardHeader>
         <CardPropertyPriceAndFavorite>
-          <strong id="preco">{propertyData.price}</strong>
+          <strong id="preco">{formatPrice(price)}</strong>
           <button>
             <GoHeart />
           </button>
@@ -154,30 +203,32 @@ const PropertyCard = ({ propertyData }) => {
         <CardPropertyDescriptionList>
           <li>
             <FaChartArea />
-            <span>{propertyData.area}&sup2;</span>
+            <span>{area}&sup2;</span>
           </li>
           <li>
             <LuBedDouble />
-            <span>{propertyData.bedrooms}</span>
+            <span>{bedrooms}</span>
           </li>
           <li>
             <FaShower />
-            <span>{propertyData.bathrooms}</span>
+            <span>{bathrooms}</span>
           </li>
           <li>
             <FaCarRear />
-            <span>{propertyData.parkingSpaces}</span>
+            <span>{garageSpaces}</span>
           </li>
         </CardPropertyDescriptionList>
-        <CardDescription>{propertyData.description}</CardDescription>
+        {/* <CardDescription>{description}</CardDescription> */}
         <ButtonMoreDetails>
-          <Link to={`/imovel/${propertyData.id}`}>
+          <LinkStyled to={`/imovel/${id}`}>
             <Button>Mais Detalhes</Button>
-          </Link>
+          </LinkStyled>
         </ButtonMoreDetails>
         <CardPropertyFooter>
-          <Button isGolden={true}>Mensagem</Button>
-          <Button>Ligar</Button>
+          <Button isGolden={true} onClick={handleMessageClick}>
+            Mensagem
+          </Button>
+          <Button onClick={handleCallClick}>Ligar</Button>
         </CardPropertyFooter>
       </CardContent>
     </CardStylized>

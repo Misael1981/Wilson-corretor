@@ -1,69 +1,71 @@
-import styled from "styled-components";
+import React, { useState, useEffect } from "react";
+import { collection, query, orderBy, limit, getDocs } from "firebase/firestore";
+import { db } from "@/firebase";
 import CardRecentlyAdded from "../CardRecentlyAdded";
-import useFetch from "../../../../hooks/useFetch";
 
-const RecentlyAddedContainer = styled.div`
-  width: 30rem;
-  max-width: 90vw;
-  background: var(--degrade-blue);
-  min-height: 20rem;
-  margin: 0 auto;
-  border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-  box-sizing: border-box;
-  padding: 1rem;
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-
-  h2 {
-    color: var(--color-golden);
-    margin: 0;
-    text-align: center;
-    font-size: 1.5rem;
-  }
-`;
+import {
+  RecentlyAddedContainer,
+  RecentlyAddedTitle,
+  RecentlyAddedList,
+} from "./RecentlyAddedStyles";
 
 const RecentlyAdded = () => {
-  const {
-    data: allProperties,
-    isLoading,
-    error,
-  } = useFetch("/propertiesRealEstate.json");
+  const [recentProperties, setRecentProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  // A lógica de filtragem/ordenação deve vir AQUI, depois que os dados forem carregados.
-  let recentProperties = [];
+  useEffect(() => {
+    const fetchRecentProperties = async () => {
+      try {
+        const q = query(
+          collection(db, "properties"),
+          orderBy("createdAt", "desc"),
+          limit(6)
+        );
+        const querySnapshot = await getDocs(q);
+        const fetchedProperties = [];
+        querySnapshot.forEach((doc) => {
+          fetchedProperties.push({ id: doc.id, ...doc.data() });
+        });
+        setRecentProperties(fetchedProperties);
+      } catch (err) {
+        console.error("Erro ao buscar imóveis recentes:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
 
-  if (allProperties) {
-    // 1. Crie uma cópia do array para não mutar o original
-    // 2. Ordene os imóveis pelo ID em ordem decrescente (maior ID = mais recente)
-    // 3. Pegue os primeiros N (ex: 3) imóveis
-    recentProperties = [...allProperties] // Cria uma cópia
-      .sort((a, b) => b.id - a.id) // Ordena do maior ID para o menor
-      .slice(0, 5); // Pega os 3 mais recentes (você pode mudar para 4, 5, etc.)
-  }
+    fetchRecentProperties();
+  }, []);
 
-  // Tratamento de estados de carregamento e erro
-  if (isLoading) return <p>Carregando imóveis recentes...</p>;
-  if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
-
-  // Se não houver imóveis ou nenhum foi filtrado
-  if (!recentProperties || recentProperties.length === 0) {
+  if (isLoading)
     return (
       <RecentlyAddedContainer>
-        <h2>Adicionado Recentemente</h2>
-        <p>Nenhum imóvel recente disponível no momento.</p>
+        <p>Carregando imóveis recentes...</p>
       </RecentlyAddedContainer>
     );
-  }
+  if (error)
+    return (
+      <RecentlyAddedContainer>
+        <p>Erro ao carregar imóveis recentes: {error.message}</p>
+      </RecentlyAddedContainer>
+    );
+  if (!recentProperties || recentProperties.length === 0)
+    return (
+      <RecentlyAddedContainer>
+        <p>Nenhum imóvel recente encontrado.</p>
+      </RecentlyAddedContainer>
+    );
 
   return (
     <RecentlyAddedContainer>
-      <h2>Adicionado Recentemente</h2>
-      {/* Mapeie os imóveis recentes para renderizar múltiplos CardRecentlyAdded */}
-      {recentProperties.map((property) => (
-        <CardRecentlyAdded key={property.id} propertyData={property} />
-      ))}
+      <RecentlyAddedTitle>Adicionados Recentemente</RecentlyAddedTitle>
+      <RecentlyAddedList>
+        {recentProperties.map((property) => (
+          <CardRecentlyAdded key={property.id} propertyData={property} />
+        ))}
+      </RecentlyAddedList>
     </RecentlyAddedContainer>
   );
 };

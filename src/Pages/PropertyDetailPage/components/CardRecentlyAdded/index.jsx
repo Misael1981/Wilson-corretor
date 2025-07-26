@@ -1,75 +1,63 @@
-import styled from "styled-components";
-import { FaChartArea, FaShower } from "react-icons/fa";
+import { FaChartArea, FaBed, FaBath } from "react-icons/fa"; // Adicionei FaBed e FaBath
 import { Link } from "react-router-dom";
 
-const CardRecentlyAddedStylized = styled.div`
-  width: 100%;
-  border: 1px solid var(--color-golden);
-  border-radius: 1rem;
-  box-sizing: border-box;
-  padding: 0.5rem;
-  display: flex;
-  gap: 1rem;
-  cursor: pointer;
-`;
-
-const ImageCardRecentlyAddedContainer = styled.div`
-  width: 7rem;
-
-  img {
-    width: 100%;
-    border-radius: 1rem;
-  }
-`;
-
-const ContentCardRecentlyAdded = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-
-  h3 {
-    margin: 0;
-    font-size: 1rem;
-    color: var(--color-golden);
-  }
-
-  ul {
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    gap: 2rem;
-    color: var(--color-golden);
-
-    li {
-      display: flex;
-      align-items: center;
-      gap: 0.3rem;
-      font-size: 0.8rem;
-    }
-  }
-`;
+import {
+  CardRecentlyAddedStylized,
+  ImageCardRecentlyAddedContainer,
+  ContentCardRecentlyAdded,
+  CardContent,
+} from "./CardRecentlyAddedStyles"; // Importa os estilos
 
 const CardRecentlyAdded = ({ propertyData }) => {
+  const formatPrice = (price) => {
+    if (price === undefined || price === null) return "Preço não disponível";
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    }).format(price);
+  };
+
+  const defaultImageUrl =
+    "https://placehold.co/100x80/cccccc/333333?text=Sem+Imagem"; // Imagem padrão
+
   return (
-    <Link to={`/imovel/${propertyData.id}`}>
+    <Link to={`/imovel/${propertyData.id}`} style={{ textDecoration: "none" }}>
+      {" "}
+      {/* Remove sublinhado do link */}
       <CardRecentlyAddedStylized>
-        <ImageCardRecentlyAddedContainer>
-          <img src={propertyData.image} alt="" />
-        </ImageCardRecentlyAddedContainer>
-        <ContentCardRecentlyAdded>
-          <h3>{propertyData.title}</h3>
-          <ul>
-            <li>
-              <FaChartArea />
-              <span>{propertyData.area} m&sup2;</span>
-            </li>
-            <li>
-              <FaShower />
-              <span>{propertyData.bedrooms}</span>
-            </li>
-          </ul>
-          <h3>{propertyData.price}</h3>
-        </ContentCardRecentlyAdded>
+        <h3>{propertyData.title || "Título Indisponível"}</h3>
+        <CardContent>
+          <ImageCardRecentlyAddedContainer>
+            <img
+              src={
+                propertyData.imageUrls && propertyData.imageUrls.length > 0
+                  ? propertyData.imageUrls[0]
+                  : defaultImageUrl
+              }
+              alt={propertyData.title || "Imóvel"}
+            />
+          </ImageCardRecentlyAddedContainer>
+          <ContentCardRecentlyAdded>
+            <ul>
+              <li>
+                <FaChartArea />
+                <span>
+                  {propertyData.area ? `${propertyData.area} m²` : "N/A"}
+                </span>
+              </li>
+              <li>
+                <FaBed />
+                <span>{propertyData.bedrooms || "N/A"}</span>
+              </li>
+              <li>
+                <FaBath />
+                <span>{propertyData.bathrooms || "N/A"}</span>
+              </li>
+            </ul>
+            <p>{formatPrice(propertyData.price)}</p>
+          </ContentCardRecentlyAdded>
+        </CardContent>
       </CardRecentlyAddedStylized>
     </Link>
   );

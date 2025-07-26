@@ -1,14 +1,15 @@
 import { useParams } from "react-router-dom";
 import styled from "styled-components";
 import PropertyCard from "../../Components/PropertyCard";
-import useFetch from "../../hooks/useFetch";
 import InputPages from "./components/InputPages";
 import ButtonFilter from "./components/ButtonFilter";
 import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Footer from "../../Components/Footer";
 import Breadcrumbs from "../../Components/Breadcrumbs";
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore"; // Firestore
+import { db } from "@/firebase";
 
 const PageContainer = styled.div`
   @media screen and (width > 1020px) {
@@ -48,11 +49,9 @@ const PropertiesGrid = styled.div`
 
 const RealEstate = () => {
   const { category } = useParams();
-  const {
-    data: allProperties,
-    isLoading,
-    error,
-  } = useFetch("/propertiesRealEstate.json");
+  const [properties, setProperties] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   // NOVO ESTADO: Para controlar a visibilidade do filtro mobile
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
@@ -62,28 +61,76 @@ const RealEstate = () => {
     setIsMobileFilterOpen(!isMobileFilterOpen);
   };
 
+  useEffect(() => {
+    const fetchProperties = async () => {
+      try {
+        let q;
+        if (category) {
+          q = query(
+            collection(db, "properties"),
+            where("type", "==", category.toLowerCase()), // Filtra pela categoria
+            orderBy("createdAt", "desc") // Ordena pelos mais recentes
+          );
+        } else {
+          // Se não houver categoria, busca todos os imóveis (ou um limite)
+          q = query(
+            collection(db, "properties"),
+            orderBy("createdAt", "desc") // Ordena pelos mais recentes
+            // limit(20) // Opcional: Limitar para não carregar muitos de uma vez
+          );
+        }
+
+        const querySnapshot = await getDocs(q);
+        const fetchedProperties = [];
+        querySnapshot.forEach((doc) => {
+          fetchedProperties.push({ id: doc.id, ...doc.data() });
+        });
+        setProperties(fetchedProperties);
+      } catch (err) {
+        console.error("Erro ao carregar imóveis:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProperties();
+  }, [category]);
+
   if (isLoading) return <p>Carregando imóveis...</p>;
   if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
-
-  // Filtra os imóveis.
-  const properties = allProperties.filter((prop) =>
-    category
-      ? prop.type && prop.type.toLowerCase() === category.toLowerCase()
-      : true
-  );
+  if (!properties || properties.length === 0)
+    return (
+      <PageContainer>
+        <main>
+          <HeroPageContainer>
+            <Breadcrumbs />
+            <InputPages />
+            <ButtonFilter onClick={toggleMobileFilter} />
+            <PropertyActions />
+          </HeroPageContainer>
+          <PageContainerCard>
+            <PageTitle>
+              Nenhum {category ? category.replace(/-/g, " ") : "imóvel"}{" "}
+              encontrado.
+            </PageTitle>
+          </PageContainerCard>
+          <Footer />
+        </main>
+      </PageContainer>
+    );
 
   return (
     <>
       <PageContainer>
         <AdvancedSearch
-          isMobileFilterOpen={isMobileFilterOpen} // Passa o estado para o filho
-          onClose={toggleMobileFilter} // Passa a função de fechar para o filho (se tiver botão fechar no modal)
+          isMobileFilterOpen={isMobileFilterOpen}
+          onClose={toggleMobileFilter}
         />
         <main>
           <HeroPageContainer>
             <Breadcrumbs />
             <InputPages />
-            {/* O ButtonFilter só aparece em mobile, e chama o toggleMobileFilter */}
             <ButtonFilter onClick={toggleMobileFilter} />
             <PropertyActions />
           </HeroPageContainer>

@@ -1,157 +1,144 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import styled from "styled-components";
-import useFetch from "../../hooks/useFetch";
+import { doc, getDoc } from "firebase/firestore";
+import { db } from "@/firebase";
+
 import Footer from "../../Components/Footer";
-import PropertyCarousel from "./components/PropertyCarousel";
-import RecentlyAdded from "./components/RecentlyAdded";
 import Breadcrumbs from "../../Components/Breadcrumbs";
+import RecentlyAdded from "./components/RecentlyAdded";
+import PropertyCarousel from "./components/PropertyCarousel";
 
-const DetailPageContainer = styled.div`
-  width: 95vw;
-  max-width: 85rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  gap: 1rem;
-  margin: 0 auto;
-  box-sizing: border-box;
-  padding: 2rem 0;
-
-  @media screen and (width > 1120px) {
-    flex-direction: row;
-  }
-`;
-
-const DetailMainContainer = styled.div`
-  padding: 2rem;
-  width: 80vw;
-  max-width: 50rem;
-  margin: 0 auto;
-  background: var(--degrade-blue);
-  border-radius: 1rem;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.8);
-`;
-
-const PropertyImage = styled.div`
-  width: 100%;
-  border-radius: 0.8rem;
-  margin-bottom: 1.5rem;
-`;
-
-const PropertyTitle = styled.h1`
-  font-family: var(--font-title);
-  color: var(--color-golden);
-  font-size: 2.5rem;
-  margin-bottom: 0.5rem;
-`;
-
-const PropertySubtitle = styled.h2`
-  color: var(--color-gray);
-  font-size: 1.5rem;
-  margin-bottom: 1.5rem;
-`;
-
-const PropertyPrice = styled.p`
-  font-size: 2rem;
-  font-weight: bold;
-  color: var(--color-golden);
-  margin-bottom: 1rem;
-`;
-
-const PropertyDetailsGrid = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-  gap: 1rem;
-  margin-bottom: 2rem;
-`;
-
-const DetailItem = styled.div`
-  color: #ccc;
-  padding: 1rem;
-  border-radius: 0.5rem;
-  text-align: center;
-  font-weight: 500;
-`;
-
-const PropertyDescription = styled.p`
-  line-height: 1.6;
-  color: #ccc;
-  margin-bottom: 2rem;
-`;
-
-const ContactButton = styled.button`
-  display: block;
-  width: 100%;
-  padding: 1rem;
-  background-color: var(--color-golden);
-  color: var(--color-blue);
-  border: none;
-  border-radius: 0.8rem;
-  font-size: 1.2rem;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-
-  &:hover {
-    background-color: var(--color-golden-dark);
-  }
-`;
+import {
+  DetailPageContainer,
+  DetailMainContainer,
+  PropertyTitle,
+  PropertySubtitle,
+  PropertyPrice,
+  PropertyDetailsGrid,
+  DetailItem,
+  PropertyDescription,
+  ContactButton,
+} from "./PropertyDetailStyles";
 
 const PropertyDetailPage = () => {
   const { id } = useParams();
-  const {
-    data: allProperties,
-    isLoading,
-    error,
-  } = useFetch("/propertiesRealEstate.json");
-
   const [property, setProperty] = useState(null);
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (allProperties) {
-      const foundProperty = allProperties.find((p) => String(p.id) === id);
-      setProperty(foundProperty);
-    }
-  }, [allProperties, id]);
+    const fetchProperty = async () => {
+      if (!id) {
+        setError(new Error("ID do imóvel não encontrado na URL."));
+        setIsLoading(false);
+        return;
+      }
 
-  if (isLoading) return <p>Carregando detalhes do imóvel...</p>;
-  if (error) return <p>Erro ao carregar imóvel: {error.message}</p>;
-  if (!property) return <p>Imóvel não encontrado.</p>;
+      try {
+        const docRef = doc(db, "properties", id);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+          setProperty({ id: docSnap.id, ...docSnap.data() });
+        } else {
+          setError(new Error("Imóvel não encontrado."));
+        }
+      } catch (err) {
+        console.error("Erro ao buscar imóvel:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchProperty();
+  }, [id]);
+
+  const formatPrice = (price) => {
+    if (price === undefined || price === null) return "Preço não disponível";
+    return new Intl.NumberFormat("pt-BR", {
+      style: "currency",
+      currency: "BRL",
+      minimumFractionDigits: 2,
+    }).format(price);
+  };
+
+  const handleContactClick = () => {
+    const defaultPhoneNumber = "5535999415176";
+    const targetPhoneNumber = property.ownerPhone || defaultPhoneNumber;
+    const message = `Olá, tenho interesse no imóvel "${
+      property.title
+    }" (Código do Projeto: ${
+      property.projectCode || "N/A"
+    }). Poderia me dar mais informações?`;
+    const whatsappUrl = `https://wa.me/${targetPhoneNumber}?text=${encodeURIComponent(
+      message
+    )}`;
+    window.open(whatsappUrl, "_blank");
+  };
+
+  if (isLoading)
+    return (
+      <DetailPageContainer>
+        <DetailMainContainer>
+          <p>Carregando detalhes do imóvel...</p>
+        </DetailMainContainer>
+      </DetailPageContainer>
+    );
+  if (error)
+    return (
+      <DetailPageContainer>
+        <DetailMainContainer>
+          <p>Erro ao carregar imóvel: {error.message}</p>
+        </DetailMainContainer>
+      </DetailPageContainer>
+    );
+  if (!property)
+    return (
+      <DetailPageContainer>
+        <DetailMainContainer>
+          <p>Imóvel não encontrado.</p>
+        </DetailMainContainer>
+      </DetailPageContainer>
+    );
 
   return (
     <>
       <Breadcrumbs />
       <DetailPageContainer>
         <DetailMainContainer>
-          <PropertyImage>
-            <PropertyCarousel images={property.images || []} />
-          </PropertyImage>
+          {/* Usando o novo componente PropertyCarousel */}
+          <PropertyCarousel imageUrls={property.imageUrls} />
+
           <PropertyTitle>{property.title}</PropertyTitle>
           <PropertySubtitle>
-            {property.address || "Endereço não disponível"}
+            {property.neighborhood}, {property.city} - {property.state}
+            {property.projectCode && ` (Cód: ${property.projectCode})`}
           </PropertySubtitle>
-          <PropertyPrice>
-            R${" "}
-            {property.price
-              ? property.price.toLocaleString("pt-BR")
-              : "Preço não disponível"}
-          </PropertyPrice>
+          <PropertyPrice>{formatPrice(property.price)}</PropertyPrice>
           <PropertyDetailsGrid>
             <DetailItem>
               Área: {property.area ? `${property.area}m²` : "N/A"}
             </DetailItem>
             <DetailItem>Quartos: {property.bedrooms || "N/A"}</DetailItem>
             <DetailItem>Banheiros: {property.bathrooms || "N/A"}</DetailItem>
-            <DetailItem>Vagas: {property.parkingSpaces || "N/A"}</DetailItem>
+            <DetailItem>
+              Vagas Garagem:{" "}
+              {property.garageSpaces !== undefined && property.garageSpaces > 0
+                ? property.garageSpaces
+                : "N/A"}
+            </DetailItem>
             <DetailItem>Tipo: {property.type || "N/A"}</DetailItem>
+            <DetailItem>Status: {property.status || "N/A"}</DetailItem>
           </PropertyDetailsGrid>
           <PropertyDescription>
             <h3>Descrição do Imóvel:</h3>
             {property.description ||
               "Nenhuma descrição detalhada disponível para este imóvel."}
           </PropertyDescription>
-          <ContactButton>Entrar em Contato</ContactButton>
+          <ContactButton onClick={handleContactClick}>
+            Entrar em Contato (WhatsApp)
+          </ContactButton>
         </DetailMainContainer>
         <RecentlyAdded />
       </DetailPageContainer>

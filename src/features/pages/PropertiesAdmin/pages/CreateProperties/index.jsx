@@ -63,6 +63,11 @@ const Input = styled.input`
   }
 `;
 
+const CheckboxInput = styled.input`
+  width: auto; /* Para checkboxes, não queremos 100% de largura */
+  margin-right: 0.5rem;
+`;
+
 const TextArea = styled.textarea`
   width: 100%;
   padding: 0.8rem;
@@ -181,9 +186,10 @@ const CreateProperties = () => {
     area: "", // Área em m²
     ownerName: "",
     ownerPhone: "",
-    projectCode: "", // NOVO CAMPO: Código do Projeto
-    garageSpaces: "", // NOVO CAMPO: Vagas na Garagem
-    amenities: [], // Futuramente: lista de comodidades
+    projectCode: "",
+    garageSpaces: "",
+    isFeatured: false, // NOVO CAMPO: Imóvel em Destaque (boolean)
+    amenities: [],
   });
 
   // Estados para upload de imagens
@@ -197,10 +203,10 @@ const CreateProperties = () => {
 
   // Manipulador de mudança para campos de texto e select
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setPropertyData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value, // Lida com checkboxes
     }));
   };
 
@@ -274,7 +280,7 @@ const CreateProperties = () => {
         bedrooms: parseInt(propertyData.bedrooms), // Converte para número inteiro
         bathrooms: parseInt(propertyData.bathrooms), // Converte para número inteiro
         area: parseFloat(propertyData.area), // Converte área para número
-        garageSpaces: parseInt(propertyData.garageSpaces), // NOVO: Converte vagas para número inteiro
+        garageSpaces: parseInt(propertyData.garageSpaces), // Converte vagas para número inteiro
         imageUrls: uploadedImageUrls, // Salva as URLs das imagens
         createdAt: Timestamp.now(), // Data de criação
         updatedAt: Timestamp.now(), // Data da última atualização
@@ -299,8 +305,9 @@ const CreateProperties = () => {
         area: "",
         ownerName: "",
         ownerPhone: "",
-        projectCode: "", // Limpa o novo campo Código do Projeto
-        garageSpaces: "", // Limpa o novo campo Vagas na Garagem
+        projectCode: "",
+        garageSpaces: "",
+        isFeatured: false, // Limpa o estado do checkbox
         amenities: [],
       });
       setImageFiles([]);
@@ -333,7 +340,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Código do Projeto */}
         <FormGroup>
           <Label htmlFor="projectCode">Código do Projeto</Label>
           <Input
@@ -476,19 +482,6 @@ const CreateProperties = () => {
           />
         </FormGroup>
 
-        {/* NOVO CAMPO: Vagas na Garagem */}
-        <FormGroup>
-          <Label htmlFor="garageSpaces">Vagas na Garagem</Label>
-          <Input
-            type="number"
-            id="garageSpaces"
-            name="garageSpaces"
-            value={propertyData.garageSpaces}
-            onChange={handleChange}
-            min="0"
-          />
-        </FormGroup>
-
         <FormGroup>
           <Label htmlFor="area">Área (m²)</Label>
           <Input
@@ -522,6 +515,35 @@ const CreateProperties = () => {
             value={propertyData.ownerPhone}
             onChange={handleChange}
           />
+        </FormGroup>
+
+        <FormGroup>
+          <Label htmlFor="garageSpaces">Vagas na Garagem</Label>
+          <Input
+            type="number"
+            id="garageSpaces"
+            name="garageSpaces"
+            value={propertyData.garageSpaces}
+            onChange={handleChange}
+            min="0"
+          />
+        </FormGroup>
+
+        {/* NOVO CAMPO: Imóvel em Destaque */}
+        <FormGroup>
+          <Label
+            htmlFor="isFeatured"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <CheckboxInput
+              type="checkbox"
+              id="isFeatured"
+              name="isFeatured"
+              checked={propertyData.isFeatured}
+              onChange={handleChange}
+            />
+            Imóvel em Destaque
+          </Label>
         </FormGroup>
 
         <FormGroup>

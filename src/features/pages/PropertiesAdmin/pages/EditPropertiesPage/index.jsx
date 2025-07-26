@@ -70,6 +70,11 @@ const Input = styled.input`
   }
 `;
 
+const CheckboxInput = styled.input`
+  width: auto; /* Para checkboxes, não queremos 100% de largura */
+  margin-right: 0.5rem;
+`;
+
 const TextArea = styled.textarea`
   width: 100%;
   padding: 0.8rem;
@@ -190,8 +195,9 @@ const EditPropertiesPage = () => {
     area: "",
     ownerName: "",
     ownerPhone: "",
-    projectCode: "", // NOVO CAMPO: Código do Projeto
-    garageSpaces: "", // NOVO CAMPO: Vagas na Garagem
+    projectCode: "",
+    garageSpaces: "",
+    isFeatured: false, // NOVO CAMPO: Imóvel em Destaque (boolean)
     amenities: [],
   });
 
@@ -240,11 +246,12 @@ const EditPropertiesPage = () => {
             area: data.area !== undefined ? data.area.toString() : "",
             ownerName: data.ownerName || "",
             ownerPhone: data.ownerPhone || "",
-            projectCode: data.projectCode || "", // NOVO: Popula Código do Projeto
+            projectCode: data.projectCode || "",
             garageSpaces:
               data.garageSpaces !== undefined
                 ? data.garageSpaces.toString()
-                : "", // NOVO: Popula Vagas na Garagem
+                : "",
+            isFeatured: data.isFeatured || false, // NOVO: Popula o estado do checkbox
             amenities: data.amenities || [],
           });
           setOriginalImageUrls(data.imageUrls || []);
@@ -265,12 +272,12 @@ const EditPropertiesPage = () => {
     fetchProperty();
   }, [id]); // Dependência do ID para recarregar se o ID da URL mudar
 
-  // Manipulador de mudança para campos de texto e select
+  // Manipulador de mudança para campos de texto, select e checkbox
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    const { name, value, type, checked } = e.target;
     setPropertyData((prevData) => ({
       ...prevData,
-      [name]: value,
+      [name]: type === "checkbox" ? checked : value, // Lida com checkboxes
     }));
   };
 
@@ -376,7 +383,7 @@ const EditPropertiesPage = () => {
         bedrooms: parseInt(propertyData.bedrooms),
         bathrooms: parseInt(propertyData.bathrooms),
         area: parseFloat(propertyData.area),
-        garageSpaces: parseInt(propertyData.garageSpaces), // NOVO: Converte vagas para número inteiro
+        garageSpaces: parseInt(propertyData.garageSpaces), // Converte vagas para número inteiro
         imageUrls: finalImageUrls, // Salva as URLs finais das imagens
         updatedAt: Timestamp.now(), // Atualiza o timestamp
       });
@@ -439,7 +446,6 @@ const EditPropertiesPage = () => {
             name="address"
             value={propertyData.address}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
@@ -573,7 +579,6 @@ const EditPropertiesPage = () => {
             name="ownerName"
             value={propertyData.ownerName}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
@@ -585,7 +590,6 @@ const EditPropertiesPage = () => {
             name="ownerPhone"
             value={propertyData.ownerPhone}
             onChange={handleChange}
-            required
           />
         </FormGroup>
 
@@ -612,6 +616,23 @@ const EditPropertiesPage = () => {
             onChange={handleChange}
             min="0"
           />
+        </FormGroup>
+
+        {/* NOVO CAMPO: Imóvel em Destaque */}
+        <FormGroup>
+          <Label
+            htmlFor="isFeatured"
+            style={{ display: "flex", alignItems: "center" }}
+          >
+            <CheckboxInput
+              type="checkbox"
+              id="isFeatured"
+              name="isFeatured"
+              checked={propertyData.isFeatured}
+              onChange={handleChange}
+            />
+            Imóvel em Destaque
+          </Label>
         </FormGroup>
 
         <FormGroup>
