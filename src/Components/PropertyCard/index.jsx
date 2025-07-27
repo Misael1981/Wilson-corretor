@@ -203,19 +203,19 @@ const PropertyCard = ({ propertyData }) => {
         <CardPropertyDescriptionList>
           <li>
             <FaChartArea />
-            <span>{area}&sup2;</span>
+            <span>{String(area ?? 0)}&sup2;</span>
           </li>
           <li>
             <LuBedDouble />
-            <span>{bedrooms}</span>
+            <span>{String(bedrooms ?? 0)}</span>
           </li>
           <li>
             <FaShower />
-            <span>{bathrooms}</span>
+            <span>{String(bathrooms ?? 0)}</span>
           </li>
           <li>
             <FaCarRear />
-            <span>{garageSpaces}</span>
+            <span>{String(garageSpaces ?? 0)}</span>
           </li>
         </CardPropertyDescriptionList>
         {/* <CardDescription>{description}</CardDescription> */}

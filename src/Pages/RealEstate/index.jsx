@@ -5,12 +5,14 @@ import InputPages from "./components/InputPages";
 import ButtonFilter from "./components/ButtonFilter";
 import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import Footer from "../../Components/Footer";
 import Breadcrumbs from "../../Components/Breadcrumbs";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore"; // Firestore
+import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
+import Button from "@/Components/Button";
 
+// Estilos
 const PageContainer = styled.div`
   @media screen and (width > 1020px) {
     display: flex;
@@ -47,78 +49,101 @@ const PropertiesGrid = styled.div`
   gap: 1rem;
 `;
 
+const LoadMoreButtonContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+  margin-bottom: 2rem;
+
+  button {
+    padding: 1rem;
+    border-radius: 0.3rem;
+    border: 1px solid var(--color-blue);
+    color: var(--color-blue);
+    font-weight: 600;
+    cursor: pointer;
+  }
+`;
+
 const RealEstate = () => {
   const { category } = useParams();
+
+  const INITIAL_LOAD_COUNT = 10;
+  const LOAD_MORE_COUNT = 5;
+
+  const [allFetchedProperties, setAllFetchedProperties] = useState([]);
   const [properties, setProperties] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  // NOVO ESTADO: Para controlar a visibilidade do filtro mobile
+  const [displayCount, setDisplayCount] = useState(INITIAL_LOAD_COUNT);
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
-  // NOVA FUNÇÃO: Para alternar a visibilidade
   const toggleMobileFilter = () => {
     setIsMobileFilterOpen(!isMobileFilterOpen);
   };
 
-  useEffect(() => {
-    const fetchProperties = async () => {
-      try {
-        let q;
-        if (category) {
-          q = query(
-            collection(db, "properties"),
-            where("type", "==", category.toLowerCase()), // Filtra pela categoria
-            orderBy("createdAt", "desc") // Ordena pelos mais recentes
-          );
-        } else {
-          // Se não houver categoria, busca todos os imóveis (ou um limite)
-          q = query(
-            collection(db, "properties"),
-            orderBy("createdAt", "desc") // Ordena pelos mais recentes
-            // limit(20) // Opcional: Limitar para não carregar muitos de uma vez
-          );
-        }
-
-        const querySnapshot = await getDocs(q);
-        const fetchedProperties = [];
-        querySnapshot.forEach((doc) => {
-          fetchedProperties.push({ id: doc.id, ...doc.data() });
-        });
-        setProperties(fetchedProperties);
-      } catch (err) {
-        console.error("Erro ao carregar imóveis:", err);
-        setError(err);
-      } finally {
-        setIsLoading(false);
+  // Buscar imóveis do Firestore
+  const fetchProperties = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      let q;
+      if (category) {
+        q = query(
+          collection(db, "properties"),
+          where("type", "==", category.toLowerCase()),
+          orderBy("createdAt", "desc")
+        );
+      } else {
+        q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
       }
-    };
 
-    fetchProperties();
+      const querySnapshot = await getDocs(q);
+      const fetchedProperties = [];
+      querySnapshot.forEach((doc) => {
+        fetchedProperties.push({ id: doc.id, ...doc.data() });
+      });
+
+      setAllFetchedProperties(fetchedProperties);
+      setDisplayCount(INITIAL_LOAD_COUNT); // Reseta contagem
+    } catch (err) {
+      console.error("❌ Erro ao carregar imóveis:", err);
+      setError(err);
+    } finally {
+      setIsLoading(false);
+    }
   }, [category]);
+
+  // Buscar ao carregar ou mudar categoria
+  useEffect(() => {
+    fetchProperties();
+  }, [fetchProperties]);
+
+  // Sempre derivar properties do slice
+  useEffect(() => {
+    const sliced = allFetchedProperties.slice(0, displayCount);
+    setProperties(sliced);
+  }, [allFetchedProperties, displayCount]);
+
+  // Botão "Ver mais"
+  const handleLoadMore = () => {
+    setDisplayCount((prev) => prev + LOAD_MORE_COUNT);
+  };
+
+  // Filtro avançado
+  const handleFilteredProperties = (filteredResults) => {
+    if (filteredResults === null) {
+      // Limpar filtros: volta pro original
+      setAllFetchedProperties(allFetchedProperties);
+    } else {
+      setAllFetchedProperties(filteredResults);
+    }
+    setDisplayCount(INITIAL_LOAD_COUNT);
+    setIsMobileFilterOpen(false);
+  };
 
   if (isLoading) return <p>Carregando imóveis...</p>;
   if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
-  if (!properties || properties.length === 0)
-    return (
-      <PageContainer>
-        <main>
-          <HeroPageContainer>
-            <Breadcrumbs />
-            <InputPages />
-            <ButtonFilter onClick={toggleMobileFilter} />
-            <PropertyActions />
-          </HeroPageContainer>
-          <PageContainerCard>
-            <PageTitle>
-              Nenhum {category ? category.replace(/-/g, " ") : "imóvel"}{" "}
-              encontrado.
-            </PageTitle>
-          </PageContainerCard>
-          <Footer />
-        </main>
-      </PageContainer>
-    );
 
   return (
     <>
@@ -126,6 +151,7 @@ const RealEstate = () => {
         <AdvancedSearch
           isMobileFilterOpen={isMobileFilterOpen}
           onClose={toggleMobileFilter}
+          onFilter={handleFilteredProperties}
         />
         <main>
           <HeroPageContainer>
@@ -146,6 +172,21 @@ const RealEstate = () => {
                 <PropertyCard key={property.id} propertyData={property} />
               ))}
             </PropertiesGrid>
+
+            {/* Botão "Ver Mais" */}
+            {properties.length < allFetchedProperties.length && (
+              <LoadMoreButtonContainer>
+                <button
+                  onClick={handleLoadMore}
+                  background={"var(--color-blue)"}
+                  color={"white"}
+                >
+                  Ver Mais Imóveis (
+                  {Math.max(0, allFetchedProperties.length - properties.length)}{" "}
+                  restantes)
+                </button>
+              </LoadMoreButtonContainer>
+            )}
           </PageContainerCard>
           <Footer />
         </main>

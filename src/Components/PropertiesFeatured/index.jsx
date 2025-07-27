@@ -85,7 +85,7 @@ const PropertiesFeatured = () => {
             768: { slidesPerView: 2, slidesPerGroup: 1 },
             1024: { slidesPerView: 3, slidesPerGroup: 1 },
             1224: { slidesPerView: 4, slidesPerGroup: 1 },
-            1440: { slidesPerView: 4, slidesPerGroup: 1 },
+            1440: { slidesPerView: 5, slidesPerGroup: 1 },
           }}
         >
           {properties.map((property) => (

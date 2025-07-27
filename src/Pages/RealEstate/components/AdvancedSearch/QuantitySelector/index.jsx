@@ -13,7 +13,7 @@ const SelectorGroup = styled.div`
 // O segredo é ter um estilo padrão e um estilo para quando ele está 'ativo'
 const SelectorButton = styled.button`
   background-color: ${(props) =>
-    props.isActive ? "var(--color-blue)" : "white"};
+    props.$isActive ? "var(--color-blue)" : "white"};
   color: ${(props) => (props.isActive ? "white" : "var(--color-blue)")};
   border: 1px solid var(--color-blue);
   border-radius: 4px;
@@ -43,7 +43,7 @@ const QuantitySelector = ({ label, options, selectedValue, onSelect }) => {
         {options.map((option) => (
           <SelectorButton
             key={option.value} // Use o valor como key
-            isActive={selectedValue === option.value} // Verifica se é o selecionado
+            $isActive={selectedValue === option.value} // Verifica se é o selecionado
             onClick={() => onSelect(option.value)} // Chama a função onSelect com o valor
           >
             {option.label}

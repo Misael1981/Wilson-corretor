@@ -1,35 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { useLocation, useParams, Link } from "react-router-dom";
+import React from "react";
+import { useLocation, Link } from "react-router-dom";
 import styled from "styled-components";
-// Supondo que você tem um mock de dados ou um contexto com todos os artigos/imóveis
-// import { allArticlesData, allPropertiesData } from '../../data/mockData';
 
-const BreadcrumbContainer = styled.nav`
+const BreadcrumbsContainer = styled.nav`
   padding: 1rem;
-  background-color: var(--color-light-gray);
-  color: var(--color-dark-gray);
+  background-color: #f0eaea;
+  border-bottom: 1px solid var(--color-blue-ligth);
   font-size: 0.9rem;
+  color: var(--color-blue);
   display: flex;
   align-items: center;
-  flex-wrap: wrap; /* Para quebrar linha em telas pequenas */
-
-  ol {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  li {
-    display: flex;
-    align-items: center;
-    &:not(:last-child)::after {
-      content: "›"; /* Separador */
-      margin: 0 0.5rem;
-      color: var(--color-gray);
-    }
-  }
+  gap: 0.5rem;
+  flex-wrap: wrap; /* Para garantir que não quebre em telas pequenas */
 
   a {
     color: var(--color-blue);
@@ -40,106 +22,70 @@ const BreadcrumbContainer = styled.nav`
   }
 
   span {
-    font-weight: bold;
-    color: var(--color-blue-dark);
+    color: var(--color-gray);
   }
 `;
 
-// Helper function (simulando busca por título)
-// No seu projeto real, isso viria de seu useFetch/Firebase
-const getTitleBySlugOrId = (segment, allArticles, allProperties) => {
-  // Lógica para o blog
-  if (segment.startsWith("blog") && allArticles) {
-    // Se o segmento for 'blog', retorna 'Blog'
-    if (segment === "blog") return "Blog";
-    // Se for um slug/id de artigo, procura o título correspondente
-    const article = allArticles.find(
-      (art) =>
-        String(art.id) === String(segment) ||
-        String(art.slug) === String(segment)
-    );
-    return article ? article.title : segment; // Retorna o título do artigo ou o slug se não encontrar
-  }
-
-  // Lógica para imóveis (exemplo)
-  if (segment.startsWith("imoveis") && allProperties) {
-    if (segment === "imoveis") return "Imóveis";
-    // Lógica para categorias de imóveis ou IDs de imóveis específicos
-    // Ex: const property = allProperties.find(...)
-    // Ou um mapa de slugs para nomes de categorias: { 'apartamentos': 'Apartamentos', 'casas': 'Casas' }
-    return (
-      segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, " ")
-    ); // Capitaliza e substitui hífens
-  }
-
-  // Caso padrão para outros segmentos ou o Home
-  if (segment === "") return "Home"; // Para o primeiro item que é sempre vazio
-  return segment.charAt(0).toUpperCase() + segment.slice(1); // Capitaliza a primeira letra
-};
-
 const Breadcrumbs = () => {
   const location = useLocation();
-  const params = useParams(); // Para pegar os IDs/slugs
-  const pathnames = location.pathname.split("/").filter((x) => x); // Divide a URL em segmentos
+  const pathnames = location.pathname.split("/").filter((x) => x); // Divide o caminho e remove strings vazias
 
-  // ATENÇÃO: No seu projeto, você provavelmente já terá allArticles e allProperties disponíveis
-  // Seja via um Context API, ou chamadas useFetch no componente pai que passa pra cá.
-  // Por simplicidade aqui, vou apenas simular.
-  const [allArticles, setAllArticles] = useState([]); // Simule o carregamento dos seus artigos
-  const [allProperties, setAllProperties] = useState([]); // Simule o carregamento dos seus imóveis
-
-  useEffect(() => {
-    // Isso é apenas um exemplo de como você carregaria seus dados
-    // No seu caso, use o useFetch ou o estado global do Redux/ContextAPI
-    // Se seus dados já são carregados globalmente, remova este useEffect.
-    const loadMockData = async () => {
-      try {
-        const blogResponse = await fetch("/blogArticles.json");
-        const blogData = await blogResponse.json();
-        setAllArticles(blogData);
-
-        // Exemplo: se você tivesse um /properties.json
-        // const propResponse = await fetch('/properties.json');
-        // const propData = await propResponse.json();
-        // setAllProperties(propData);
-      } catch (err) {
-        console.error("Erro ao carregar dados para breadcrumb:", err);
-      }
-    };
-    loadMockData();
-  }, []);
+  // Mapeamento para traduzir segmentos da URL para nomes mais amigáveis
+  const pathSegmentMap = {
+    imoveis: "Imóveis",
+    imovel: "Detalhes do Imóvel", // Para a rota /imovel/:id
+    casa: "Casas",
+    apartamento: "Apartamentos",
+    chacara: "Chácaras",
+    loja: "Lojas/Comerciais",
+    terreno: "Terrenos",
+    outros: "Outros Tipos",
+    admin: "Administração",
+  };
 
   return (
-    <BreadcrumbContainer>
-      <ol>
-        <li>
-          <Link to="/">Home</Link>
-        </li>
-        {pathnames.map((name, index) => {
-          const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
-          const isLast = index === pathnames.length - 1;
+    <BreadcrumbsContainer>
+      <Link to="/">Home</Link>
+      {/* NOVO LINK AQUI: Para a página de todos os imóveis */}
+      {location.pathname !== "/imoveis" &&
+        location.pathname !== "/" && ( // Só mostra se não estiver já na home ou na página de todos os imóveis
+          <>
+            <span> / </span>
+            <Link to="/imoveis">Todos os Imóveis</Link>
+          </>
+        )}
 
-          // Tenta obter o título amigável para o segmento
-          // Note que getTitleBySlugOrId é uma função de exemplo,
-          // sua lógica real pode ser mais sofisticada.
-          const displayedName = getTitleBySlugOrId(
-            name,
-            allArticles,
-            allProperties
-          );
+      {pathnames.map((name, index) => {
+        const routeTo = `/${pathnames.slice(0, index + 1).join("/")}`;
+        const isLast = index === pathnames.length - 1;
 
-          return (
-            <li key={name}>
-              {isLast ? (
-                <span>{displayedName}</span>
-              ) : (
-                <Link to={routeTo}>{displayedName}</Link>
-              )}
-            </li>
-          );
-        })}
-      </ol>
-    </BreadcrumbContainer>
+        // Tenta traduzir o nome do segmento
+        let displayName = pathSegmentMap[name] || name.replace(/-/g, " ");
+
+        // Lógica específica para o ID do imóvel na rota /imovel/:id
+        if (
+          name.length > 10 &&
+          index === pathnames.length - 1 &&
+          pathnames[index - 1] === "imovel"
+        ) {
+          displayName = "Imóvel"; // Ou 'Detalhes' ou 'ID do Imóvel'
+        }
+
+        // Evita duplicar "Imóveis" se já estiver na rota /imoveis/:category
+        if (name === "imoveis" && index === 0 && pathnames.length > 1) {
+          return null; // Não renderiza "Imóveis" se já tivermos um link "Todos os Imóveis" e for uma subcategoria
+        }
+
+        return isLast ? (
+          <span key={name}> / {displayName}</span>
+        ) : (
+          <span key={name}>
+            {" "}
+            / <Link to={routeTo}>{displayName}</Link>
+          </span>
+        );
+      })}
+    </BreadcrumbsContainer>
   );
 };
 

@@ -10,7 +10,6 @@ const AboutStylized = styled.section`
   min-height: 50vh;
   margin: 2rem auto;
   box-sizing: border-box;
-  border-radius: 1rem;
   padding: 2rem 0 0;
 
   @media screen and (width > 1020px) {
@@ -21,6 +20,8 @@ const AboutStylized = styled.section`
 
 const AboutContainer = styled.div`
   @media screen and (width > 1020px) {
+    width: 70rem;
+    margin: 0 auto;
     display: flex;
     align-items: stretch;
   }
@@ -30,7 +31,6 @@ const AboutImageStylized = styled.div`
   box-sizing: border-box;
   padding: 1rem;
   width: 100%;
-  max-height: 30rem;
   img {
     width: 100%;
     height: 100%;
@@ -39,6 +39,7 @@ const AboutImageStylized = styled.div`
   }
 
   @media screen and (width > 1020px) {
+    max-height: 30rem;
     flex: 1;
   }
 `;
