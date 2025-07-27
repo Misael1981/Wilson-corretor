@@ -1,20 +1,20 @@
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useCallback } from "react";
+import { useParams, Link, useSearchParams } from "react-router-dom"; // Importa useSearchParams
 import styled from "styled-components";
 import PropertyCard from "../../Components/PropertyCard";
 import InputPages from "./components/InputPages";
 import ButtonFilter from "./components/ButtonFilter";
 import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
-import { useCallback, useEffect, useState } from "react";
 import Footer from "../../Components/Footer";
 import Breadcrumbs from "../../Components/Breadcrumbs";
 import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
 import { db } from "@/firebase";
 import Button from "@/Components/Button";
 
-// Estilos
+// Estilos (mantidos seus estilos)
 const PageContainer = styled.div`
-  @media screen and (width > 1020px) {
+  @media screen and (min-width: 1020px) {
     display: flex;
   }
 `;
@@ -22,6 +22,7 @@ const PageContainer = styled.div`
 const PageContainerCard = styled.div`
   margin: 0 auto;
   padding: 2rem;
+  flex-grow: 1; /* Garante que ocupe o espaço restante */
 `;
 
 const HeroPageContainer = styled.section`
@@ -45,7 +46,7 @@ const PropertiesGrid = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
-  align-items: center;
+  align-items: flex-start; /* Alinha os cards ao topo */
   gap: 1rem;
 `;
 
@@ -62,11 +63,19 @@ const LoadMoreButtonContainer = styled.div`
     color: var(--color-blue);
     font-weight: 600;
     cursor: pointer;
+    background-color: transparent; /* Garante que seu ButtonStyled não seja sobrescrito */
+    transition: background-color 0.3s ease, color 0.3s ease;
+
+    &:hover {
+      background-color: var(--color-blue);
+      color: white;
+    }
   }
 `;
 
 const RealEstate = () => {
   const { category } = useParams();
+  const [searchParams] = useSearchParams(); // NOVO: Hook para ler query parameters
 
   const INITIAL_LOAD_COUNT = 10;
   const LOAD_MORE_COUNT = 5;
@@ -76,53 +85,86 @@ const RealEstate = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState(null);
   const [displayCount, setDisplayCount] = useState(INITIAL_LOAD_COUNT);
+
   const [isMobileFilterOpen, setIsMobileFilterOpen] = useState(false);
 
   const toggleMobileFilter = () => {
     setIsMobileFilterOpen(!isMobileFilterOpen);
   };
 
-  // Buscar imóveis do Firestore
-  const fetchProperties = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      let q;
-      if (category) {
-        q = query(
-          collection(db, "properties"),
-          where("type", "==", category.toLowerCase()),
-          orderBy("createdAt", "desc")
-        );
-      } else {
-        q = query(collection(db, "properties"), orderBy("createdAt", "desc"));
+  // Função para buscar imóveis do Firestore
+  const fetchProperties = useCallback(
+    async (filtersFromQueryParams = {}) => {
+      // NOVO: Recebe filtros dos query params
+      setIsLoading(true);
+      setError(null);
+      try {
+        let q = collection(db, "properties");
+
+        // Aplica filtro de categoria da URL (se existir)
+        if (category) {
+          q = query(q, where("type", "==", category.toLowerCase()));
+        }
+
+        // NOVO: Aplica filtros dos query parameters (vindo do SearchField)
+        const typeParam =
+          filtersFromQueryParams.type || searchParams.get("tipo");
+        const locationParam =
+          filtersFromQueryParams.location || searchParams.get("local");
+
+        if (typeParam) {
+          q = query(q, where("type", "==", typeParam.toLowerCase()));
+        }
+        if (locationParam) {
+          // Para 'local', você pode precisar de uma lógica mais sofisticada se for buscar por cidade OU bairro
+          // Por enquanto, vamos assumir que buscará por cidade OU bairro.
+          // O Firestore não permite 'OR' diretamente. Você precisaria de múltiplas queries ou um campo combinado.
+          // Para simplificar, vamos tentar buscar por cidade ou bairro.
+          // A melhor prática seria ter campos separados no Firestore para busca.
+          // Por exemplo, se 'local' for uma cidade, busca por cidade. Se for um bairro, busca por bairro.
+          // Ou, se você tiver um campo 'searchableLocation' que combine cidade e bairro.
+          // Por enquanto, vamos manter a busca mais genérica.
+          // Se você precisa de 'OR', terá que fazer duas queries e mesclar os resultados.
+          // Exemplo simples:
+          // q = query(q, where("city", "==", locationParam));
+          // Ou
+          // q = query(q, where("neighborhood", "==", locationParam));
+          // Ou se você tiver um campo que combine ambos para busca:
+          // q = query(q, where("searchableLocation", "array-contains", locationParam.toLowerCase()));
+
+          // Para demonstração, vamos buscar por cidade (você pode refinar)
+          q = query(q, where("city", "==", locationParam)); // Ou neighborhood, dependendo da sua intenção
+        }
+
+        // Adiciona a ordenação final
+        q = query(q, orderBy("createdAt", "desc"));
+
+        const querySnapshot = await getDocs(q);
+        const fetchedProperties = [];
+        querySnapshot.forEach((doc) => {
+          fetchedProperties.push({ id: doc.id, ...doc.data() });
+        });
+
+        setAllFetchedProperties(fetchedProperties);
+        setDisplayCount(INITIAL_LOAD_COUNT);
+      } catch (err) {
+        console.error("❌ Erro ao carregar imóveis:", err);
+        setError(err);
+      } finally {
+        setIsLoading(false);
       }
+    },
+    [category, searchParams]
+  ); // NOVO: Adiciona searchParams como dependência
 
-      const querySnapshot = await getDocs(q);
-      const fetchedProperties = [];
-      querySnapshot.forEach((doc) => {
-        fetchedProperties.push({ id: doc.id, ...doc.data() });
-      });
-
-      setAllFetchedProperties(fetchedProperties);
-      setDisplayCount(INITIAL_LOAD_COUNT); // Reseta contagem
-    } catch (err) {
-      console.error("❌ Erro ao carregar imóveis:", err);
-      setError(err);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [category]);
-
-  // Buscar ao carregar ou mudar categoria
+  // Buscar ao carregar ou mudar categoria ou query params
   useEffect(() => {
     fetchProperties();
   }, [fetchProperties]);
 
   // Sempre derivar properties do slice
   useEffect(() => {
-    const sliced = allFetchedProperties.slice(0, displayCount);
-    setProperties(sliced);
+    setProperties(allFetchedProperties.slice(0, displayCount));
   }, [allFetchedProperties, displayCount]);
 
   // Botão "Ver mais"
@@ -130,17 +172,22 @@ const RealEstate = () => {
     setDisplayCount((prev) => prev + LOAD_MORE_COUNT);
   };
 
-  // Filtro avançado
-  const handleFilteredProperties = (filteredResults) => {
-    if (filteredResults === null) {
-      // Limpar filtros: volta pro original
-      setAllFetchedProperties(allFetchedProperties);
-    } else {
-      setAllFetchedProperties(filteredResults);
-    }
-    setDisplayCount(INITIAL_LOAD_COUNT);
-    setIsMobileFilterOpen(false);
-  };
+  // Filtro avançado (do AdvancedSearch)
+  const handleFilteredProperties = useCallback(
+    (filteredResults) => {
+      // Se o AdvancedSearch enviou null (limpar filtros)
+      if (filteredResults === null) {
+        // Re-executa a busca inicial para pegar os imóveis sem filtros do AdvancedSearch
+        // mas respeitando a categoria da URL ou os query params iniciais.
+        fetchProperties({}); // Passa um objeto vazio para não usar filtros do AdvancedSearch
+      } else {
+        setAllFetchedProperties(filteredResults); // Atualiza a lista COMPLETA com os resultados filtrados
+        setDisplayCount(INITIAL_LOAD_COUNT); // Reseta a contagem para 10
+      }
+      setIsMobileFilterOpen(false);
+    },
+    [fetchProperties]
+  ); // Adiciona fetchProperties como dependência
 
   if (isLoading) return <p>Carregando imóveis...</p>;
   if (error) return <p>Erro ao carregar imóveis: {error.message}</p>;
@@ -162,21 +209,28 @@ const RealEstate = () => {
           </HeroPageContainer>
           <PageContainerCard>
             <PageTitle>
-              Temos {properties.length}{" "}
+              Temos {allFetchedProperties.length}{" "}
               {category ? category.replace(/-/g, " ") : "imóveis"}
-              {properties.length === 1 ? "" : "s"}{" "}
-              {properties.length === 1 ? "disponível" : "disponíveis"}
+              {allFetchedProperties.length === 1 ? "" : "s"}{" "}
+              {allFetchedProperties.length === 1 ? "disponível" : "disponíveis"}
             </PageTitle>
             <PropertiesGrid>
-              {properties.map((property) => (
-                <PropertyCard key={property.id} propertyData={property} />
-              ))}
+              {properties.length === 0 && allFetchedProperties.length > 0 ? (
+                <p>Nenhum imóvel encontrado com os filtros aplicados.</p>
+              ) : properties.length === 0 &&
+                allFetchedProperties.length === 0 ? (
+                <p>Nenhum imóvel cadastrado.</p>
+              ) : (
+                properties.map((property) => (
+                  <PropertyCard key={property.id} propertyData={property} />
+                ))
+              )}
             </PropertiesGrid>
 
             {/* Botão "Ver Mais" */}
             {properties.length < allFetchedProperties.length && (
               <LoadMoreButtonContainer>
-                <button
+                <Button
                   onClick={handleLoadMore}
                   background={"var(--color-blue)"}
                   color={"white"}
@@ -184,7 +238,7 @@ const RealEstate = () => {
                   Ver Mais Imóveis (
                   {Math.max(0, allFetchedProperties.length - properties.length)}{" "}
                   restantes)
-                </button>
+                </Button>
               </LoadMoreButtonContainer>
             )}
           </PageContainerCard>

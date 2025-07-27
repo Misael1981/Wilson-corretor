@@ -24,11 +24,14 @@ const SelectStylezed = styled.select`
   border: none;
 `;
 
-const PropertyTypeSelect = () => {
+const PropertyTypeSelect = ({ selectedValue, onSelect }) => {
   return (
     <ContainerPropertysStylezed>
       <LabelStylezed>Tipos de imóvel</LabelStylezed>
-      <SelectStylezed>
+      <SelectStylezed
+        value={selectedValue}
+        onChange={(e) => onSelect(e.target.value)}
+      >
         <option>Todos os imóveis</option>
         <optgroup label="Residencial">
           <option value="apartamento">Apartamento</option>

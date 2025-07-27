@@ -17,6 +17,13 @@ const Tag = styled.button`
   font-weight: 600;
   padding-bottom: 0.5rem;
   border-bottom: 2px solid var(--color-blue-ligth);
+  cursor: pointer;
+  transition: all 0.5s;
+
+  &:hover {
+    color: var(--color-blue);
+    border-bottom: 2px solid var(--color-blue);
+  }
 `;
 
 const Tags = () => {

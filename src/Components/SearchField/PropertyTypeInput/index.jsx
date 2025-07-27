@@ -28,14 +28,16 @@ const InputStylezed = styled.input`
   }
 `;
 
-const PropertyTypeInput = () => {
+const PropertyTypeInput = ({ value, onChange }) => {
   return (
     <ContainerInput>
       <LabelStylezed>Onde deseja morar?</LabelStylezed>
       <InputStylezed
+        value={value}
+        onChange={onChange}
         id="property-type-input"
         type="text"
-        placeholder="Digite o nome da rua, bairro ou cidade"
+        placeholder="Digite o nome do bairro ou cidade"
       />
     </ContainerInput>
   );

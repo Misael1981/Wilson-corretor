@@ -7,12 +7,16 @@ const ButtonAllPropertiesStylized = styled.div`
   margin: 0 auto;
 `;
 
+const LinkStyled = styled(Link)`
+  text-decoration: none;
+`;
+
 const ButtonAllProperties = ({ children }) => {
   return (
     <ButtonAllPropertiesStylized>
-      <Link to="/imoveis">
+      <LinkStyled to="/imoveis">
         <Button>{children}</Button>
-      </Link>
+      </LinkStyled>
     </ButtonAllPropertiesStylized>
   );
 };
