@@ -80,4 +80,6 @@ firebase deploy --only hosting
 
 npm run build
 gs://wilson-corretor-imoveis.firebasestorage.app
+
+wilsonsantiago-corretor.com.br
 ```
