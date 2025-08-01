@@ -78,8 +78,8 @@ const About = () => {
           <p>
             Atuante como corretor de destaque na Essenza Imobiliária, Wilson
             Santiago é formado em Transações Imobiliárias pelo Instituto de
-            Ensino Star Brasil. Pai do (nome do filho) e da (nome do filho) e
-            casado com a (nome da esposa), Wilson iniciou sua carreira
+            Ensino Star Brasil. Pai do Lucas e da Mariana e
+            casado com sua esposa, Wilson iniciou sua carreira
             profissional na indústria, onde tem o Bacharelado de Gestão de
             Produção Industrial, embora também tenha obtido sucesso na área,
             Wilson resolveu migrar pra uma área onde pudesse, de forma direta,
