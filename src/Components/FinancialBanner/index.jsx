@@ -62,6 +62,13 @@ const ListFinancial = styled.ul`
 `;
 
 const FinancialBanner = () => {
+  const handleWhatsAppClick = () => {
+    const phoneNumber = "5535999415176";
+    const message = "Olá! Gostaria de falar com um agente sobre financiamento de imóveis. Poderia me ajudar?";
+    const whatsappUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, "_blank");
+  };
+   
   return (
     <FinancialBannerStylized>
       <FinancialBannerContent>
@@ -84,7 +91,13 @@ const FinancialBanner = () => {
             Entre em contato, e veja que o sonho é possível!
           </li>
         </ListFinancial>
-        <Button isGolden={true}>Falar com um agente</Button>
+        <Button 
+           background="var(--degrade-golden)" 
+           color="var(--color-blue)"
+           onClick={handleWhatsAppClick}
+         >
+           Falar com um agente
+         </Button>
       </FinancialBannerContent>
       <FinancialBannerImage>
         <img src={ilustrationHome} alt="" />

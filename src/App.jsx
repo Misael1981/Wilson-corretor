@@ -2,6 +2,7 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./Pages/Home";
 import Blog from "./Pages/Blog";
 import GlobalStyles from "./Components/GlobalStyles";
+import FloatingWhatsApp from "./Components/FloatingWhatsApp";
 import CategoryProperties from "./Pages/RealEstate";
 import PropertyDetailPage from "./Pages/PropertyDetailPage";
 import ArticleDetailPage from "./Pages/Blog/ArticleDetailPage";
@@ -23,6 +24,7 @@ function App() {
   return (
     <>
       <GlobalStyles />
+      <FloatingWhatsApp />
       <Routes>
         {/* Home */}
         <Route path="/" element={<DefaultPage />}>

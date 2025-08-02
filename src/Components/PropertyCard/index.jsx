@@ -225,7 +225,11 @@ const PropertyCard = ({ propertyData }) => {
           </LinkStyled>
         </ButtonMoreDetails>
         <CardPropertyFooter>
-          <Button isGolden={true} onClick={handleMessageClick}>
+          <Button 
+            background="var(--degrade-whatsapp)" 
+            color="#ccc" 
+            onClick={handleMessageClick}
+          >
             Mensagem
           </Button>
           <Button onClick={handleCallClick}>Ligar</Button>

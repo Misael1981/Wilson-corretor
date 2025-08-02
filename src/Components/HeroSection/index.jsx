@@ -67,12 +67,12 @@ const HeroContent = styled.div`
   margin-top: -5rem;
   z-index: 1;
   text-align: center;
-  padding: 0 0 0.5rem;
+  padding: 0 0 0.8rem;
   transition: all 0.3s ease;
-  
+
   @media screen and (width > 1020px) {
     margin-top: 0;
-    padding: 1rem 0;
+    box-sizing: border-box;
     flex: 1;
   }
 `;
@@ -88,7 +88,7 @@ const HeroTitleStylized = styled.h1`
 
   @media screen and (width > 1020px) {
     font-size: 2.5rem;
-    margin-top: 2rem;
+    margin-top: 0.8rem;
   }
 `;
 
