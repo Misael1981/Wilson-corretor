@@ -9,20 +9,19 @@ const AboutStylized = styled.section`
   background: var(--degrade-golden);
   min-height: 50vh;
   margin: 2rem auto;
-  box-sizing: border-box;
   border-radius: 1rem;
-  padding: 2rem 0 0;
+  box-shadow: rgba(0, 0, 0, 0.8) 0px 5px 15px;
 
   @media screen and (width > 1020px) {
     width: 70rem;
     max-width: 80vw;
+    padding-top: 1rem;
+    margin: 0 auto;
   }
 `;
 
 const AboutContainer = styled.div`
   @media screen and (width > 1020px) {
-    width: 70rem;
-    margin: 0 auto;
     display: flex;
     align-items: stretch;
   }
