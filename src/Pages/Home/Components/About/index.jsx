@@ -63,6 +63,12 @@ const ContainerSubTitle = styled.div`
   box-sizing: border-box;
   padding: 1rem;
   border-radius: 1rem;
+
+  @media screen and (width > 1020px) {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 1rem;
+  }
 `;
 
 const About = () => {
