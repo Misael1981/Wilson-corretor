@@ -4,10 +4,12 @@ import SearchField from "../SearchField";
 
 const HeroSectionStylized = styled.section`
   width: 100%;
+  display: flex;
+  flex-direction: column;
 
   @media screen and (width > 1020px) {
     background-color: var(--color-golden);
-    display: flex;
+    flex-direction: row;
     height: 45vh;
   }
 `;
@@ -27,6 +29,9 @@ const HeroImage = styled.div`
   border-radius: 0 0 5rem 5rem;
   box-sizing: border-box;
   z-index: 10;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 
   img {
     display: block;
@@ -34,7 +39,9 @@ const HeroImage = styled.div`
     width: 70vw;
     height: auto;
     max-height: 40vh;
+    transition: all 0.3s ease;
   }
+
   @media screen and (width > 1020px) {
     max-width: 30%;
     border-radius: 0 5rem 5rem 0;
@@ -44,6 +51,7 @@ const HeroImage = styled.div`
 
     img {
       width: auto;
+      max-width: 90%;
     }
   }
 `;
@@ -59,7 +67,14 @@ const HeroContent = styled.div`
   margin-top: -5rem;
   z-index: 1;
   text-align: center;
-  padding-bottom: 0.5rem;
+  padding: 0 0 0.5rem;
+  transition: all 0.3s ease;
+  
+  @media screen and (width > 1020px) {
+    margin-top: 0;
+    padding: 1rem 0;
+    flex: 1;
+  }
 `;
 
 const HeroTitleStylized = styled.h1`
@@ -72,14 +87,20 @@ const HeroTitleStylized = styled.h1`
   padding: 2rem;
 
   @media screen and (width > 1020px) {
+    font-size: 2.5rem;
+    margin-top: 2rem;
   }
 `;
 
+/**
+ * Componente HeroSection - Seção principal da página inicial
+ * Exibe o logo, título principal e campo de busca
+ */
 const HeroSection = () => {
   return (
     <HeroSectionStylized id="hero-section">
       <HeroImage>
-        <img src={LogoVertical} alt="" />
+        <img src={LogoVertical} alt="Logo Wilson Santiago Corretor" />
       </HeroImage>
       <HeroContent>
         <HeroTitleStylized>

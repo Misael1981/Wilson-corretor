@@ -8,7 +8,7 @@ import PropertyActions from "./components/PropertyActions";
 import AdvancedSearch from "./components/AdvancedSearch";
 import Footer from "../../Components/Footer";
 import Breadcrumbs from "../../Components/Breadcrumbs";
-import { collection, query, where, getDocs, orderBy } from "firebase/firestore";
+import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/firebase";
 import Button from "@/Components/Button";
 
@@ -100,56 +100,43 @@ const RealEstate = () => {
       setError(null);
       try {
         let q = collection(db, "properties");
-
+        console.log("🔍 Buscando imóveis...");
+        
         // Aplica filtro de categoria da URL (se existir)
         if (category) {
-          q = query(q, where("type", "==", category.toLowerCase()));
+          console.log(`🏷️ Filtrando por categoria: ${category}`);
+          // Filtra todos os documentos localmente por enquanto
         }
-
-        // NOVO: Aplica filtros dos query parameters (vindo do SearchField)
-        const typeParam =
-          filtersFromQueryParams.type || searchParams.get("tipo");
-        const locationParam =
-          filtersFromQueryParams.location || searchParams.get("local");
-
-        if (typeParam) {
-          q = query(q, where("type", "==", typeParam.toLowerCase()));
-        }
-        if (locationParam) {
-          // Para 'local', você pode precisar de uma lógica mais sofisticada se for buscar por cidade OU bairro
-          // Por enquanto, vamos assumir que buscará por cidade OU bairro.
-          // O Firestore não permite 'OR' diretamente. Você precisaria de múltiplas queries ou um campo combinado.
-          // Para simplificar, vamos tentar buscar por cidade ou bairro.
-          // A melhor prática seria ter campos separados no Firestore para busca.
-          // Por exemplo, se 'local' for uma cidade, busca por cidade. Se for um bairro, busca por bairro.
-          // Ou, se você tiver um campo 'searchableLocation' que combine cidade e bairro.
-          // Por enquanto, vamos manter a busca mais genérica.
-          // Se você precisa de 'OR', terá que fazer duas queries e mesclar os resultados.
-          // Exemplo simples:
-          // q = query(q, where("city", "==", locationParam));
-          // Ou
-          // q = query(q, where("neighborhood", "==", locationParam));
-          // Ou se você tiver um campo que combine ambos para busca:
-          // q = query(q, where("searchableLocation", "array-contains", locationParam.toLowerCase()));
-
-          // Para demonstração, vamos buscar por cidade (você pode refinar)
-          q = query(q, where("city", "==", locationParam)); // Ou neighborhood, dependendo da sua intenção
-        }
-
-        // Adiciona a ordenação final
-        q = query(q, orderBy("createdAt", "desc"));
-
+        
         const querySnapshot = await getDocs(q);
+        console.log(
+          "✅ Query executada com sucesso. Documentos encontrados:",
+          querySnapshot.size
+        );
         const fetchedProperties = [];
         querySnapshot.forEach((doc) => {
           fetchedProperties.push({ id: doc.id, ...doc.data() });
         });
 
-        setAllFetchedProperties(fetchedProperties);
+        // Filtra localmente por categoria se especificada na URL
+        let filteredProperties = fetchedProperties;
+        if (category) {
+          filteredProperties = fetchedProperties.filter((property) => {
+            // Verifica se o tipo do imóvel corresponde à categoria da URL
+            return property.type && property.type.toLowerCase() === category.toLowerCase();
+          });
+          console.log(`🎯 Imóveis filtrados por '${category}': ${filteredProperties.length}`);
+        }
+
+        console.log(filtersFromQueryParams);
+        setAllFetchedProperties(filteredProperties);
+        setProperties(filteredProperties.slice(0, INITIAL_LOAD_COUNT));
         setDisplayCount(INITIAL_LOAD_COUNT);
       } catch (err) {
-        console.error("❌ Erro ao carregar imóveis:", err);
-        setError(err);
+        console.error("Erro detalhado ao buscar imóveis:", err);
+        console.error("Código do erro:", err.code);
+        console.error("Mensagem do erro:", err.message);
+        setError(`Erro ao carregar imóveis: ${err.message}`);
       } finally {
         setIsLoading(false);
       }

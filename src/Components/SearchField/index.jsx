@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom"; // Importa useNavigate
 import Tags from "./Tags"; // Assumindo que Tags é um componente existente
 import PropertyTypeSelect from "./PropertyTypeSelect"; // Assumindo que PropertyTypeSelect é um componente existente
 import PropertyTypeInput from "./PropertyTypeInput"; // Assumindo que PropertyTypeInput é um componente existente
-import Button from "../Button"; // Assumindo que Button é um componente existente
+// import Button from "../Button"; // Removido para usar button nativo
 
 const FormStylized = styled.form`
   width: 100%;
@@ -30,12 +30,34 @@ const ContainerSearch = styled.div`
   }
 `;
 
+const SearchButton = styled.button`
+  flex: 1;
+  background: var(--degrade-blue);
+  color: var(--color-golden);
+  font-size: 1rem;
+  font-weight: 700;
+  padding: 0.8rem;
+  cursor: pointer;
+  border: none;
+  border-radius: 0.6rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1rem;
+  transition: filter 0.3s ease;
+
+  &:hover {
+    filter: brightness(1.1);
+  }
+`;
+
 const SearchField = () => {
   const navigate = useNavigate();
 
   // Estados para os valores dos filtros
   const [propertyType, setPropertyType] = useState(""); // Para o PropertyTypeSelect
   const [locationSearch, setLocationSearch] = useState(""); // Para o PropertyTypeInput (cidade/bairro)
+  const [selectedCategory, setSelectedCategory] = useState(""); // Para as Tags de categoria
 
   // Função para lidar com a submissão do formulário
   const handleSubmit = (e) => {
@@ -43,13 +65,14 @@ const SearchField = () => {
 
     // Constrói os query parameters
     const queryParams = new URLSearchParams();
+    if (selectedCategory) {
+      queryParams.append("categoria", selectedCategory);
+    }
     if (propertyType) {
       queryParams.append("tipo", propertyType);
     }
-    // Assumindo que locationSearch pode ser cidade ou bairro.
-    // Você pode precisar de lógica mais sofisticada aqui se quiser separar cidade e bairro.
     if (locationSearch) {
-      queryParams.append("local", locationSearch); // Ex: ?local=SaoPaulo
+      queryParams.append("local", locationSearch);
     }
 
     // Redireciona para a página de imóveis com os filtros como query params
@@ -62,7 +85,10 @@ const SearchField = () => {
         {" "}
         {/* Conecta o onSubmit */}
         <FieldsetStylized>
-          <Tags /> {/* Onde você tem as tags de "Residencial", "Comercial" */}
+          <Tags 
+            selectedCategory={selectedCategory}
+            onCategorySelect={setSelectedCategory}
+          />
           <ContainerSearch>
             {/* Passa as props para PropertyTypeSelect */}
             <PropertyTypeSelect
@@ -74,11 +100,9 @@ const SearchField = () => {
               value={locationSearch}
               onChange={(e) => setLocationSearch(e.target.value)}
             />
-            <Button fontSize={"1rem"} type="submit">
-              {" "}
-              {/* Garante que o botão seja do tipo submit */}
+            <SearchButton type="submit" aria-label="Buscar imóveis">
               Buscar
-            </Button>
+            </SearchButton>
           </ContainerSearch>
         </FieldsetStylized>
       </FormStylized>

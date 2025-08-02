@@ -21,13 +21,16 @@ const ButtonStylized = styled.button`
   }
 `;
 
-const Button = ({ children, background, color, fontSize, ariaLabel }) => {
+const Button = ({ children, background, color, fontSize, ariaLabel, type, onClick, ...props }) => {
   return (
     <ButtonStylized
       aria-label={ariaLabel}
       $background={background}
       $color={color}
       $fontSize={fontSize}
+      type={type}
+      onClick={onClick}
+      {...props}
     >
       {children}
     </ButtonStylized>

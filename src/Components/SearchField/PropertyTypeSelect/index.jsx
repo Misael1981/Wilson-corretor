@@ -32,7 +32,7 @@ const PropertyTypeSelect = ({ selectedValue, onSelect }) => {
         value={selectedValue}
         onChange={(e) => onSelect(e.target.value)}
       >
-        <option>Todos os imóveis</option>
+        <option value="">Todos os imóveis</option>
         <optgroup label="Residencial">
           <option value="apartamento">Apartamento</option>
           <option value="casa">Casa</option>

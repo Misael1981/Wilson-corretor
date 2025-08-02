@@ -19,7 +19,6 @@ const ListPagesStylized = styled.ul`
     position: relative;
     color: var(--color-golden);
     font-size: 1rem;
-    border-bottom: 1px solid #00f0ff;
 
     @media screen and (width > 1024px) {
       border: none;
