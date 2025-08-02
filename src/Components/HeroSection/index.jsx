@@ -87,8 +87,9 @@ const HeroTitleStylized = styled.h1`
   padding: 2rem;
 
   @media screen and (width > 1020px) {
-    font-size: 2.5rem;
+    font-size: 2.2rem;
     margin-top: 0.8rem;
+    padding: 1rem;
   }
 `;
 

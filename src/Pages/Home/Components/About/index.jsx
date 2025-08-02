@@ -60,6 +60,7 @@ const AboutContent = styled.div`
 
 const ContainerSubTitle = styled.div`
   background-color: var(--color-blue);
+  box-sizing: border-box;
   padding: 1rem;
   border-radius: 1rem;
 `;
