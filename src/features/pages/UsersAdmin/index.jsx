@@ -7,13 +7,12 @@ import {
   doc,
   updateDoc,
 } from "firebase/firestore"; // Adicionado updateDoc
-import { db, auth } from "@/firebase"; // Assumindo que firebase.js exporta 'db' e 'auth'
-import { getAuth, deleteUser } from "firebase/auth"; // Importe deleteUser do firebase/auth
+import { db } from "@/firebase";
 
 // Styled Components para o layout da página de Usuários
 const UsersPageContainer = styled.div`
   padding: 1.5rem;
-  background-color: #fff; /* Fundo branco para o conteúdo da página */
+  background-color: #fff;
   border-radius: 0.8rem;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05); /* Sombra suave */
 `;
@@ -86,9 +85,9 @@ const ActionsContainer = styled.div`
 // Botão de ação (Editar/Excluir/Mudar Papel)
 const ActionButton = styled.button`
   background-color: ${(props) => {
-    if (props.primary) return "var(--color-blue, #0f1e2e)"; // Editar
-    if (props.danger) return "#dc3545"; // Excluir
-    if (props.secondary) return "#28a745"; // Mudar Papel (verde)
+    if (props.$primary) return "var(--color-blue, #0f1e2e)"; // Editar
+    if (props.$danger) return "#dc3545"; // Excluir
+    if (props.$secondary) return "#28a745"; // Mudar Papel (verde)
     return "#6c757d"; // Padrão
   }};
   color: #fff;
@@ -101,9 +100,9 @@ const ActionButton = styled.button`
 
   &:hover {
     background-color: ${(props) => {
-      if (props.primary) return "var(--color-dark-blue, #0a141f)";
-      if (props.danger) return "#c82333";
-      if (props.secondary) return "#218838";
+      if (props.$primary) return "var(--color-dark-blue, #0a141f)";
+      if (props.$danger) return "#c82333";
+      if (props.$secondary) return "#218838";
       return "#5a6268";
     }};
     transform: translateY(-1px);
@@ -268,11 +267,11 @@ const UsersAdmin = () => {
                 </td>
                 <td>
                   <ActionsContainer>
-                    <ActionButton primary onClick={() => handleEdit(user.id)}>
+                    <ActionButton $primary onClick={() => handleEdit(user.id)}>
                       Editar
                     </ActionButton>
                     <ActionButton
-                      secondary
+                      $secondary
                       onClick={() => handleToggleRole(user.id, user.role)}
                     >
                       {user.role === "admin"
@@ -280,7 +279,7 @@ const UsersAdmin = () => {
                         : "Tornar Admin"}
                     </ActionButton>
                     <ActionButton
-                      danger
+                      $danger
                       onClick={() => handleDelete(user.id, user.email)}
                     >
                       Excluir

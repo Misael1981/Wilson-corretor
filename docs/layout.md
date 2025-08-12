@@ -83,3 +83,9 @@ gs://wilson-corretor-imoveis.firebasestorage.app
 
 wilsonsantiago-corretor.com.br
 ```
+
+## Roteiro vídeo
+
+Olá, agora temos uma novidade pra vcs. Vamos estamos oferecendo um site, intuitive e fácil de usar.
+
+A página conta com um cadastro completo e atualizado de imóveis, onde vode você buscar a categoria que melhor se enquadra pra vc, sistema de login, para que vc possa estar sempre atualizado sobre o que procura e ainda receber mensagem, quando o imóvel que vc procura, for encontrado.

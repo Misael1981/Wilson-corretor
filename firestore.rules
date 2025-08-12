@@ -2,17 +2,43 @@ rules_version='2'
 
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Regras para a coleção de usuários
+    match /users/{userId} {
+      // Usuários podem ler e escrever seus próprios dados
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      
+      // Administradores podem ler e escrever dados de qualquer usuário
+      allow read, write: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Regras para a coleção de propriedades
+    match /properties/{propertyId} {
+      // Qualquer usuário autenticado pode ler propriedades
+      allow read: if request.auth != null;
+      
+      // Apenas administradores podem criar, atualizar e deletar propriedades
+      allow create, update, delete: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Regras para a coleção de artigos
+    match /articles/{articleId} {
+      // Qualquer usuário pode ler artigos
+      allow read: if true;
+      
+      // Apenas administradores podem criar, atualizar e deletar artigos
+      allow create, update, delete: if request.auth != null && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+    }
+    
+    // Regras para outras coleções (fallback temporário)
     match /{document=**} {
-      // This rule allows anyone with your database reference to view, edit,
-      // and delete all data in your database. It is useful for getting
-      // started, but it is configured to expire after 30 days because it
-      // leaves your app open to attackers. At that time, all client
-      // requests to your database will be denied.
-      //
-      // Make sure to write security rules for your app before that time, or
-      // else all client requests to your database will be denied until you
-      // update your rules.
-      allow read, write: if request.time < timestamp.date(2025, 8, 14);
+      // Permite leitura e escrita para usuários autenticados (temporário)
+      allow read, write: if request.auth != null;
     }
   }
 }

@@ -1,4 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { HelmetProvider } from 'react-helmet-async';
 import Home from "./Pages/Home";
 import Blog from "./Pages/Blog";
 import GlobalStyles from "./Components/GlobalStyles";
@@ -22,7 +23,7 @@ import EditPropertiesPage from "./features/pages/PropertiesAdmin/pages/EditPrope
 
 function App() {
   return (
-    <>
+    <HelmetProvider>
       <GlobalStyles />
       <FloatingWhatsApp />
       <Routes>
@@ -62,7 +63,7 @@ function App() {
 
         <Route path="*" element={<div>404 - Página não encontrada</div>} />
       </Routes>
-    </>
+    </HelmetProvider>
   );
 }
 

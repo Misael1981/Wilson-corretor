@@ -16,7 +16,6 @@ const AboutStylized = styled.section`
     width: 70rem;
     max-width: 80vw;
     padding-top: 1rem;
-    margin: 0 auto;
   }
 `;
 
